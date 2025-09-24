@@ -22,7 +22,7 @@ export function validateEmail(email) {
   const domain = pureEmail.split('@')[1];
 
   if (pureEmail !== email) return 'Email contains invalid characters (< > ; \' " `)';
-  if (pureEmail.length > 256) return 'Email is too long (maximum 256 characters)';
+  if (pureEmail.length > 254) return 'Email is too long (maximum 254 characters)';
   if (!regex.test(pureEmail)) return 'Incorrect email format';
   if (/\s/.test(pureEmail)) return 'Email must not contain spaces';
   if (localPart.length > 64) return 'Local part of the email is too long (maximum 64 characters)';
