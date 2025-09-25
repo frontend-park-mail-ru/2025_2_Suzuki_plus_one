@@ -1,3 +1,4 @@
+import Header from "./Header/Header.js"
 /**
  * @class App
  * @description Main applications component. Manage navigation and page rendering
@@ -5,6 +6,7 @@
 class App {
   constructor() {
     this.currentPage = 'home';
+
 }
 
   /**
@@ -15,10 +17,17 @@ class App {
     const container = document.createElement('div');
     container.className = 'app-container';
     
+    // const headerContainer = document.createElement("div");
+    // container.appendChild(headerContainer);
+
+    const header = new Header();
+    header.render();
+
     if (this.currentPage === 'home') {
         console.log('123');
         // do something
     } else if (this.currentPage === 'login') {
+
         // do otherthing
     } else if (this.currentPage === 'signup') {
         // do otherthing

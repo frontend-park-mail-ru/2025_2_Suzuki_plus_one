@@ -1,0 +1,24 @@
+{
+  "name": "2025_2_suzuki_plus_one",
+  "version": "1.0.0",
+  "description": "* Репозиторий команды:  `Сузуки + 1` \r * Проект: `Netflix`",
+  "homepage": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one#readme",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  }
+}

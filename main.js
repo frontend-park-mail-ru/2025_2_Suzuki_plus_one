@@ -4,6 +4,7 @@
  */
 import App  from './components/App.js';
 
+
 /**
  * @function initApp
  * @description Initializes application and renders root component

@@ -1,0 +1,6 @@
+(function() {
+  var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['Header.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    return "<header class=\"w-100\">\r\n    <div class=\"container\">\r\n        <div class=\"row align-items-center py-3 mb-0\">\r\n\r\n            <div class=\"col-4 d-flex justify-content-start ps-4\">\r\n                <a href=\"/\" class=\"d-flex align-items-center text-dark text-decoration-none\">\r\n                    <img src=\"/img/logo.svg\" width=\"50\" height=\"50\" alt=\"Logo\">\r\n                </a>\r\n            </div>\r\n\r\n            <div class=\"col-4 d-flex justify-content-center\">\r\n                <ul class=\"nav\">\r\n                    <li><a href=\"#\" class=\"nav-link px-2 link-dark\">Popular series</a></li>\r\n                    <li><a href=\"#\" class=\"nav-link px-2 link-dark\">Recommended series</a></li>\r\n                </ul>\r\n            </div>\r\n\r\n            <div class=\"col-4 d-flex justify-content-end pe-4\">\r\n                <button type=\"button\" class=\"btn btn-login mr-2\">Login</button>\r\n                <button type=\"button\" class=\"btn btn-signup\">Sign up</button>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</header>";
+},"useData":true});
+})();
