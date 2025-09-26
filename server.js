@@ -1,13 +1,14 @@
-const express = require("express");
-const path = require("path");
+const express = require('express')
+const path = require('path')
 
-const app = express();
-app.set('view engine', 'hbs');
+const app = express()
+app.set('view engine', 'hbs')
 
-app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, 'public')))
 
-app.use("/", function(_, response){      
-    response.sendFile(path.join(__dirname, "index.html"));
-});
+app.use('/', function (_, response) {
+    response.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
-app.listen(3000);
+console.log(module)
+app.listen(3000)

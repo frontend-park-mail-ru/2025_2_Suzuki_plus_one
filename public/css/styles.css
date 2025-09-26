@@ -1,20 +1,20 @@
 body {
-  font-family: 'Akshar', sans-serif;
-  color: #003049;
-  background-color: #003049;
+    font-family: 'Akshar', sans-serif;
+    color: #003049;
+    background-color: #003049;
 }
 
 header {
-  background-color: white;
+    background-color: white;
 }
 
 .btn-login {
-    background-color: #FCBF49;
+    background-color: #fcbf49;
     color: #003049;
 }
 
 .btn-login:hover {
-    background-color: #EAE2B7;
+    background-color: #eae2b7;
     color: #003049;
 }
 
@@ -33,5 +33,5 @@ header {
 }
 
 .nav .nav-link:hover {
-    color: #F77F00;
+    color: #f77f00;
 }
