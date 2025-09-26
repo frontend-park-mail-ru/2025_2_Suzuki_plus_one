@@ -5,19 +5,33 @@ function Route({ path, component }) {
   return null; // nothing to render directly
 }
 
-function Router({ rootId }) {
-  const root = document.getElementById(rootId);
+function Router({ children }) {
+  const container = document.createElement("div");
 
   function onLocationChange() {
     const path = window.location.pathname;
-    const route = routes.find(r => r.path === path);
+    const route = routes.find((r) => r.path === path);
     if (route) {
-      render(route.component(), root);
+      // Clear the container and render the matched route's component
+      container.innerHTML = "";
+      container.appendChild(route.component());
     }
   }
 
+  // Attach event listener for popstate (browser navigation)
   window.addEventListener("popstate", onLocationChange);
-  onLocationChange(); // initial render
+
+  // Initial render
+  onLocationChange();
+
+  // Render children (e.g., Links) inside the Router container
+  children.flat().forEach((child) => {
+    if (child instanceof Node) {
+      container.appendChild(child);
+    }
+  });
+
+  return container;
 }
 
 function Link({ to, children }) {

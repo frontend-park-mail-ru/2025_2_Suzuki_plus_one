@@ -4,8 +4,7 @@
  */
 import App from '../components/App.js'
 import React from './react.js'
-import { createElement } from './react.js'
-
+import { Router } from './router.js'
 /**
  * @function main
  * @description Initializes application and renders root component
@@ -21,8 +20,8 @@ function main() {
         console.error('main: React instance not created')
         return
     }
-    const app = createElement(App)
-    
+    const app = React.createElement(App)
+
     react.render(app)
 }
 

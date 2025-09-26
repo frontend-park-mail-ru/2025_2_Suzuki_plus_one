@@ -22,44 +22,47 @@ class React {
 
         this.rootElement.appendChild(app)
     }
-}
 
-/**
- *
- * @param {string} tag - HTML tag or component
- * @param {Object} props - Attributes or props
- * @param  {...any} children - Child elements or components
- * @returns {HTMLElement}
- */
-export function createElement(tag, props, ...children) {
-    // If the tag is a function, treat it as a component
-    if (typeof tag === 'function') {
-        return tag({ ...props, children })
-    }
-
-    // Otherwise, create a standard HTML element
-    const element = document.createElement(tag)
-
-    // Set attributes and event listeners
-    // Example: onClick -> click event listener
-    for (const [name, value] of Object.entries(props || {})) {
-        if (name.startsWith('on')) {
-            element.addEventListener(name.substring(2).toLowerCase(), value)
-        } else {
-            element.setAttribute(name, value)
+    /**
+     *
+     * @param {string} tag - HTML tag or component
+     * @param {Object} props - Attributes or props
+     * @param  {...any} children - Child elements or components
+     * @returns {HTMLElement}
+     */
+    static createElement(tag, props, ...children) {
+        // if tag is a function, it's a component
+        if (typeof tag === 'function') {
+            return tag({ ...props, children })
         }
-    }
 
-    // Append children with some text nodes
-    children.flat().forEach((child) => {
-        if (typeof child === 'string' || typeof child === 'number') {
-            element.appendChild(document.createTextNode(child))
-        } else {
-            element.appendChild(child)
+        // otherwise, it's a regular HTML element
+        const element = document.createElement(tag)
+
+        // Check for event listeners, styles, and className in props
+        // Example: { onClick: alert(1), style: { color: 'red' }, className: 'my-class' }
+        for (const [name, value] of Object.entries(props || {})) {
+            if (name.startsWith('on')) {
+                element.addEventListener(name.substring(2).toLowerCase(), value)
+            } else if (name === 'style') {
+                Object.assign(element.style, value)
+            } else if (name === 'className') {
+                element.className = value
+            } else {
+                element.setAttribute(name, value)
+            }
         }
-    })
 
-    return element
+        children.flat().forEach((child) => {
+            if (child instanceof Node) {
+                element.appendChild(child)
+            } else {
+                element.appendChild(document.createTextNode(child))
+            }
+        })
+
+        return element
+    }
 }
 
 export default React
