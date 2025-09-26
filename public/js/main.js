@@ -4,7 +4,6 @@
  */
 import App from '../components/App.js'
 import React from './react.js'
-import { Router } from './router.js'
 /**
  * @function main
  * @description Initializes application and renders root component

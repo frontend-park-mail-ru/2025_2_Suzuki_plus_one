@@ -11,7 +11,7 @@ export default function App() {
         React.createElement(Link, { to: '/about' }, 'About'),
         React.createElement(Route, {
             path: '/home',
-            component: () => React.createElement('div', null, 'Home Page'),
+            component: Header,
         }),
         React.createElement(Route, {
             path: '/about',

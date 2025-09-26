@@ -8,7 +8,7 @@
         "hotstart": "nodemon server.js",
         "start": "node server.js",
         "setup": "npm install && npm run build",
-        "build": "mkdir -p public/js/templates && npx handlebars views/partials -f public/js/templates/header.precompiled.js"
+        "build": "npx handlebars public/components -e hbs -f public/js/templates.precompiled.js"
     },
     "repository": {
         "type": "git",
