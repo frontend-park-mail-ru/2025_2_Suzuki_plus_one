@@ -1,49 +1,36 @@
-const routes = []
+let globalReact;
 
-function Route({ path, component }) {
-    routes.push({ path, component })
-    return null // nothing to render directly
+export function setGlobalReact(react) {
+    globalReact = react;
+    window.globalReact = react;
 }
 
-function Router({ children }) {
-    const container = document.createElement('div')
-
-    function onLocationChange() {
-        const path = window.location.pathname
-        const route = routes.find((r) => r.path === path)
-        if (route) {
-            // Clear the container and render the matched route's component
-            container.innerHTML = ''
-            container.appendChild(route.component())
-        }
+export function Route({ path, component }) {
+    if (globalReact && globalReact.state.currentPage === path) {
+        return component();
     }
+    return null;
+}
 
-    // Attach event listener for popstate (browser navigation)
-    window.addEventListener('popstate', onLocationChange)
-
-    // Initial render
-    onLocationChange()
-
-    // Render children (e.g., Links) inside the Router container
+export function Router({ children }) {
+    const container = document.createElement('div');
     children.flat().forEach((child) => {
         if (child instanceof Node) {
-            container.appendChild(child)
+            container.appendChild(child);
         }
-    })
-
-    return container
+    });
+    return container;
 }
 
-function Link({ to, children }) {
-    const a = document.createElement('a')
-    a.href = to
+export function Link({ to, children }) {
+    const a = document.createElement('a');
+    a.href = '#';
     a.onclick = (e) => {
-        e.preventDefault()
-        window.history.pushState(null, '', to)
-        window.dispatchEvent(new Event('popstate'))
-    }
-    a.append(...children)
-    return a
+        e.preventDefault();
+        if (globalReact) {
+            globalReact.setPage(to);
+        }
+    };
+    a.append(...children);
+    return a;
 }
-
-export { Router, Route, Link }

@@ -1,68 +1,67 @@
 class React {
-    constructor(rootElement) {
-        this.rootElement = rootElement
-        this.currentPage = 'home' // default page
+    constructor(rootElement, appComponent) {
+        this.rootElement = rootElement;
+        this.state = { currentPage: 'home' };
+        this.App = appComponent; 
     }
 
-    /**
-     * @function render - Appends
-     * @description Renders the application inside the root element
-     * @param {App} app - The root application component
-     */
     render(app) {
         if (!this.rootElement) {
-            console.error('React: Root element not found')
-            return
+            console.error('React: Root element not found');
+            return;
         }
-
-        if (!app || !(app instanceof HTMLElement)) {
-            console.error('React: Invalid app component')
-            return
+        if (!app || !(app instanceof Node)) {
+            console.error('React: Invalid app component, expected Node, got:', app);
+            return;
         }
-
-        this.rootElement.appendChild(app)
+        this.rootElement.appendChild(app);
     }
 
-    /**
-     *
-     * @param {string} tag - HTML tag or component
-     * @param {Object} props - Attributes or props
-     * @param  {...any} children - Child elements or components
-     * @returns {HTMLElement}
-     */
     static createElement(tag, props, ...children) {
-        // if tag is a function, it's a component
         if (typeof tag === 'function') {
-            return tag({ ...props, children })
+            const result = tag({ ...props, children });
+            return result;
         }
-
-        // otherwise, it's a regular HTML element
-        const element = document.createElement(tag)
-
-        // Check for event listeners, styles, and className in props
-        // Example: { onClick: alert(1), style: { color: 'red' }, className: 'my-class' }
+        const element = document.createElement(tag);
         for (const [name, value] of Object.entries(props || {})) {
-            if (name.startsWith('on')) {
-                element.addEventListener(name.substring(2).toLowerCase(), value)
+            if (name.startsWith('on') && typeof value === 'function') {
+                element.addEventListener(name.substring(2).toLowerCase(), value);
             } else if (name === 'style') {
-                Object.assign(element.style, value)
+                Object.assign(element.style, value);
             } else if (name === 'className') {
-                element.className = value
-            } else {
-                element.setAttribute(name, value)
+                element.className = value;
+            } else if (value != null) {
+                element.setAttribute(name, value);
             }
         }
-
         children.flat().forEach((child) => {
             if (child instanceof Node) {
-                element.appendChild(child)
-            } else {
-                element.appendChild(document.createTextNode(child))
+                element.appendChild(child);
+            } else if (child != null) {
+                element.appendChild(document.createTextNode(child));
             }
-        })
+        });
+        return element;
+    }
 
-        return element
+    setPage(page) {
+        this.state.currentPage = page;
+        this.update();
+    }
+
+    update() {
+        if (!this.rootElement) {
+            console.error('React: Root element not found for update');
+            return;
+        }
+        if (!this.App) {
+            console.error('React: App component not provided');
+            return;
+        }
+        this.rootElement.innerHTML = '';
+        const app = React.createElement(this.App);
+        this.render(app);
     }
 }
 
-export default React
+export default React;
