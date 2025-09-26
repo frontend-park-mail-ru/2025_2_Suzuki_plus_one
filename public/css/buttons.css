@@ -1,0 +1,47 @@
+.btn {
+	display: inline-block;	
+	box-sizing: border-box;
+	padding: 0 15px;
+	outline: none;
+	border: none;  
+	border-radius: 4px;
+	height: 36px;
+	line-height: 36px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	color: #fff;
+	background-color: #003049;
+	position: relative;
+	overflow:hidden;
+	vertical-align: top;
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation; 
+	z-index: 1;
+}
+
+.btn.default:hover {
+  background-color: #014f86;
+}
+.btn.default:active {
+  background-color: #001d2a;
+}
+.btn.default:focus-visible {
+  box-shadow: 0 0 0 3px #89c2d9;
+}
+
+.btn.sign-up {
+  background-color: #FCBF49;
+  color: #003049;
+}
+.btn.sign-up:hover {
+  background-color: #f8a824;
+}
+.btn.sign-up:active {
+  background-color: #e69500;
+}
+.btn.sign-up:focus-visible {
+  box-shadow: 0 0 0 3px #ffd166;
+}
