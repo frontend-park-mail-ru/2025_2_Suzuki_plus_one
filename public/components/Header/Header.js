@@ -1,14 +1,10 @@
-function Header() {
-    // This works only with precompiled js templates
-    const template = Handlebars.templates['Header/Header']
-    const htmlString = template({}) // Compile the template into an HTML string
+export default function Header() {
+    const template = Handlebars.templates['Header/Header'];
+    const container = document.createElement('div');
+    container.innerHTML = template({});
 
-    // Create a wrapper element and set its innerHTML
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = htmlString
+    container.querySelector('#signUpBtn')?.addEventListener('click', () => window.globalReact.setPage('signup'));
+    container.querySelector('#signInBtn')?.addEventListener('click', () => window.globalReact.setPage('login'));
 
-    // Return the first child of the wrapper (the actual DOM element)
-    return wrapper.firstElementChild
+    return container.firstElementChild;
 }
-
-export default Header
