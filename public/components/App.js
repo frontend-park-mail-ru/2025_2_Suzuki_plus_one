@@ -3,7 +3,6 @@ import { Link, Route, Router } from '../js/router.js';
 import Header from './Header/Header.js';
 import Footer from './Footer/Footer.js';
 import Home from './Home/Home.js';
-import Movies from './Movies/Movies.js';
 import Login from './Login/Login.js';
 import Signup from './Signup/Signup.js';
 
@@ -17,7 +16,6 @@ export default function App() {
             null,
             React.createElement(Link, { to: 'home' }, 'Главная'),
             ' | ',
-            React.createElement(Link, { to: 'movies' }, 'Фильмы'),
             ' | ',
             React.createElement(Link, { to: 'login' }, 'Вход'),
             ' | ',
@@ -27,7 +25,6 @@ export default function App() {
             'main',
             { className: 'content' },
             React.createElement(Route, { path: 'home', component: Home }),
-            React.createElement(Route, { path: 'movies', component: Movies }),
             React.createElement(Route, { path: 'login', component: Login }),
             React.createElement(Route, { path: 'signup', component: Signup }),
         ),

@@ -1,12 +1,6 @@
-import React from '../../js/react.js'; // Если нужно createElement внутри
-function Home() {
+export default function Home() {
     const template = Handlebars.templates['Home/Home'];
-    const htmlString = template({});
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = htmlString;
-    const homeElement = wrapper.firstElementChild;
-
-    return homeElement;
+    const container = document.createElement('div');
+    container.innerHTML = template({});
+    return container.firstElementChild;
 }
-
-export default Home;

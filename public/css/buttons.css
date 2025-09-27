@@ -45,3 +45,24 @@
 .btn.sign-up:focus-visible {
   box-shadow: 0 0 0 3px #ffd166;
 }
+.btn.sign-in {
+  background-color: #FCBF49;
+  color: #003049;
+}
+.btn.sign-in:hover {
+  background-color: #f8a824;
+}
+.btn.sign-in:active {
+  background-color: #e69500;
+}
+.btn.sign-in:focus-visible {
+  box-shadow: 0 0 0 3px #ffd166;
+}
+
+.btn.default.play {
+    width: clamp(50px, 10vw, 80px);
+    height: clamp(50px, 10vw, 80px);
+    border-radius: 50%;
+    font-size: clamp(20px, 5vw, 40px);
+    text-align: center;
+}

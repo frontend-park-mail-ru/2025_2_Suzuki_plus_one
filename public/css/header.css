@@ -1,12 +1,14 @@
 .header {
+    position: relative;
+    z-index: 2;
     height: 60px;
-    background-color: #ffffff;
+    background-color: white;
     padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-sizing: border-box;
-    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .header-right {
@@ -18,4 +20,3 @@
     height: 60px;
     width: auto;
 }
-
