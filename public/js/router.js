@@ -22,15 +22,15 @@ export function Router({ children }) {
     return container;
 }
 
-export function Link({ to, children }) {
-    const a = document.createElement('a');
-    a.href = '#';
-    a.onclick = (e) => {
-        e.preventDefault();
-        if (globalReact) {
-            globalReact.setPage(to);
-        }
-    };
-    a.append(...children);
-    return a;
-}
+// export function Link({ to, children }) {
+//     const a = document.createElement('a');
+//     a.href = '#';
+//     a.onclick = (e) => {
+//         e.preventDefault();
+//         if (globalReact) {
+//             globalReact.setPage(to);
+//         }
+//     };
+//     a.append(...children);
+//     return a;
+// }

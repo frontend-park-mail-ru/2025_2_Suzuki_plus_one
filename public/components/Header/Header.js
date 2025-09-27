@@ -5,6 +5,7 @@ export default function Header() {
 
     container.querySelector('#signUpBtn')?.addEventListener('click', () => window.globalReact.setPage('signup'));
     container.querySelector('#signInBtn')?.addEventListener('click', () => window.globalReact.setPage('login'));
+    container.querySelector('#homeLink')?.addEventListener('click', () => window.globalReact.setPage('home'));
 
     return container.firstElementChild;
 }

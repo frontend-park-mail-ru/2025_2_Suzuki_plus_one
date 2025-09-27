@@ -45,17 +45,17 @@
 .btn.sign-up:focus-visible {
   box-shadow: 0 0 0 3px #ffd166;
 }
-.btn.sign-in {
+.btn.log-in {
   background-color: #FCBF49;
   color: #003049;
 }
-.btn.sign-in:hover {
+.btn.log-in:hover {
   background-color: #f8a824;
 }
-.btn.sign-in:active {
+.btn.log-in:active {
   background-color: #e69500;
 }
-.btn.sign-in:focus-visible {
+.btn.log-in:focus-visible {
   box-shadow: 0 0 0 3px #ffd166;
 }
 

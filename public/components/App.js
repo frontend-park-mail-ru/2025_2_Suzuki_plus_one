@@ -1,5 +1,5 @@
 import React from '../js/react.js';
-import { Link, Route, Router } from '../js/router.js';
+import { Route, Router } from '../js/router.js';
 import Header from './Header/Header.js';
 import Footer from './Footer/Footer.js';
 import Home from './Home/Home.js';
@@ -11,16 +11,16 @@ export default function App() {
         'div',
         { className: 'app-container' },
         React.createElement(Header),
-        React.createElement(
-            Router,
-            null,
-            React.createElement(Link, { to: 'home' }, 'Главная'),
-            ' | ',
-            ' | ',
-            React.createElement(Link, { to: 'login' }, 'Вход'),
-            ' | ',
-            React.createElement(Link, { to: 'signup' }, 'Регистрация'),
-        ),
+        // React.createElement(
+        //     Router,
+        //     null,
+        //     React.createElement(Link, { to: 'home' }, 'Главная'),
+        //     ' | ',
+        //     ' | ',
+        //     React.createElement(Link, { to: 'login' }, 'Вход'),
+        //     ' | ',
+        //     React.createElement(Link, { to: 'signup' }, 'Регистрация'),
+        // ),
         React.createElement(
             'main',
             { className: 'content' },
