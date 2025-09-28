@@ -38,7 +38,6 @@ class Signup {
             console.log('Signup attempt:', { username, email, password });
             alert('Регистрация выполнена (тест)');
             this.#appInstance.loginUser();
-            this.#appInstance.setPage("Home");
         });
 
         const toggleButtons = this.#parent.querySelectorAll('.toggle-password');
