@@ -15,24 +15,49 @@ class Login {
         const emailErrorDiv = this.#parent.querySelector('#emailError');
         const passwordErrorDiv = this.#parent.querySelector('#passwordError');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = form.querySelector('input[type="email"]').value;
             const password = form.querySelector('#password').value;
 
-            const emailError = validateEmail(email);
-            const passwordError = validatePassword(password);
+            // const emailError = validateEmail(email);
+            // const passwordError = validatePassword(password);
 
             emailErrorDiv.textContent = emailError || '';
             passwordErrorDiv.textContent = passwordError || '';
 
-            if (emailError || passwordError) {
-                return;
-            }
+            // if (emailError || passwordError) {
+            //     return;
+            // }
 
-            console.log('Login attempt:', { email, password });
-            alert('Вход выполнен (тест)');
-            this.#appInstance.loginUser();
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/auth/signin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                console.log(response)
+                if (!response.ok) {
+                    let errorMessage = 'An error occurred';
+                    if (response.status === 400) {
+                        errorMessage = 'Invalid request format';
+                    } else if (response.status === 401) {
+                        errorMessage = 'Invalid credentials';
+                    } else if (response.status === 404) {
+                        errorMessage = 'User not found';
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+
+                this.#appInstance.loginUser(); 
+            } catch (error) {
+                passwordErrorDiv.textContent = error.message;
+            }
         });
 
         const toggleBtn = this.#parent.querySelector('.toggle-password');
