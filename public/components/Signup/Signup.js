@@ -16,7 +16,7 @@ class Signup {
         const passwordErrorDiv = this.#parent.querySelector('#passwordError');
         const confirmErrorDiv = this.#parent.querySelector('#confirmError');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = form.querySelector('input[name="username"]').value;
             const email = form.querySelector('input[name="email"]').value;
@@ -35,10 +35,32 @@ class Signup {
                 return;
             }
 
-            console.log('Signup attempt:', { username, email, password });
-            alert('Регистрация выполнена (тест)');
-            this.#appInstance.loginUser();
-            this.#appInstance.setPage("Home");
+            try {
+                const response = await fetch('/api/v1/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, email, password }),
+                });
+
+                if (!response.ok) {
+                    let errorMessage = 'An error occurred';
+                    if (response.status === 400) {
+                        errorMessage = 'Invalid input';
+                    } else if (response.status === 409) {
+                        errorMessage = 'User already exists';
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+
+                this.#appInstance.loginUser();
+            } catch (error) {
+                confirmErrorDiv.textContent = error.message;
+            }
         });
 
         const toggleButtons = this.#parent.querySelectorAll('.toggle-password');
