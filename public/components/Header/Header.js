@@ -1,11 +1,31 @@
-export default function Header() {
-    const template = Handlebars.templates['Header/Header'];
-    const container = document.createElement('div');
-    container.innerHTML = template({});
+class Header {
+    #parent
+    constructor(parent, appInstance) {
+        this.#parent = parent;
+        this.app = appInstance;
+    }
+    render() {
+        const template = Handlebars.templates['Header/Header'];
+        this.#parent.innerHTML = template({ isAuthorized: this.app.isAuthorized });
 
-    container.querySelector('#signUpBtn')?.addEventListener('click', () => window.globalReact.setPage('signup'));
-    container.querySelector('#signInBtn')?.addEventListener('click', () => window.globalReact.setPage('login'));
-    container.querySelector('#homeLink')?.addEventListener('click', () => window.globalReact.setPage('home'));
+        this.#parent.querySelector('#homeLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.app.setPage('home');
+        });
 
-    return container.firstElementChild;
+        if (this.app.isAuthorized) {
+            this.#parent.querySelector('#logOutBtn')?.addEventListener('click', () => {
+                this.app.logoutUser();
+            });
+        } else {
+            this.#parent.querySelector('#signUpBtn')?.addEventListener('click', () => {
+                this.app.setPage('signup');
+            });
+
+            this.#parent.querySelector('#logInBtn')?.addEventListener('click', () => {
+                this.app.setPage('login');
+            });
+        }
+    }
 }
+export default Header;

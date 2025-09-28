@@ -2,7 +2,7 @@
  * @function purifyInputString
  * @description Removes or escapes potentially dangerous characters from input
  * @param {string} input - The input string to purify
- * @returns {string} Purifyed string
+ * @returns {string} Purified string
  */
 function purifyInputString(input) {
   return input.trim().replace(/[<>;"'`]/g, '');
@@ -41,7 +41,7 @@ export function validatePassword(password) {
   if (!password) return 'Password is required';
   const purePassword = purifyInputString(password);
 
-  if (purePassword !== password) return 'Password contains invalid characters (< > ; \' " `)';
+  if (purePassword !== password) return 'Password must contain only Latin letters, digits, and special characters (/-=+!@#$%^&*())';
   if (purePassword.length < 8) return 'Password must be at least 8 characters long';
   if (purePassword.length > 128) return 'Password is too long (maximum 128 characters)';
   if (!/[A-Z]/.test(purePassword)) return 'Password must contain at least one capital letter';
@@ -49,7 +49,26 @@ export function validatePassword(password) {
   if (!/[0-9]/.test(purePassword)) return 'Password must contain at least one digit';
   if (!/[-/=+\!@#$%^&*()]/.test(purePassword)) return 'Password must contain at least one special character (/-=+!@#$%^&*())';
   if (/\s/.test(purePassword)) return 'Password must not contain spaces';
-  if (/(.)\1{3,}/.test(purePassword)) return 'The password must not contain more than 3 identical characters in a row';
+  if (/(.)\1{3,}/.test(purePassword)) return 'Password must not contain more than 3 identical characters in a row';
+
+  return null;
+}
+
+/**
+ * @function validateUsername
+ * @description Validates username input
+ * @param {string} username - The username input
+ * @returns {string|null} Error message or null if valid
+ */
+export function validateUsername(username) {
+  if (!username) return 'Username is required';
+  const pureUsername = purifyInputString(username);
+
+  if (pureUsername !== username) return 'Username must contain only Latin letters, digits, and special characters (_.-)';
+  if (pureUsername.length < 3) return 'Username must be at least 3 characters long';
+  if (pureUsername.length > 64) return 'Username is too long (maximum 64 characters)';
+  if (!/^[a-zA-Z0-9_.-]+$/.test(pureUsername)) return 'Username must contain only Latin letters, digits, and special characters (_.-)';
+  if (/\s/.test(pureUsername)) return 'Username must not contain spaces';
 
   return null;
 }

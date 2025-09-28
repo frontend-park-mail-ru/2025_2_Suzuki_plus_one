@@ -1,6 +1,11 @@
-export default function Home() {
-    const template = Handlebars.templates['Home/Home'];
-    const container = document.createElement('div');
-    container.innerHTML = template({});
-    return container.firstElementChild;
+class Home {
+    #parent
+    constructor(parent) {
+        this.#parent = parent;
+    }
+    render() {
+        const template = Handlebars.templates['Home/Home'];
+        this.#parent.innerHTML = template({});
+    }
 }
+export default Home;
