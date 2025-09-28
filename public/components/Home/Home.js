@@ -10,7 +10,7 @@ class Home {
         this.#parent.innerHTML = template({});
 
         try {
-            const response = await fetch('http://217.16.18.125:8080/api/v1/movies', {
+            const response = await fetch('/api/v1/movies', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
