@@ -1,4 +1,4 @@
-import { validateEmail, validatePassword } from '../../js/utils/validation.js';
+import { validateEmail, validatePassword, validateUsername } from '../../js/utils/validation.js';
 
 class Signup {
     #parent
@@ -12,6 +12,7 @@ class Signup {
         this.#parent.innerHTML = template({});
 
         const form = this.#parent.querySelector('#signup-form');
+        const usernameErrorDiv = this.#parent.querySelector('#usernameError');
         const emailErrorDiv = this.#parent.querySelector('#emailError');
         const passwordErrorDiv = this.#parent.querySelector('#passwordError');
         const confirmErrorDiv = this.#parent.querySelector('#confirmError');
@@ -23,15 +24,17 @@ class Signup {
             const password = form.querySelector('#password').value;
             const confirmPassword = form.querySelector('#confirm-password').value;
 
+            const usernameError = validateUsername(username);
             const emailError = validateEmail(email);
             const passwordError = validatePassword(password);
             const confirmError = password !== confirmPassword ? 'Passwords do not match' : null;
 
+            usernameErrorDiv.textContent = usernameError || '';
             emailErrorDiv.textContent = emailError || '';
             passwordErrorDiv.textContent = passwordError || '';
             confirmErrorDiv.textContent = confirmError || '';
 
-            if (emailError || passwordError || confirmError) {
+            if (usernameError || emailError || passwordError || confirmError) {
                 return;
             }
 
@@ -77,6 +80,7 @@ class Signup {
             });
         });
 
+        
     }
 }
 export default Signup;
