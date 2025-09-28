@@ -5,7 +5,12 @@
         </a>
     </div>
     <div class="header-right">
-        <button class="btn sign-up" id="signUpBtn">Sign up</button>
-        <button class="btn log-in" id="logInBtn">Log in</button>
+        {{#if isAuthorized}}
+            <img src="/img/user-icon.svg" alt="User" alt="user icon" />
+            <button class="btn default" id="logOutBtn">Log out</button>
+        {{else}}
+            <button class="btn sign-up" id="signUpBtn">Sign up</button>
+            <button class="btn log-in" id="logInBtn">Log in</button>
+        {{/if}}
     </div>
 </header>

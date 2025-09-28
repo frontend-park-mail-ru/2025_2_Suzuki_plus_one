@@ -2,8 +2,10 @@ import { validateEmail, validatePassword } from '../../js/utils/validation.js';
 
 class Signup {
     #parent
-    constructor(parent) {
+    #appInstance
+    constructor(parent, appInstance) {
         this.#parent = parent;
+        this.#appInstance = appInstance
     }
     render() {
         const template = Handlebars.templates['Signup/Signup'];
@@ -35,6 +37,8 @@ class Signup {
 
             console.log('Signup attempt:', { username, email, password });
             alert('Регистрация выполнена (тест)');
+            this.#appInstance.loginUser();
+            this.#appInstance.setPage("Home");
         });
 
         const toggleButtons = this.#parent.querySelectorAll('.toggle-password');
