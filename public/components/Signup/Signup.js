@@ -1,4 +1,4 @@
-import { validateEmail, validatePassword } from '../../js/utils/validation.js';
+import { validateEmail, validatePassword, validateUsername } from '../../js/utils/validation.js';
 
 class Signup {
     #parent
@@ -12,32 +12,58 @@ class Signup {
         this.#parent.innerHTML = template({});
 
         const form = this.#parent.querySelector('#signup-form');
+        const usernameErrorDiv = this.#parent.querySelector('#usernameError');
         const emailErrorDiv = this.#parent.querySelector('#emailError');
         const passwordErrorDiv = this.#parent.querySelector('#passwordError');
         const confirmErrorDiv = this.#parent.querySelector('#confirmError');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const username = form.querySelector('input[name="username"]').value;
             const email = form.querySelector('input[name="email"]').value;
             const password = form.querySelector('#password').value;
             const confirmPassword = form.querySelector('#confirm-password').value;
 
+            const usernameError = validateUsername(username);
             const emailError = validateEmail(email);
             const passwordError = validatePassword(password);
             const confirmError = password !== confirmPassword ? 'Passwords do not match' : null;
 
+            usernameErrorDiv.textContent = usernameError || '';
             emailErrorDiv.textContent = emailError || '';
             passwordErrorDiv.textContent = passwordError || '';
             confirmErrorDiv.textContent = confirmError || '';
 
-            if (emailError || passwordError || confirmError) {
+            if (usernameError || emailError || passwordError || confirmError) {
                 return;
             }
 
-            console.log('Signup attempt:', { username, email, password });
-            alert('Регистрация выполнена (тест)');
-            this.#appInstance.loginUser();
+            try {
+                const response = await fetch('/api/v1/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, email, password }),
+                });
+
+                if (!response.ok) {
+                    let errorMessage = 'An error occurred';
+                    if (response.status === 400) {
+                        errorMessage = 'Invalid input';
+                    } else if (response.status === 409) {
+                        errorMessage = 'User already exists';
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+
+                this.#appInstance.loginUser();
+            } catch (error) {
+                confirmErrorDiv.textContent = error.message;
+            }
         });
 
         const toggleButtons = this.#parent.querySelectorAll('.toggle-password');
@@ -54,6 +80,7 @@ class Signup {
             });
         });
 
+        
     }
 }
 export default Signup;

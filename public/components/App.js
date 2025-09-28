@@ -14,7 +14,7 @@ class App {
         this.#main_content = document.createElement('div');
         this.#main_content.className = 'main-content';
 
-        this.isAuthorized = false;
+        this.isAuthorized = !!localStorage.getItem('token');
 
         this.setUp();
     }
@@ -76,6 +76,7 @@ class App {
 
     logoutUser() {
         this.isAuthorized = false;
+        localStorage.removeItem('token');
         this.setPage("home");
     }
 }
