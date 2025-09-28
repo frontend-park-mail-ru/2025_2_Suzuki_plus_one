@@ -18,7 +18,7 @@ class Home {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error. status: ${response.status}`);
             }
 
             const filmsData = await response.json();
@@ -33,7 +33,7 @@ class Home {
             });
 
         } catch (err) {
-            console.error("Ошибка загрузки фильмов:", err);
+            console.error("Error fetchin movies:", err);
         }
 }
 }
