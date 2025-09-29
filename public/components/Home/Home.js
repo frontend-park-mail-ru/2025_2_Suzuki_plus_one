@@ -21,6 +21,15 @@ class Home {
         const template = Handlebars.templates['Home/Home']
         this.#parent.innerHTML = template({})
 
+        const playButton = this.#parent.querySelector('.btn.play')
+        const filmsContainer = this.#parent.querySelector('#filmsContainer')
+
+        if (playButton && filmsContainer) {
+            playButton.addEventListener('click', () => {
+                filmsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            })
+        }
+
         try {
             const response = await fetch('/api/v1/movies', {
                 method: 'GET',
@@ -35,11 +44,10 @@ class Home {
 
             const filmsData = await response.json()
             console.log('Ответ от API:', filmsData)
-            const container = this.#parent.querySelector('#filmsContainer')
 
             filmsData.forEach((film) => {
                 const filmElement = document.createElement('div')
-                container.appendChild(filmElement)
+                filmsContainer.appendChild(filmElement)
                 const filmCard = new FilmCard(filmElement)
                 filmCard.render(film)
             })
