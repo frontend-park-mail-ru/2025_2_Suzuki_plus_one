@@ -20,7 +20,7 @@ class Signup {
         this.#parent = parent
         this.#appInstance = appInstance
     }
-    
+
     /**
      * @method render
      * @description Renders the signup form, sets up form submission to register users via API, validates inputs, and handles password visibility toggle for password and confirm password fields.
@@ -76,6 +76,7 @@ class Signup {
                     } else if (response.status === 500) {
                         errorMessage = 'Internal server error'
                     }
+                    passwordErrorDiv.textContent = errorMessage
                     throw new Error(errorMessage)
                 }
 
