@@ -4,13 +4,27 @@ import {
     validateUsername,
 } from '../../js/utils/validation.js'
 
+/**
+ * @class Signup
+ * @description Handles the rendering and functionality of the signup form, including form submission, input validation, and password visibility toggle
+ */
 class Signup {
     #parent
     #appInstance
+    /**
+     * @constructor
+     * @param {HTMLElement} parent - The parent DOM element to render the signup form into
+     * @param {Object} appInstance - The main application instance for managing state and navigation
+     */
     constructor(parent, appInstance) {
         this.#parent = parent
         this.#appInstance = appInstance
     }
+    
+    /**
+     * @method render
+     * @description Renders the signup form, sets up form submission to register users via API, validates inputs, and handles password visibility toggle for password and confirm password fields.
+     */
     render() {
         const template = Handlebars.templates['Signup/Signup']
         this.#parent.innerHTML = template({})

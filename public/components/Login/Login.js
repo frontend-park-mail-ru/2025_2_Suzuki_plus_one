@@ -1,10 +1,24 @@
+/**
+ * @class Login
+ * @description Handles the rendering and functionality of the login form
+ */
 class Login {
     #parent
     #appInstance
+    /**
+     * @constructor
+     * @param {HTMLElement} parent - The parent DOM element to render the login form into
+     * @param {Object} appInstance - The main application instance for managing state and navigation
+     */
     constructor(parent, appInstance) {
         this.#parent = parent
         this.#appInstance = appInstance
     }
+
+    /**
+     * @method render
+     * @description Renders the login form
+     */
     render() {
         const template = Handlebars.templates['Login/Login']
         this.#parent.innerHTML = template({})
