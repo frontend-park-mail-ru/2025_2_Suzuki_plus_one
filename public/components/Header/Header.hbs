@@ -1,0 +1,16 @@
+<header class="header">
+    <div class="logo">
+        <a href="#" id="homeLink">
+            <img id="homeLink" src="/img/logo.svg" alt="Popfilms logo" />
+        </a>
+    </div>
+    <div class="header-right">
+        {{#if isAuthorized}}
+            <img src="/img/user-icon.svg" alt="User" alt="user icon" />
+            <button class="btn default" id="logOutBtn">Log out</button>
+        {{else}}
+            <button class="btn sign-up" id="signUpBtn">Sign up</button>
+            <button class="btn log-in" id="logInBtn">Log in</button>
+        {{/if}}
+    </div>
+</header>
