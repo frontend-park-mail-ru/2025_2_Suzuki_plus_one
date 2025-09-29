@@ -28,7 +28,7 @@ main.auth {
 .form-container input {
   width: 100%;
   padding: 12px 15px;
-  margin-bottom: 20px;
+  margin: 0px 0 8px 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
@@ -47,6 +47,7 @@ main.auth {
 .password-wrapper input {
   width: 100%;
   padding-right: 40px;
+  align-items: center;
   box-sizing: border-box;
 }
 
@@ -54,7 +55,7 @@ main.auth {
   position: absolute;
   top: 50%; 
   right: 10px; 
-  transform: translateY(-90%); 
+  transform: translateY(-50%); 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,4 +73,11 @@ main.auth {
   outline: none;
   box-shadow: 0 0 0 2px rgba(0,0,0,0.2);
   border-radius: 4px;
+}
+
+.error-message {
+    color: #e74c3c; 
+    font-size: 0.875rem; 
+    margin: 0px 0 10px 0;
+    display: block;
 }
