@@ -24,6 +24,7 @@ class Login {
         this.#parent.innerHTML = template({})
 
         const form = this.#parent.querySelector('#login-form')
+        const passwordErrorDiv = this.#parent.querySelector('#passwordError')
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault()
@@ -49,6 +50,7 @@ class Login {
                     } else if (response.status === 500) {
                         errorMessage = 'Internal server error'
                     }
+                    passwordErrorDiv.textContent = errorMessage
                     throw new Error(errorMessage)
                 }
 
