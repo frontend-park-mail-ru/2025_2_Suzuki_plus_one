@@ -59,6 +59,8 @@ class Signup {
                         errorMessage = 'Invalid input'
                     } else if (response.status === 409) {
                         errorMessage = 'User already exists'
+                    } else if (response.status === 500) {
+                        errorMessage = 'Internal server error'
                     }
                     throw new Error(errorMessage)
                 }
