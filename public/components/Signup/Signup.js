@@ -61,6 +61,7 @@ class Signup {
             try {
                 const response = await fetch('/api/v1/auth/signup', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -79,10 +80,6 @@ class Signup {
                     passwordErrorDiv.textContent = errorMessage
                     throw new Error(errorMessage)
                 }
-
-                const data = await response.json()
-                localStorage.setItem('token', data.token)
-
                 this.#appInstance.loginUser()
             } catch (error) {
                 confirmErrorDiv.textContent = error.message

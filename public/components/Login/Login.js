@@ -34,6 +34,7 @@ class Login {
             try {
                 const response = await fetch('/api/v1/auth/signin', {
                     method: 'POST',
+                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -53,10 +54,6 @@ class Login {
                     passwordErrorDiv.textContent = errorMessage
                     throw new Error(errorMessage)
                 }
-
-                const data = await response.json()
-                localStorage.setItem('token', data.token)
-
                 this.#appInstance.loginUser()
             } catch (error) {
                 console.log(error.message)

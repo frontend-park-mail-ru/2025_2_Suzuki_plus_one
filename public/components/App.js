@@ -3,6 +3,7 @@ import Footer from './Footer/Footer.js'
 import Home from './Home/Home.js'
 import Login from './Login/Login.js'
 import Signup from './Signup/Signup.js'
+import { checkAuth } from '../js/utils/auth.js'
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
@@ -23,9 +24,17 @@ class App {
         this.#main_content = document.createElement('div')
         this.#main_content.className = 'main-content'
         /** @type {boolean} Indicates whether a user is logged in */
-        this.isAuthorized = !!localStorage.getItem('token')
+        this.isAuthorized = false;
+        this.user = null; 
+        this.setUp();
+        this.checkAuthOnLoad();
+    }
 
-        this.setUp()
+    async checkAuthOnLoad() {
+        const { isAuthorized, user } = await checkAuth();
+        this.isAuthorized = isAuthorized;
+        this.user = user;
+        this.render();
     }
     /**
      * Sets up the header and footer components and appends them to the container.
