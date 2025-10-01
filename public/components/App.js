@@ -107,10 +107,14 @@ class App {
      * Logs out the user, clears authorization state, removes token, and navigates to home.
      * @returns {void}
      */
-    logoutUser() {
-        this.isAuthorized = false
-        localStorage.removeItem('token')
-        this.setPage('home')
+    async logoutUser() {
+        const { success, error } = await signOut();
+        if (success) {
+            this.isAuthorized = false;
+            this.user = null;
+            this.setPage('home');
+        }
+        return { success, error };
     }
 }
 
