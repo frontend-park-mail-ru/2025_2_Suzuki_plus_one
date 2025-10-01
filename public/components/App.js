@@ -3,7 +3,7 @@ import Footer from './Footer/Footer.js'
 import Home from './Home/Home.js'
 import Login from './Login/Login.js'
 import Signup from './Signup/Signup.js'
-import { checkAuth } from '../js/utils/auth.js'
+import { checkAuth, signOut } from '../js/utils/auth.js'
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
