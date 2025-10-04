@@ -37,8 +37,8 @@ class Header {
         if (this.#app.isAuthorized) {
             this.#parent
                 .querySelector('#logOutBtn')
-                ?.addEventListener('click', () => {
-                    this.#app.logoutUser()
+                ?.addEventListener('click', async () => {
+                    await this.#app.logoutUser()
                 })
         } else {
             this.#parent
