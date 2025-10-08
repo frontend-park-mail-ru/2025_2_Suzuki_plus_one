@@ -1,4 +1,3 @@
-// src/shared/components/Header/Header.js
 import template from './Header.hbs';
 import logo from '@assets/logo.svg';
 

@@ -17,8 +17,7 @@ export async function fetchMovies() {
 
     if (!response.ok) {
         throw new Error(
-            (await response.text()) || `HTTP error. status: ${response.status}`
-        );
+            (await response.text()) || `HTTP error. status: ${response.status}`);
     }
 
     return response.json();
