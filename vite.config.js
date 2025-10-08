@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import handlebarsPlugin from '@yoichiro/vite-plugin-handlebars';
 import path from 'path';
+import babel from 'vite-plugin-babel';
 
 export default defineConfig({
     root: path.resolve(__dirname, 'src/app'),
     plugins: [
+        babel(),
         handlebarsPlugin({
             templateFileExtension: 'hbs',
             partialDirectoryPath: path.resolve(__dirname, 'src'),

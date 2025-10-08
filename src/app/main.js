@@ -2,7 +2,7 @@
  * @module main
  * @description Entry point, initializes SPA + manages rendering
  */
-import App from './App.js';
+import App from '@app/App.js';
 /**
  * Initializes the application and renders it into the root element.
  * @function
