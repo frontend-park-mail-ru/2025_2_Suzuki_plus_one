@@ -2,13 +2,13 @@ import template from './FilmCard.hbs';
 /** Class representing a Film Card */
 class FilmCard {
     /** @type {HTMLElement} The parent element where the film card will be rendered. */
-    #parent
+    #parent;
     /**
      * Creates an instance of FilmCard.
      * @param {HTMLElement} parent - The parent element to render film into it.
      */
     constructor(parent) {
-        this.#parent = parent
+        this.#parent = parent;
     }
     /**
      *
@@ -20,7 +20,7 @@ class FilmCard {
      */
     render(data) {
         // const template = Handlebars.templates['FilmCard/FilmCard']
-        this.#parent.innerHTML = template(data)
+        this.#parent.innerHTML = template(data);
     }
 }
-export default FilmCard
+export default FilmCard;

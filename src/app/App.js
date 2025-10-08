@@ -1,59 +1,59 @@
-import Header from '@shared/components/Header/Header.js'
-import Footer from '@shared/components/Footer/Footer.js'
-import Home from '@pages/Home/Home.js'
-import Login from '@pages/Login/Login.js'
-import Signup from '@pages/Signup/Signup.js'
-import { checkAuth, signOut } from '@shared/utils/auth.js'
+import Header from '@shared/components/Header/Header.js';
+import Footer from '@shared/components/Footer/Footer.js';
+import Home from '@pages/Home/Home.js';
+import Login from '@pages/Login/Login.js';
+import Signup from '@pages/Signup/Signup.js';
+import { checkAuth, signOut } from '@shared/utils/auth.js';
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
 class App {
     /** @type {HTMLElement} The root container of the application */
-    #container
+    #container;
     /** @type {HTMLElement} The container for the main page content */
-    #main_content
+    #main_content;
     /**
      * Creates an instance of the App.
      * Initializes the main container, main content, and user authorization state.
      */
     constructor() {
         /** @type {string} Current page ('home', 'login', 'signup') */
-        this.currentPage = 'home'
-        this.#container = document.createElement('div')
-        this.#container.className = 'app-container'
-        this.#main_content = document.createElement('div')
-        this.#main_content.className = 'main-content'
+        this.currentPage = 'home';
+        this.#container = document.createElement('div');
+        this.#container.className = 'app-container';
+        this.#main_content = document.createElement('div');
+        this.#main_content.className = 'main-content';
         /** @type {boolean} Indicates whether a user is logged in */
-        this.isAuthorized = false
-        this.user = null
-        this.setUp()
-        this.checkAuthOnLoad()
+        this.isAuthorized = false;
+        this.user = null;
+        this.setUp();
+        this.checkAuthOnLoad();
     }
 
     async checkAuthOnLoad() {
-        const { isAuthorized, user } = await checkAuth()
-        this.isAuthorized = isAuthorized
-        this.user = user
-        this.render()
+        const { isAuthorized, user } = await checkAuth();
+        this.isAuthorized = isAuthorized;
+        this.user = user;
+        this.render();
     }
     /**
      * Sets up the header and footer components and appends them to the container.
      * @returns {void}
      */
     setUp() {
-        const headerContainer = document.createElement('div')
-        this.#container.appendChild(headerContainer)
+        const headerContainer = document.createElement('div');
+        this.#container.appendChild(headerContainer);
 
-        this.header = new Header(headerContainer, this)
-        this.header.render()
+        this.header = new Header(headerContainer, this);
+        this.header.render();
 
-        this.#container.appendChild(this.#main_content)
+        this.#container.appendChild(this.#main_content);
 
-        const footerContainer = document.createElement('div')
-        this.#container.appendChild(footerContainer)
+        const footerContainer = document.createElement('div');
+        this.#container.appendChild(footerContainer);
 
-        const footer = new Footer(footerContainer)
-        footer.render()
+        const footer = new Footer(footerContainer);
+        footer.render();
     }
     /**
      * Renders the current page inside the main content container.
@@ -61,30 +61,30 @@ class App {
      * @returns {HTMLElement} The root container element of the application.
      */
     render() {
-        this.#main_content.innerHTML = ''
+        this.#main_content.innerHTML = '';
 
         if (this.currentPage === 'home') {
-            const homeContainer = document.createElement('div')
-            this.#main_content.appendChild(homeContainer)
-            const home = new Home(homeContainer)
-            home.render()
+            const homeContainer = document.createElement('div');
+            this.#main_content.appendChild(homeContainer);
+            const home = new Home(homeContainer);
+            home.render();
         } else if (this.currentPage === 'login') {
-            const loginContainer = document.createElement('div')
-            this.#main_content.appendChild(loginContainer)
+            const loginContainer = document.createElement('div');
+            this.#main_content.appendChild(loginContainer);
 
-            const login = new Login(loginContainer, this)
-            login.render()
+            const login = new Login(loginContainer, this);
+            login.render();
         } else if (this.currentPage === 'signup') {
-            const signupContainer = document.createElement('div')
-            this.#main_content.appendChild(signupContainer)
+            const signupContainer = document.createElement('div');
+            this.#main_content.appendChild(signupContainer);
 
-            const signup = new Signup(signupContainer, this)
-            signup.render()
+            const signup = new Signup(signupContainer, this);
+            signup.render();
         }
 
-        this.header.render()
+        this.header.render();
 
-        return this.#container
+        return this.#container;
     }
     /**
      * Sets the current page and re-renders the application.
@@ -92,30 +92,30 @@ class App {
      * @returns {void}
      */
     setPage(page) {
-        this.currentPage = page
-        this.render()
+        this.currentPage = page;
+        this.render();
     }
     /**
      * Logs in the user, updates authorization state, and set home page.
      * @returns {void}
      */
     loginUser() {
-        this.isAuthorized = true
-        this.setPage('home')
+        this.isAuthorized = true;
+        this.setPage('home');
     }
     /**
      * Logs out the user, clears authorization state, removes token, and navigates to home.
      * @returns {void}
      */
     async logoutUser() {
-        const { success, error } = await signOut()
+        const { success, error } = await signOut();
         if (success) {
-            this.isAuthorized = false
-            this.user = null
-            this.setPage('home')
+            this.isAuthorized = false;
+            this.user = null;
+            this.setPage('home');
         }
-        return { success, error }
+        return { success, error };
     }
 }
 
-export default App
+export default App;

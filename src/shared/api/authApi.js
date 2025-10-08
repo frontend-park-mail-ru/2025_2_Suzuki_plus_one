@@ -10,18 +10,18 @@
  * @returns {Promise<Object>} Response data or throws an error
  */
 export async function login(email, password) {
-  const response = await fetch('/api/v1/auth/signin', {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+    const response = await fetch('/api/v1/auth/signin', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+    });
 
-  if (!response.ok) {
-    throw new Error(await response.text() || 'An error occurred');
-  }
+    if (!response.ok) {
+        throw new Error((await response.text()) || 'An error occurred');
+    }
 
-  return response.json();
+    return response.json();
 }

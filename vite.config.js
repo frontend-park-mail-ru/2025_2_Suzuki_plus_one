@@ -8,7 +8,7 @@ export default defineConfig({
         handlebarsPlugin({
             templateFileExtension: 'hbs',
             partialDirectoryPath: path.resolve(__dirname, 'src'),
-            optimizePartialRegistration: true, 
+            optimizePartialRegistration: true,
             compileOptions: {
                 preventIndent: true,
             },
@@ -30,7 +30,7 @@ export default defineConfig({
         assetsDir: 'assets',
     },
     server: {
-        port: 3000, 
+        port: 3000,
         open: true,
     },
 });

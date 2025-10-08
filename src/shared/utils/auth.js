@@ -6,22 +6,22 @@ export async function checkAuth() {
             headers: {
                 'Content-Type': 'application/json',
             },
-        })
+        });
 
         if (response.ok) {
-            const data = await response.json()
+            const data = await response.json();
             return {
                 isAuthorized: true,
                 user: data.user,
-            }
+            };
         } else if (response.status === 401) {
-            return { isAuthorized: false, user: null }
+            return { isAuthorized: false, user: null };
         } else {
-            throw new Error(`Unexpected response status: ${response.status}`)
+            throw new Error(`Unexpected response status: ${response.status}`);
         }
     } catch (error) {
-        // console.error('Auth check failed:', error)
-        return { isAuthorized: false, user: null }
+        console.log('Auth check failed:', error);
+        return { isAuthorized: false, user: null };
     }
 }
 
@@ -33,15 +33,15 @@ export async function signOut() {
             headers: {
                 'Content-Type': 'application/json',
             },
-        })
+        });
 
         if (response.ok) {
-            return { success: true }
+            return { success: true };
         } else {
-            throw new Error(`Unexpected response status: ${response.status}`)
+            throw new Error(`Unexpected response status: ${response.status}`);
         }
     } catch (error) {
-        console.error('Sign-out failed:', error)
-        return { success: false, error: error.message }
+        console.error('Sign-out failed:', error);
+        return { success: false, error: error.message };
     }
 }
