@@ -1,4 +1,4 @@
-import { handleHttpError } from '@shared/utils/errorHandler.js'
+import { handleHttpError } from '@shared/utils/errorHandler.js';
 /**
  * @module loginApi
  * @description Provides API calls for authentication
@@ -12,15 +12,15 @@ import { handleHttpError } from '@shared/utils/errorHandler.js'
  * @returns {Promise<Object>} Response data
  */
 export async function login(email, password, errorElement) {
-  const response = await fetch('/api/v1/auth/signin', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
+    const response = await fetch('/api/v1/auth/signin', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
 
-  await handleHttpError(response, errorElement);
-  return response.json();
+    await handleHttpError(response, errorElement);
+    return response.json();
 }
 
 /**
@@ -32,7 +32,12 @@ export async function login(email, password, errorElement) {
  * @param {HTMLElement} errorElement - The DOM element to display the error message
  * @returns {Promise<void>}
  */
-export async function submitLoginForm(email, password, appInstance, errorElement) {
-  await login(email, password, errorElement);
-  appInstance.loginUser();
+export async function submitLoginForm(
+    email,
+    password,
+    appInstance,
+    errorElement
+) {
+    await login(email, password, errorElement);
+    appInstance.loginUser();
 }

@@ -1,4 +1,4 @@
-import { handleHttpError } from '@shared/utils/errorHandler.js'
+import { handleHttpError } from '@shared/utils/errorHandler.js';
 
 /**
  * @function submitSignupForm
@@ -9,13 +9,13 @@ import { handleHttpError } from '@shared/utils/errorHandler.js'
  * @returns {Promise<void>}
  */
 export async function submitSignupForm(data, appInstance, errorDivs) {
-  const response = await fetch('/api/v1/auth/signup', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
+    const response = await fetch('/api/v1/auth/signup', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
 
-  await handleHttpError(response, errorDivs.confirmErrorDiv);
-  appInstance.loginUser();
+    await handleHttpError(response, errorDivs.confirmErrorDiv);
+    appInstance.loginUser();
 }

@@ -10,29 +10,32 @@
  * @returns {void} Updates the error element or throws an error
  */
 export async function handleHttpError(response, errorElement) {
-  let errorMessage = 'An error occurred';
+    let errorMessage = 'An error occurred';
 
-  if (response.status !== 200) {
-    const defaultMessages = {
-      400: 'Bad Request',
-      401: 'Unauthorized',
-      404: 'Not Found',
-      500: 'Internal server error',
-    };
-    errorMessage = defaultMessages[response.status] || errorMessage;
+    if (response.status !== 200) {
+        const defaultMessages = {
+            400: 'Bad Request',
+            401: 'Unauthorized',
+            404: 'Not Found',
+            500: 'Internal server error',
+        };
+        errorMessage = defaultMessages[response.status] || errorMessage;
 
-    try {
-      const data = await response.json();
-      if (data && typeof data.message === 'string' && data.message.trim()) {
-        errorMessage = data.message;
-      }
-    } catch (e) {
+        try {
+            const data = await response.json();
+            if (
+                data &&
+                typeof data.message === 'string' &&
+                data.message.trim()
+            ) {
+                errorMessage = data.message;
+            }
+        } catch (e) {}
     }
-  }
 
-  if (errorElement) {
-    errorElement.textContent = errorMessage;
-  }
+    if (errorElement) {
+        errorElement.textContent = errorMessage;
+    }
 
-  throw new Error(errorMessage);
+    throw new Error(errorMessage);
 }
