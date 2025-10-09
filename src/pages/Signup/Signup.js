@@ -3,15 +3,28 @@ import template from './Signup.hbs';
 import { submitSignupForm } from '@shared/api/signupApi.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle';
 
+/**
+ * @class Signup
+ * @description Manages the signup page, coordinating rendering, form submission, and password visibility toggle.
+ */
 class Signup {
   #parent;
   #appInstance;
 
+    /**
+   * @constructor
+   * @param {HTMLElement} parent - The parent DOM element to render the signup form into
+   * @param {Object} appInstance - The main application instance for managing state and navigation
+   */
   constructor(parent, appInstance) {
     this.#parent = parent;
     this.#appInstance = appInstance;
   }
 
+  /**
+   * @method render
+   * @description Renders the signup form, sets up form submission, and initializes password toggle.
+   */
   render() {
     this.#parent.innerHTML = template({});
 
@@ -20,6 +33,12 @@ class Signup {
     setupPasswordToggle(this.#parent);
   }
 
+  /**
+   * @method #setupFormSubmission
+   * @private
+   * @description Sets up the form submission event listener with validation.
+   * @param {HTMLFormElement} form - The signup form element
+   */
   #setupFormSubmission(form) {
     const usernameErrorDiv = this.#parent.querySelector('#usernameError');
     const emailErrorDiv = this.#parent.querySelector('#emailError');
