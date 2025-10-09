@@ -49,7 +49,7 @@ class Login {
                 try {
                     await submitLoginForm(email, password, this.#appInstance);
                 } catch (err) {
-                    passwordErrorDiv.textContent = err.message;
+                    passwordErrorDiv.textContent = err.message || 'Unexpected error';
                 }
             });
         }

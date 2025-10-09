@@ -44,38 +44,40 @@ class Signup {
      * @param {HTMLFormElement} form - The signup form element
      */
     #setupFormSubmission(form) {
-        const usernameErrorDiv = this.#parent.querySelector('#usernameError');
-        const emailErrorDiv = this.#parent.querySelector('#emailError');
-        const passwordErrorDiv = this.#parent.querySelector('#passwordError');
-        const confirmErrorDiv = this.#parent.querySelector('#confirmError');
+        const errorDivs = {
+            username: this.#parent.querySelector('#usernameError'),
+            email: this.#parent.querySelector('#emailError'),
+            password: this.#parent.querySelector('#passwordError'),
+            confirm: this.#parent.querySelector('#confirmError'),
+        };
+
+        const setError = (field, message) => {
+            if (errorDivs[field]) errorDivs[field].textContent = message;
+        };
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = form.querySelector('input[name="username"]').value;
-            const email = form.querySelector('input[name="email"]').value;
-            const password = form.querySelector('#password').value;
-            const confirmPassword =
-                form.querySelector('#confirm-password').value;
+            const fields = {
+                username: form.querySelector('input[name="username"]').value,
+                email: form.querySelector('input[name="email"]').value,
+                password: form.querySelector('#password').value,
+            };
 
-            const usernameError = validateUsername(username);
-            const emailError = validateEmail(email);
-            const passwordError = validatePassword(password);
-            const confirmError =
-                password !== confirmPassword ? 'Passwords do not match' : null;
+            const validations = {
+                username: validateUsername(fields.username),
+                email: validateEmail(fields.email),
+                password: validatePassword(fields.password),
+                confirm: fields.password !== form.querySelector('#confirm-password').value ? 'Passwords do not match' : null,
+            };
 
-            usernameErrorDiv.textContent = usernameError || '';
-            emailErrorDiv.textContent = emailError || '';
-            passwordErrorDiv.textContent = passwordError || '';
-            confirmErrorDiv.textContent = confirmError || '';
-
-            if (usernameError || emailError || passwordError || confirmError) {
-                return;
-            }
+            Object.keys(errorDivs).forEach((field) => setError(field, ''));
+            Object.entries(validations).forEach(([field, error]) => setError(field, error));
+            if (Object.values(validations).some(Boolean)) return;
 
             try {
-                await submitSignupForm({ username, email, password }, this.#appInstance);
+                await submitSignupForm(fields, this.#appInstance);
             } catch (err) {
-                confirmErrorDiv.textContent = err.message;
+                setError('confirm', err.message || 'Unexpected error');
             }
         });
     }
