@@ -3,9 +3,11 @@
  * @description Provides API calls for movie-related data
  */
 
+import { handleHttpError } from '@shared/utils/errorHandler';
+
 /**
  * Fetches the list of movies from the API
- * @returns {Promise<Array<Object>>} Array of movie objects or throws an error
+ * @returns {Promise<Array<Object>>} Array of movie objects
  */
 export async function fetchMovies() {
     const response = await fetch('/api/v1/movies', {
@@ -15,10 +17,6 @@ export async function fetchMovies() {
         },
     });
 
-    if (!response.ok) {
-        throw new Error(
-            (await response.text()) || `HTTP error. status: ${response.status}`);
-    }
-
+    await handleHttpError(response, null);
     return response.json();
 }
