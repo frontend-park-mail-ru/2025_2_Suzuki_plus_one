@@ -3,7 +3,9 @@ import Footer from '@shared/components/Footer/Footer.js';
 import Home from '@pages/Home/Home.js';
 import Login from '@pages/Login/Login.js';
 import Signup from '@pages/Signup/Signup.js';
-import { checkAuth, signOut } from '@shared/utils/auth.js';
+import { checkAuth } from '@shared/api/checkAuth.js'
+import { signOut } from '@shared/api/signOut.js';
+
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */

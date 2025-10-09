@@ -72,13 +72,11 @@ class Signup {
                 return;
             }
 
-            await submitSignupForm(
-                { username, email, password },
-                this.#appInstance,
-                {
-                    confirmErrorDiv,
-                }
-            );
+            try {
+                await submitSignupForm({ username, email, password }, this.#appInstance);
+            } catch (err) {
+                confirmErrorDiv.textContent = err.message;
+            }
         });
     }
 }

@@ -46,12 +46,11 @@ class Login {
                 const email = form.querySelector('input[type="email"]').value;
                 const password = form.querySelector('#password').value;
 
-                await submitLoginForm(
-                    email,
-                    password,
-                    this.#appInstance,
-                    passwordErrorDiv
-                );
+                try {
+                    await submitLoginForm(email, password, this.#appInstance);
+                } catch (err) {
+                    passwordErrorDiv.textContent = err.message;
+                }
             });
         }
     }

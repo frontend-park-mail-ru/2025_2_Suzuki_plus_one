@@ -26,7 +26,8 @@
     },
     "homepage": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one#readme",
     "dependencies": {
-        "handlebars": "^4.7.8"
+        "handlebars": "^4.7.8",
+        "statuses": "^2.0.2"
     },
     "devDependencies": {
         "@babel/cli": "^7.28.3",
