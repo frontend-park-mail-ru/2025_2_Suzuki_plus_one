@@ -146,3 +146,6 @@ public/js/router.js
 
 # views
 views/
+
+# precompiled templates
+templates.precompiled.js
