@@ -1,4 +1,4 @@
-import { handleHttpError } from '@shared/utils/errorHandler.js';
+import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
 /**
  * @module loginApi
  * @description Provides API calls for authentication
@@ -11,16 +11,13 @@ import { handleHttpError } from '@shared/utils/errorHandler.js';
  * @param {HTMLElement} errorElement - The DOM element to display the error message
  * @returns {Promise<Object>} Response data
  */
-export async function login(email, password, errorElement) {
-    const response = await fetch('/api/v1/auth/signin', {
+export async function login(email, password) {
+    return fetchWithErrorsHandling('/api/v1/auth/signin', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
     });
-
-    await handleHttpError(response, errorElement);
-    return response.json();
 }
 
 /**
@@ -35,9 +32,8 @@ export async function login(email, password, errorElement) {
 export async function submitLoginForm(
     email,
     password,
-    appInstance,
-    errorElement
+    appInstance
 ) {
-    await login(email, password, errorElement);
+    await login(email, password);
     appInstance.loginUser();
 }

@@ -27,6 +27,24 @@ export default defineConfig({
             '@assets': path.resolve(__dirname, 'src/shared/assets'),
         },
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `
+        @use "@shared/styles/normalize" as *;
+        @use "@shared/styles/fonts" as *;
+        @use "@shared/styles/variables" as *;
+        @use "@shared/styles/mixins" as *;
+        @use "@shared/styles/media" as *;
+        @use "@shared/styles/utils" as *;
+        @use "@shared/styles/globals" as *;
+        @use "@shared/styles/blocks/button" as *;
+        @use "@shared/styles/blocks/description" as *;
+        @use "@shared/styles/blocks/section" as *;
+      `,
+            },
+        },
+    },
     build: {
         outDir: path.resolve(__dirname, 'public/dist'),
         assetsDir: 'assets',

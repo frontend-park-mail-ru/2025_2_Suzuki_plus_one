@@ -3,7 +3,12 @@ import Footer from '@shared/components/Footer/Footer.js';
 import Home from '@pages/Home/Home.js';
 import Login from '@pages/Login/Login.js';
 import Signup from '@pages/Signup/Signup.js';
-import { checkAuth, signOut } from '@shared/utils/auth.js';
+import FilmPage from '@pages/FilmPage/FilmPage.js';
+import StarPage from '@pages/StarPage/StarPage.js';
+import Player from '@widgets/Player/Player.js';
+import { checkAuth } from '@shared/api/checkAuth.js'
+import { signOut } from '@shared/api/signOut.js';
+
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
@@ -66,7 +71,7 @@ class App {
         if (this.currentPage === 'home') {
             const homeContainer = document.createElement('div');
             this.#main_content.appendChild(homeContainer);
-            const home = new Home(homeContainer);
+            const home = new Home(homeContainer, this);
             home.render();
         } else if (this.currentPage === 'login') {
             const loginContainer = document.createElement('div');
@@ -81,8 +86,31 @@ class App {
             const signup = new Signup(signupContainer, this);
             signup.render();
         }
+        else if (this.currentPage === 'filmPage') {
+            const filmPageContainer = document.createElement('div');
+            this.#main_content.appendChild(filmPageContainer);
+
+            const filmPage = new FilmPage(filmPageContainer, this);
+            filmPage.render();
+        }
+        else if (this.currentPage === 'playerPage') {
+            const playerContainer = document.createElement('div');
+            this.#main_content.appendChild(playerContainer);
+
+            const player = new Player(playerContainer, this);
+            player.render();
+        }
+        else if (this.currentPage === 'starPage') {
+            const starPageContainer = document.createElement('div');
+            this.#main_content.appendChild(starPageContainer);
+
+            const starPage = new StarPage(starPageContainer, this);
+            starPage.render();
+        }
 
         this.header.render();
+
+        window.scrollTo({ top: 0, behavior: "instant" });
 
         return this.#container;
     }

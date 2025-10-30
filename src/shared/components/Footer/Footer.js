@@ -1,4 +1,6 @@
-import template from './Footer.hbs';
+import './styles/footer.scss'
+import template from './ui/Footer.hbs';
+
 /** Class representing the footer of the website.*/
 class Footer {
     /** @type {HTMLElement} The parent element where the footer will be rendered. */

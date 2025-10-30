@@ -1,41 +1,39 @@
-/**
- * @module errorHandler
- * @description Provides utility functions for handling HTTP errors
- */
+import statuses from 'statuses';
 
-/**
- * Handles HTTP errors and updates the error display
- * @param {Response} response - The fetch response object
- * @param {HTMLElement} errorElement - The DOM element to display the error message
- * @returns {void} Updates the error element or throws an error
- */
-export async function handleHttpError(response, errorElement) {
-    let errorMessage = 'An error occurred';
+export class HttpError extends Error {
+    constructor(status, message, data = null) {
+        super(message);
+        this.name = "HttpError";
+        this.status = status;
+        this.data = data;
+    }
+}
 
-    if (response.status !== 200) {
-        const defaultMessages = {
-            400: 'Bad Request',
-            401: 'Unauthorized',
-            404: 'Not Found',
-            500: 'Internal server error',
-        };
-        errorMessage = defaultMessages[response.status] || errorMessage;
-
-        try {
-            const data = await response.json();
-            if (
-                data &&
-                typeof data.message === 'string' &&
-                data.message.trim()
-            ) {
-                errorMessage = data.message;
-            }
-        } catch (e) {}
+export async function handleHttpError(response) {
+    let data = null;
+    try {
+        data = await response.json();
+    } catch (e) {
+        data = null;
     }
 
-    if (errorElement) {
-        errorElement.textContent = errorMessage;
+    if (!response.ok) {
+        const message = data?.message || statuses[response.status];
+        console.log(message);
+        throw new HttpError(response.status, message, data);
     }
 
-    throw new Error(errorMessage);
+    return data;
+}
+
+export async function fetchWithErrorsHandling(url, options) {
+    try {
+        const response = await fetch(url, options);
+        return await handleHttpError(response);
+    } catch (err) {
+        if (err instanceof TypeError) { 
+            throw new HttpError(0, 'Network error: could not reach server');
+        }
+        throw err;
+    }
 }

@@ -1,0 +1,54 @@
+<main class="signup__content">
+    <form class="signup__form">
+        <h2 class="signup__title">Sign Up</h2>
+        <label class="signup__label" for="email">Email</label>
+        <input class="signup__input input" id="email" type="email" placeholder="Email">
+        <div class="signup__error signup__error--email" hidden>Error message</div>
+        <label class="signup__label" for="username">Username</label>
+        <input class="signup__input input" id="username" type="text" placeholder="Username">
+        <div class="signup__error signup__error--username" hidden>Error message</div>
+        <label class="signup__label" for="password">Password</label>
+        <div class="signup__password">
+            <input class="signup__input input" id="password" type="password" placeholder="Password">
+            <button class="signup__eye" type="button" aria-label="Toggle password visibility">
+                <svg class="signup__eye-icon signup__eye-icon--open" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="signup__eye-icon signup__eye-icon--closed" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                    </path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="signup__error signup__error--password" hidden>Error message</div>
+        <label class="signup__label" for="confirm_password">Confirm Password</label>
+        <div class="signup__password">
+            <input class="signup__input input" id="confirm_password" type="password" placeholder="Confirm Password">
+            <button class="signup__eye" type="button" aria-label="Toggle password visibility">
+                <svg class="signup__eye-icon signup__eye-icon--open" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="signup__eye-icon signup__eye-icon--closed" xmlns="http://www.w3.org/2000/svg" width="24"
+                    height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                    </path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="signup__error signup__error--confirm" hidden>Error message</div>
+        <button class="signup__button button" type="submit">Sign up</button>
+    </form>
+</main>
