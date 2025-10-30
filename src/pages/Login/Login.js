@@ -1,4 +1,5 @@
-import template from './Login.hbs';
+import './styles/login.scss'
+import template from './ui/Login.hbs';
 import { submitLoginForm } from '@shared/api/loginApi.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle';
 

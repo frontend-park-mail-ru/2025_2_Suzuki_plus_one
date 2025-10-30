@@ -31,7 +31,7 @@ export async function fetchWithErrorsHandling(url, options) {
         const response = await fetch(url, options);
         return await handleHttpError(response);
     } catch (err) {
-        if (err instanceof TypeError) {
+        if (err instanceof TypeError) { 
             throw new HttpError(0, 'Network error: could not reach server');
         }
         throw err;

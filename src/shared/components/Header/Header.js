@@ -1,5 +1,9 @@
-import template from './Header.hbs';
-import logo from '@assets/logo.svg';
+import './styles/header.scss'
+import './styles/input.scss'
+import searchIcon from '@assets/images/icons/search.svg';
+import template from './ui/Header.hbs';
+import logo from '@assets/images/logo.svg';
+
 
 /** Class representing the header of the website. */
 class Header {
@@ -19,6 +23,7 @@ class Header {
     constructor(parent, appInstance) {
         this.#parent = parent;
         this.#app = appInstance;
+        this.#parent.style.setProperty('--search-icon', `url(${searchIcon})`);
     }
 
     /**
@@ -30,6 +35,7 @@ class Header {
         this.#parent.innerHTML = template({
             isAuthorized: this.#app.isAuthorized,
             logoUrl: logo,
+            searchUrl: searchIcon,
         });
 
         this.#parent

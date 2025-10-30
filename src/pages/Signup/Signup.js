@@ -3,7 +3,9 @@ import {
     validatePassword,
     validateUsername,
 } from '@shared/utils/validation';
-import template from './Signup.hbs';
+
+import './styles/signup.scss'
+import template from './ui/Signup.hbs';
 import { submitSignupForm } from '@shared/api/signupApi.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle';
 

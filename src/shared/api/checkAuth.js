@@ -2,7 +2,7 @@ import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
 
 export async function checkAuth() {
     try {
-        const data = await fetchWithErrorsHandling('http://217.16.18.125/api/v1/auth', {
+        const data = await fetchWithErrorsHandling('/api/v1/auth', {
             method: 'GET',
             credentials: 'include',
             headers: {
