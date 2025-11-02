@@ -1,4 +1,4 @@
-import './styles/star-card.scss'
+import './styles/star-card.scss';
 import template from './ui/StarCard.hbs';
 
 class StarCard {

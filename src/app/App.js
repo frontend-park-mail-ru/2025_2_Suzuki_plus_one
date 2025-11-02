@@ -1,6 +1,6 @@
 import Header from '@shared/components/Header/Header.js';
 import Footer from '@shared/components/Footer/Footer.js';
-import { checkAuth } from '@shared/api/checkAuth.js'
+import { checkAuth } from '@shared/api/checkAuth.js';
 import { signOut } from '@shared/api/signOut.js';
 
 /** Class representing the main application.
@@ -53,12 +53,11 @@ class App {
         footer.render();
     }
 
-
     renderWithContainer(mainContentContainer) {
         this.#main_content.innerHTML = '';
         this.#main_content.appendChild(mainContentContainer);
         this.header.render(); // Обновляем header (для авторизации)
-        window.scrollTo({ top: 0, behavior: "instant" });
+        window.scrollTo({ top: 0, behavior: 'instant' });
         return this.#container;
     }
 

@@ -14,8 +14,7 @@ export async function checkAuth() {
             isAuthorized: true,
             user: data.user,
         };
-     } catch (err) {
+    } catch (err) {
         return { isAuthorized: false, user: null };
     }
 }
-

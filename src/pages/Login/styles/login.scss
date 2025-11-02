@@ -1,14 +1,17 @@
 @use '@shared/styles/media';
 @use '@shared/styles/mixins';
 
-
 .login {
     &__content {
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
+        background: linear-gradient(
+            to bottom,
+            var(--color-bg),
+            var(--color-blue)
+        );
     }
 
     &__form {

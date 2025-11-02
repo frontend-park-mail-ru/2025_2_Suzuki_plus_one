@@ -1,4 +1,4 @@
-import './styles/footer.scss'
+import './styles/footer.scss';
 import template from './ui/Footer.hbs';
 
 class Footer {

@@ -14,7 +14,7 @@ function initApp() {
     const root = document.getElementById('root');
     const app = new App();
     const router = new Router(app);
-    router.init(); 
+    router.init();
 }
 
 /**

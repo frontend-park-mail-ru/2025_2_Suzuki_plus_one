@@ -1,5 +1,5 @@
-import './styles/header.scss'
-import './styles/input.scss'
+import './styles/header.scss';
+import './styles/input.scss';
 import searchIcon from '@assets/images/icons/search.svg';
 import template from './ui/Header.hbs';
 import logo from '@assets/images/logo.svg';
@@ -28,7 +28,8 @@ class Header {
                 ?.addEventListener('click', async () => {
                     await this.#app.logoutUser();
                 });
-        }}
+        }
+    }
 }
 
 export default Header;

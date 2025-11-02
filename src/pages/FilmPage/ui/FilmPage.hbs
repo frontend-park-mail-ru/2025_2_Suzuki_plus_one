@@ -1,58 +1,86 @@
-<main class="film-banner__content">
-    <section class="film-banner container">
-        <img class="film-banner__image" src="{{poster}}" alt="Interstellar" />
-        <div class="film-banner__overlay container">
-            <div class="film-banner__description">
-                <h1 class="film-banner__title">Interstellar</h1>
-                <h4 class="film-banner__text">
-                    When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is
-                    tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.
+<main class='film-banner__content'>
+    <section class='film-banner container'>
+        <img class='film-banner__image' src='{{poster}}' alt='Interstellar' />
+        <div class='film-banner__overlay container'>
+            <div class='film-banner__description'>
+                <h1 class='film-banner__title'>Interstellar</h1>
+                <h4 class='film-banner__text'>
+                    When Earth becomes uninhabitable in the future, a farmer and
+                    ex-NASA pilot, Joseph Cooper, is tasked to pilot a
+                    spacecraft, along with a team of researchers, to find a new
+                    planet for humans.
                 </h4>
-                <div class="film-banner__info">
-                    <p class="film-banner__genre">SCI-FI, drama</p>
-                    <p class="film-banner__delimiter">|</p>
-                    <p class="film-banner__country">USA</p>
+                <div class='film-banner__info'>
+                    <p class='film-banner__genre'>SCI-FI, drama</p>
+                    <p class='film-banner__delimiter'>|</p>
+                    <p class='film-banner__country'>USA</p>
                 </div>
 
-                <div class="film-banner__info">
-                    <p>IMDB: <span class="film-banner__rating">8.7</span></p>
-                    <p class="film-banner__delimiter">|</p>
-                    <p class="film-banner__year">2025</p>
-                    <p class="film-banner__delimiter">|</p>
-                    <p class="film-banner__duration">2h 49m</p>
-                    <p class="film-banner__delimiter">|</p>
-                    <p class="film-banner__age-limit">18+</p>
+                <div class='film-banner__info'>
+                    <p>IMDB: <span class='film-banner__rating'>8.7</span></p>
+                    <p class='film-banner__delimiter'>|</p>
+                    <p class='film-banner__year'>2025</p>
+                    <p class='film-banner__delimiter'>|</p>
+                    <p class='film-banner__duration'>2h 49m</p>
+                    <p class='film-banner__delimiter'>|</p>
+                    <p class='film-banner__age-limit'>18+</p>
                 </div>
 
-                <div class="film-banner__actions">
+                <div class='film-banner__actions'>
                     <a href='#' id='playerLink'>
-                        <button class="film-banner__button-play button">▶ Play</button>
+                        <button class='film-banner__button-play button'>▶ Play</button>
                     </a>
-                    <button class="film-banner__button button">Trailer</button>
-                    <a class="film-banner__button-reaction" href="/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 44 44" fill="none">
+                    <button class='film-banner__button button'>Trailer</button>
+                    <a class='film-banner__button-reaction' href='/'>
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='48'
+                            height='48'
+                            viewBox='0 0 44 44'
+                            fill='none'
+                        >
                             <path
-                                d="M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z"
-                                fill="none" />
+                                d='M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z'
+                                fill='none'
+                            />
                             <path
-                                d="M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z"
-                                stroke="none" stroke-linecap="round" />
+                                d='M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z'
+                                stroke='none'
+                                stroke-linecap='round'
+                            />
                             <path
-                                d="M17.8333 21.1667L21.1667 13.6667C21.8297 13.6667 22.4656 13.93 22.9344 14.3989C23.4033 14.8677 23.6667 15.5036 23.6667 16.1667V19.5H28.3833C28.6249 19.4973 28.8642 19.5471 29.0846 19.646C29.3051 19.7449 29.5013 19.8906 29.6599 20.0729C29.8184 20.2552 29.9354 20.4698 30.0028 20.7019C30.0701 20.9339 30.0862 21.1778 30.05 21.4167L28.9 28.9167C28.8397 29.3141 28.6379 29.6763 28.3316 29.9367C28.0253 30.197 27.6353 30.3379 27.2333 30.3333H17.8333M17.8333 21.1667V30.3333M17.8333 21.1667H15.3333C14.8913 21.1667 14.4674 21.3423 14.1548 21.6548C13.8423 21.9674 13.6667 22.3913 13.6667 22.8333V28.6667C13.6667 29.1087 13.8423 29.5326 14.1548 29.8452C14.4674 30.1577 14.8913 30.3333 15.3333 30.3333H17.8333"
-                                stroke="#F5F5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                d='M17.8333 21.1667L21.1667 13.6667C21.8297 13.6667 22.4656 13.93 22.9344 14.3989C23.4033 14.8677 23.6667 15.5036 23.6667 16.1667V19.5H28.3833C28.6249 19.4973 28.8642 19.5471 29.0846 19.646C29.3051 19.7449 29.5013 19.8906 29.6599 20.0729C29.8184 20.2552 29.9354 20.4698 30.0028 20.7019C30.0701 20.9339 30.0862 21.1778 30.05 21.4167L28.9 28.9167C28.8397 29.3141 28.6379 29.6763 28.3316 29.9367C28.0253 30.197 27.6353 30.3379 27.2333 30.3333H17.8333M17.8333 21.1667V30.3333M17.8333 21.1667H15.3333C14.8913 21.1667 14.4674 21.3423 14.1548 21.6548C13.8423 21.9674 13.6667 22.3913 13.6667 22.8333V28.6667C13.6667 29.1087 13.8423 29.5326 14.1548 29.8452C14.4674 30.1577 14.8913 30.3333 15.3333 30.3333H17.8333'
+                                stroke='#F5F5F5'
+                                stroke-width='2'
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                            />
                         </svg>
                     </a>
-                    <a class="film-banner__button-reaction" href="/">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 44 44" fill="none">
+                    <a class='film-banner__button-reaction' href='/'>
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            width='48'
+                            height='48'
+                            viewBox='0 0 44 44'
+                            fill='none'
+                        >
                             <path
-                                d="M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z"
-                                fill="none" />
+                                d='M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z'
+                                fill='none'
+                            />
                             <path
-                                d="M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z"
-                                stroke="none" stroke-linecap="round" />
+                                d='M22 0.5C33.8741 0.5 43.5 10.1259 43.5 22C43.5 33.8741 33.8741 43.5 22 43.5C10.1259 43.5 0.5 33.8741 0.5 22C0.5 10.1259 10.1259 0.5 22 0.5Z'
+                                stroke='none'
+                                stroke-linecap='round'
+                            />
                             <path
-                                d="M26.1667 22.8333L22.8333 30.3333C22.1703 30.3333 21.5344 30.0699 21.0656 29.6011C20.5967 29.1322 20.3333 28.4964 20.3333 27.8333V24.5H15.6167C15.3751 24.5027 15.1358 24.4529 14.9154 24.354C14.6949 24.255 14.4986 24.1094 14.3401 23.9271C14.1816 23.7447 14.0646 23.5301 13.9972 23.2981C13.9298 23.0661 13.9137 22.8222 13.95 22.5833L15.1 15.0833C15.1603 14.6859 15.3621 14.3236 15.6684 14.0633C15.9747 13.803 16.3647 13.6621 16.7667 13.6667H26.1667M26.1667 22.8333V13.6667M26.1667 22.8333H28.3917C28.8633 22.8417 29.3216 22.6765 29.6795 22.3693C30.0374 22.0621 30.2701 21.6341 30.3333 21.1667V15.3333C30.2701 14.8659 30.0374 14.4379 29.6795 14.1307C29.3216 13.8234 28.8633 13.6583 28.3917 13.6667H26.1667"
-                                stroke="#F5F5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                d='M26.1667 22.8333L22.8333 30.3333C22.1703 30.3333 21.5344 30.0699 21.0656 29.6011C20.5967 29.1322 20.3333 28.4964 20.3333 27.8333V24.5H15.6167C15.3751 24.5027 15.1358 24.4529 14.9154 24.354C14.6949 24.255 14.4986 24.1094 14.3401 23.9271C14.1816 23.7447 14.0646 23.5301 13.9972 23.2981C13.9298 23.0661 13.9137 22.8222 13.95 22.5833L15.1 15.0833C15.1603 14.6859 15.3621 14.3236 15.6684 14.0633C15.9747 13.803 16.3647 13.6621 16.7667 13.6667H26.1667M26.1667 22.8333V13.6667M26.1667 22.8333H28.3917C28.8633 22.8417 29.3216 22.6765 29.6795 22.3693C30.0374 22.0621 30.2701 21.6341 30.3333 21.1667V15.3333C30.2701 14.8659 30.0374 14.4379 29.6795 14.1307C29.3216 13.8234 28.8633 13.6583 28.3917 13.6667H26.1667'
+                                stroke='#F5F5F5'
+                                stroke-width='2'
+                                stroke-linecap='round'
+                                stroke-linejoin='round'
+                            />
                         </svg>
                     </a>
 
@@ -61,51 +89,62 @@
         </div>
     </section>
 
-    <section class="description container">
-        <div class="description__content">
-            <div class="description__block">
-                <h3 class="description__title">Directed by</h3>
-                <h4 class="description__text">Christopher Nolan</h4>
+    <section class='description container'>
+        <div class='description__content'>
+            <div class='description__block'>
+                <h3 class='description__title'>Directed by</h3>
+                <h4 class='description__text'>Christopher Nolan</h4>
             </div>
 
-            <div class="description__block">
-                <h3 class="description__title">Written by</h3>
-                <h4 class="description__text">Christopher Nolan, Jonathan Nolan</h4>
+            <div class='description__block'>
+                <h3 class='description__title'>Written by</h3>
+                <h4 class='description__text'>Christopher Nolan, Jonathan Nolan</h4>
             </div>
 
-            <div class="description__block">
-                <h3 class="description__title">Plot</h3>
-                <h4 class="description__text">
-                    In the near future around the American Midwest, Cooper, an ex-science engineer and pilot, is
-                    tied to his farming land with his daughter Murph and son Tom. As devastating sandstorms ravage
-                    Earth's crops, the people of Earth realize their life here is coming to an end as food begins to
-                    run out. Eventually stumbling upon a N.A.S.A. base 6 hours from Cooper's home, he is asked to go
-                    on a daring mission with a few other scientists into a wormhole because of Cooper's scientific
-                    intellect and ability to pilot aircraft unlike the other crew members. In order to find a new
-                    home while Earth decays, Cooper must decide to either stay, or risk never seeing his children
-                    again in order to save the human race by finding another habitable planet.
+            <div class='description__block'>
+                <h3 class='description__title'>Plot</h3>
+                <h4 class='description__text'>
+                    In the near future around the American Midwest, Cooper, an
+                    ex-science engineer and pilot, is tied to his farming land
+                    with his daughter Murph and son Tom. As devastating
+                    sandstorms ravage Earth's crops, the people of Earth realize
+                    their life here is coming to an end as food begins to run
+                    out. Eventually stumbling upon a N.A.S.A. base 6 hours from
+                    Cooper's home, he is asked to go on a daring mission with a
+                    few other scientists into a wormhole because of Cooper's
+                    scientific intellect and ability to pilot aircraft unlike
+                    the other crew members. In order to find a new home while
+                    Earth decays, Cooper must decide to either stay, or risk
+                    never seeing his children again in order to save the human
+                    race by finding another habitable planet.
                 </h4>
             </div>
         </div>
     </section>
 
-    <section class="stars-section container">
-        <h3 class="stars-section__title">Starring</h3>
-        <div class="stars-section__list" id="stars-section">
+    <section class='stars-section container'>
+        <h3 class='stars-section__title'>Starring</h3>
+        <div class='stars-section__list' id='stars-section'>
         </div>
     </section>
 
+    <section class='films-recommendations container'>
+        <h3 class='films-recommendations__title'>More like this</h3>
 
-    <section class="films-recommendations container">
-        <h3 class="films-recommendations__title">More like this</h3>
+        <div class='films-recommendations__wrapper'>
+            <button
+                class='films-recommendations__button films-recommendations__button--left'
+            >‹</button>
 
-        <div class="films-recommendations__wrapper">
-            <button class="films-recommendations__button films-recommendations__button--left">‹</button>
-
-            <div class="films-recommendations__list" id='recommendations-section'>
+            <div
+                class='films-recommendations__list'
+                id='recommendations-section'
+            >
             </div>
 
-            <button class="films-recommendations__button films-recommendations__button--right">›</button>
+            <button
+                class='films-recommendations__button films-recommendations__button--right'
+            >›</button>
         </div>
     </section>
 

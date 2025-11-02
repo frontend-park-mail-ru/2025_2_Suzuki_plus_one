@@ -1,14 +1,14 @@
-import './styles/hero.scss'
+import './styles/hero.scss';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import template from './ui/Home.hbs';
 import { fetchMovies } from '@shared/api/moviesApi';
-import preview from '@assets/images/film_card.png'
+import preview from '@assets/images/film_card.png';
 
 /** Class representing the Home page, displays a list of movies. */
 class Home {
     /** @type {HTMLElement} The parent element where the home page content will be rendered */
     #parent;
-    #app
+    #app;
 
     /**
      * Creates an instance of Home.
@@ -57,7 +57,15 @@ class Home {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         // const filmsData = await fetchMovies();
 
-        const filmsData = [{id:"123", title: "Interstellar", preview: preview, genres: "drama", year: "2015" }];
+        const filmsData = [
+            {
+                id: '123',
+                title: 'Interstellar',
+                preview: preview,
+                genres: 'drama',
+                year: '2015',
+            },
+        ];
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);

@@ -29,7 +29,12 @@ class FilmPage {
         // const starData = await fetchStars(this.params.id);
 
         const starData = [
-            {id: "456", star_name: "Matthew McConaughey", role_name: "Cooper", star_photo: star_photo }
+            {
+                id: '456',
+                star_name: 'Matthew McConaughey',
+                role_name: 'Cooper',
+                star_photo: star_photo,
+            },
         ];
         starData.forEach((star) => {
             const starElement = document.createElement('div');
@@ -40,9 +45,19 @@ class FilmPage {
     }
 
     renderFilms() {
-        const filmsContainer = this.#parent.querySelector('#recommendations-section');
+        const filmsContainer = this.#parent.querySelector(
+            '#recommendations-section'
+        );
 
-        const filmsData = [{id:"123", title: "Interstellar", preview: preview, genres: "drama", year: "2015" }];
+        const filmsData = [
+            {
+                id: '123',
+                title: 'Interstellar',
+                preview: preview,
+                genres: 'drama',
+                year: '2015',
+            },
+        ];
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);

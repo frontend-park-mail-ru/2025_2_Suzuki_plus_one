@@ -1,4 +1,4 @@
-import './styles/films.scss'
+import './styles/films.scss';
 import template from './ui/FilmCard.hbs';
 
 /** Class representing a Film Card */
