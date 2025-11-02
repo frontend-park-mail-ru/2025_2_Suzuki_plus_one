@@ -3,6 +3,7 @@ import Login from '@pages/Login/Login.js';
 import Signup from '@pages/Signup/Signup.js';
 import FilmPage from '@pages/FilmPage/FilmPage.js';
 import StarPage from '@pages/StarPage/StarPage.js';
+import Player from '@widgets/Player/Player.js';
 
 const routes = {
     '/': Home,
@@ -10,6 +11,7 @@ const routes = {
     '/signup': Signup,
     '/film/:id': FilmPage,
     '/star/:id': StarPage,
+    '/player': Player,
 };
 
 export class Router {
