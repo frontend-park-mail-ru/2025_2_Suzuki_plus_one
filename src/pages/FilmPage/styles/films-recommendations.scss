@@ -1,55 +1,54 @@
 .films-recommendations {
-  position: relative;
-  padding-block: var(--padding-medium);
-
-  &__title {
-    padding-bottom: var(--padding-medium);
-    text-align: center;
-  }
-
-  &__wrapper {
     position: relative;
-    display: flex;
-    align-items: center;
-  }
+    padding-block: var(--padding-medium);
 
-  &__list {
-    display: flex;
-    gap: var(--padding-large);
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-
-  &__button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    font-size: 2rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 2;
-    transition: 0.3s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    
-    &--left {
-      left: -20px;
+    &__title {
+        padding-bottom: var(--padding-medium);
+        text-align: center;
     }
 
-    &--right {
-      right: -20px;
+    &__wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
     }
-  }
+
+    &__list {
+        display: flex;
+        gap: var(--padding-large);
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    &__button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        font-size: 2rem;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 2;
+        transition: 0.3s ease;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        &--left {
+            left: -20px;
+        }
+
+        &--right {
+            right: -20px;
+        }
+    }
 }

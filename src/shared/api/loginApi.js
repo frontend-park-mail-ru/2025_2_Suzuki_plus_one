@@ -25,15 +25,7 @@ export async function login(email, password) {
  * @description Submits the login form data to the API and handles the response.
  * @param {string} email - User email
  * @param {string} password - User password
- * @param {Object} appInstance - The main application instance for state management
- * @param {HTMLElement} errorElement - The DOM element to display the error message
- * @returns {Promise<void>}
  */
-export async function submitLoginForm(
-    email,
-    password,
-    appInstance
-) {
+export async function submitLoginForm(email, password) {
     await login(email, password);
-    appInstance.loginUser();
 }

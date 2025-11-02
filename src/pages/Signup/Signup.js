@@ -4,7 +4,7 @@ import {
     validateUsername,
 } from '@shared/utils/validation';
 
-import './styles/signup.scss'
+import './styles/signup.scss';
 import template from './ui/Signup.hbs';
 import { submitSignupForm } from '@shared/api/signupApi.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle';
@@ -69,15 +69,22 @@ class Signup {
                 username: validateUsername(fields.username),
                 email: validateEmail(fields.email),
                 password: validatePassword(fields.password),
-                confirm: fields.password !== form.querySelector('#confirm-password').value ? 'Passwords do not match' : null,
+                confirm:
+                    fields.password !==
+                    form.querySelector('#confirm-password').value
+                        ? 'Passwords do not match'
+                        : null,
             };
 
             Object.keys(errorDivs).forEach((field) => setError(field, ''));
-            Object.entries(validations).forEach(([field, error]) => setError(field, error));
+            Object.entries(validations).forEach(([field, error]) =>
+                setError(field, error)
+            );
             if (Object.values(validations).some(Boolean)) return;
 
             try {
                 await submitSignupForm(fields, this.#appInstance);
+                await this.#appInstance.checkAuthOnLoad();
             } catch (err) {
                 setError('confirm', err.message || 'Unexpected error');
             }

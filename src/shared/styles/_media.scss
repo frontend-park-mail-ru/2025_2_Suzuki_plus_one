@@ -3,7 +3,6 @@ $desktop-above: 1201px;
 $tablet: 800px;
 $tablet-above: 801px;
 
-
 @mixin desktop {
     @media (max-width: $desktop) {
         @content;

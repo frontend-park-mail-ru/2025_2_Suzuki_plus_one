@@ -1,4 +1,4 @@
-import './styles/star-card.scss'
+import './styles/star-card.scss';
 import template from './ui/StarCard.hbs';
 
 class StarCard {
@@ -12,13 +12,7 @@ class StarCard {
 
     render(data) {
         this.#parent.innerHTML = template(data);
-
-        this.#parent
-            .querySelector('#starPageLink')
-            ?.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.#app.setPage('starPage');
-            });
     }
 }
+
 export default StarCard;

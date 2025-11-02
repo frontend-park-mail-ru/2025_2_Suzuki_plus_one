@@ -1,4 +1,4 @@
-import './styles/login.scss'
+import './styles/login.scss';
 import template from './ui/Login.hbs';
 import { submitLoginForm } from '@shared/api/loginApi.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle';
@@ -49,8 +49,10 @@ class Login {
 
                 try {
                     await submitLoginForm(email, password, this.#appInstance);
+                    await this.#appInstance.checkAuthOnLoad();
                 } catch (err) {
-                    passwordErrorDiv.textContent = err.message || 'Unexpected error';
+                    passwordErrorDiv.textContent =
+                        err.message || 'Unexpected error';
                 }
             });
         }

@@ -1,7 +1,12 @@
-<div class="stars-section__item">
-    <a class="stars-section__image" href="#" id='starPageLink'>
-        <img src={{star_photo}} alt={{star_name}} loading="lazy" />
+<div class='stars-section__item'>
+    <a
+        class='stars-section__image'
+        href='/star/{{id}}'
+        data-navigate
+        id='starPageLink'
+    >
+        <img src={{star_photo}} alt={{star_name}} loading='lazy' />
     </a>
-    <h4 class="stars-section__name">{{star_name}}</h4>
-    <p class="stars-section__role">{{role_name}}</p>
+    <h4 class='stars-section__name'>{{star_name}}</h4>
+    <p class='stars-section__role'>{{role_name}}</p>
 </div>
