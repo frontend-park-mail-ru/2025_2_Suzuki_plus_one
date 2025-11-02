@@ -1,10 +1,71 @@
 const CACHE_NAME = 'popfilms-v1';
 const STATIC_ASSETS = [
     '/',
-    '/assets/images/poster.png',
-    '/assets/images/star_photo.png',
-    '/assets/images/film_card.png',
-    '/assets/videos/trailer.mp4',
+    '/src/app/index.html',
+    '/src/app/main.js',
+    '/src/app/App.js',
+    '/src/app/navigation/router.js',
+
+    '/src/app/styles/auth.css',
+    '/src/app/styles/base.css',
+    '/src/app/styles/footer.css',
+    '/src/app/styles/header.css',
+    '/src/app/styles/index.css',
+    '/src/app/styles/movies.css',
+
+    '/src/pages/Home/Home.js',
+    '/src/pages/Login/Login.js',
+    '/src/pages/Signup/Signup.js',
+    '/src/pages/FilmPage/FilmPage.js',
+    '/src/pages/StarPage/StarPage.js',
+
+    '/src/features/FilmCard/FilmCard.js',
+    '/src/features/StarCard/StarCard.js',
+
+    '/src/widgets/Player/Player.js',
+    '/src/widgets/Player/js/player-controls.js',
+
+    '/src/shared/components/Header/Header.js',
+    '/src/shared/components/Footer/Footer.js',
+
+    '/src/shared/utils/errorHandler.js',
+    '/src/shared/utils/validation.js',
+    '/src/shared/ui/passwordToggle.js',
+
+    '/src/shared/api/checkAuth.js',
+    '/src/shared/api/loginApi.js',
+    '/src/shared/api/signupApi.js',
+    '/src/shared/api/signOut.js',
+    '/src/shared/api/moviesApi.js',
+
+    '/src/shared/assets/images/poster.png',
+    '/src/shared/assets/images/star_photo.png',
+    '/src/shared/assets/images/film_card.png',
+    '/src/shared/assets/images/film_card2.png',
+    '/src/shared/assets/images/logo.svg',
+    '/src/shared/assets/images/user-icon.svg',
+    '/src/shared/assets/images/hero_bg.svg',
+    '/src/shared/assets/images/bg_picture.svg',
+
+    '/src/shared/assets/images/icons/play_icon.svg',
+    '/src/shared/assets/images/icons/pause_icon.svg',
+    '/src/shared/assets/images/icons/volume_icon.svg',
+    '/src/shared/assets/images/icons/mute.svg',
+    '/src/shared/assets/images/icons/full_screen.svg',
+    '/src/shared/assets/images/icons/exit_full_screen.svg',
+    '/src/shared/assets/images/icons/thumb_up.svg',
+    '/src/shared/assets/images/icons/thumb_down.svg',
+    '/src/shared/assets/images/icons/search.svg',
+    '/src/shared/assets/images/icons/menu.svg',
+    '/src/shared/assets/images/icons/chevron_down.svg',
+    '/src/shared/assets/images/icons/generic_avatar.svg',
+
+    '/src/shared/assets/videos/trailer.mp4',
+
+    '/src/shared/assets/fonts/Akshar-Bold.woff2',
+    '/src/shared/assets/fonts/Akshar-Regular.woff2',
+
+    '/src/shared/assets/favicon.ico',
 ];
 
 const API_ENDPOINTS = [
