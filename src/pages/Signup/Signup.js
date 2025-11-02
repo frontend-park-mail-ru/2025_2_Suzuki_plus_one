@@ -78,6 +78,7 @@ class Signup {
 
             try {
                 await submitSignupForm(fields, this.#appInstance);
+                await this.#appInstance.checkAuthOnLoad();
             } catch (err) {
                 setError('confirm', err.message || 'Unexpected error');
             }

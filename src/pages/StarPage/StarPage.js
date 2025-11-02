@@ -8,29 +8,26 @@ class StarPage {
     #parent;
     #app;
 
-    constructor(parent, appInstance) {
+    constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
+        this.params = params;
     }
 
     render() {
         this.#parent.innerHTML = template({ star_photo });
-        initBiographyToggle(this.#parent);
-
-        this.#parent.querySelector('#filmPage')
-            ?.addEventListener('click', async (e) => {
-                e.preventDefault();
-                await this.#app.setPage('filmPage');
-            });
-
         this.renderFilms();
+    }
+
+    afterRender() {
+        initBiographyToggle(this.#parent);
     }
 
     renderFilms() {
         const filmsContainer = this.#parent.querySelector('#recommendations-section');
-        //   const filmsData = await fetchMovies();
+        // const filmsData = await fetchMoviesForStar(this.params.id);
 
-        const filmsData = [{ title: "Interstellar", preview: preview, genres: "drama", year: "2015" }]
+        const filmsData = [{id: "123", title: "Interstellar", preview: preview, genres: "drama", year: "2015" }];
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);

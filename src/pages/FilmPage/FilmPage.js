@@ -12,32 +12,24 @@ class FilmPage {
     #parent;
     #app;
 
-    constructor(parent, appInstance) {
+    constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
+        this.params = params;
     }
 
     render() {
         this.#parent.innerHTML = template({ poster });
         this.renderStarCards();
         this.renderFilms();
-
-        this.#parent
-            .querySelector('#playerLink')
-            ?.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.#app.setPage('playerPage');
-            });
     }
 
     renderStarCards() {
         const starsContainer = this.#parent.querySelector('#stars-section');
-        //    const filmsData = await fetchMovies();
-
-        //    console.log('Ответ от API:', filmsData);
+        // const starData = await fetchStars(this.params.id);
 
         const starData = [
-            { star_name: "Matthew McConaughey", role_name: "Cooper", star_photo: star_photo }
+            {id: "456", star_name: "Matthew McConaughey", role_name: "Cooper", star_photo: star_photo }
         ];
         starData.forEach((star) => {
             const starElement = document.createElement('div');
@@ -50,7 +42,7 @@ class FilmPage {
     renderFilms() {
         const filmsContainer = this.#parent.querySelector('#recommendations-section');
 
-        const filmsData = [{ title: "Interstellar", preview: preview, genres: "drama", year: "2015" }]
+        const filmsData = [{id:"123", title: "Interstellar", preview: preview, genres: "drama", year: "2015" }];
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);

@@ -10,8 +10,7 @@ export async function signup(data) {
     });
 }
 
-export async function submitSignupForm(data, appInstance) {
+export async function submitSignupForm(data) {
     await signup(data);
-    appInstance.loginUser();
 }
 

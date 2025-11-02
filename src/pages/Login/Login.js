@@ -49,6 +49,7 @@ class Login {
 
                 try {
                     await submitLoginForm(email, password, this.#appInstance);
+                    await this.#appInstance.checkAuthOnLoad();
                 } catch (err) {
                     passwordErrorDiv.textContent = err.message || 'Unexpected error';
                 }

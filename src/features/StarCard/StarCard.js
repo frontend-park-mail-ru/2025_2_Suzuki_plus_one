@@ -12,13 +12,7 @@ class StarCard {
 
     render(data) {
         this.#parent.innerHTML = template(data);
-
-        this.#parent
-            .querySelector('#starPageLink')
-            ?.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.#app.setPage('starPage');
-            });
     }
 }
+
 export default StarCard;
