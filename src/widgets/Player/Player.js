@@ -13,7 +13,7 @@ class Player {
         this.#parent = parent;
         this.#app = appInstance;
         this.#filmId = params.filmId;
-}
+    }
 
     async render() {
         // todo потом вставить что-то такое когда ручки готовы будут

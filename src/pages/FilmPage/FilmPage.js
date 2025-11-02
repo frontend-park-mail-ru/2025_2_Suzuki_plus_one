@@ -20,9 +20,9 @@ class FilmPage {
 
     render() {
         const filmId = this.params.id;
-        this.#parent.innerHTML = template({ 
+        this.#parent.innerHTML = template({
             poster,
-            id: filmId
+            id: filmId,
         });
         this.renderStarCards();
         this.renderFilms();
