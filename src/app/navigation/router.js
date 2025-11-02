@@ -11,7 +11,7 @@ const routes = {
     '/signup': Signup,
     '/film/:id': FilmPage,
     '/star/:id': StarPage,
-    '/player': Player,
+    '/player/:filmId': Player,
 };
 
 export class Router {

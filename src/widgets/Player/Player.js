@@ -7,13 +7,22 @@ import poster from '@assets/images/poster.png';
 class Player {
     #parent;
     #app;
+    #filmId;
 
-    constructor(parent, appInstance) {
+    constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
-    }
+        this.#filmId = params.filmId;
+}
 
-    render() {
+    async render() {
+        // todo потом вставить что-то такое когда ручки готовы будут
+        // const film = await this.fetchFilm(this.#filmId);
+        // this.#parent.innerHTML = template({
+        //     video: film.videoUrl,
+        //     poster: film.poster,
+        // });
+
         this.#parent.innerHTML = template({ video, poster });
         requestAnimationFrame(() => {
             initPlayerControls();

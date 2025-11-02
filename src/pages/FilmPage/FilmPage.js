@@ -19,7 +19,11 @@ class FilmPage {
     }
 
     render() {
-        this.#parent.innerHTML = template({ poster });
+        const filmId = this.params.id;
+        this.#parent.innerHTML = template({ 
+            poster,
+            id: filmId
+        });
         this.renderStarCards();
         this.renderFilms();
     }
