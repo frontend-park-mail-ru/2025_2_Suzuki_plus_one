@@ -40,7 +40,7 @@ class Home {
      * @private
      */
     setupPlayButton() {
-        const playButton = this.#parent.querySelector('.btn.play');
+        const playButton = this.#parent.querySelector('.hero__button.button');
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
 
         if (playButton && filmsContainer) {
