@@ -6,7 +6,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
+        padding-bottom: 5%;
+        min-height: 79vh;
         background: linear-gradient(
             to bottom,
             var(--color-bg),
@@ -16,7 +17,7 @@
 
     &__form {
         width: 440px;
-        min-height: 450px;
+        min-height: 350px;
         padding: var(--padding-large);
         background-color: var(--color-bg);
         border-radius: var(--border-radius);
@@ -53,7 +54,7 @@
         position: absolute;
         top: 50%;
         right: var(--padding-medium);
-        transform: translateY(-50%);
+        transform: translateY(-40%);
         color: var(--color-light-gray);
 
         svg {
