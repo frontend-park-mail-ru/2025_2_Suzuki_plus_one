@@ -109,15 +109,13 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(
             fetch(request).catch(() => {
                 console.log('SW: API offline — using cache');
-                return caches
-                    .match(request)
-                    .then(
-                        (response) =>
-                            response ||
-                            new Response('Offline — no cached data', {
-                                status: 503,
-                            })
-                    );
+                return caches.match(request).then(
+                    (response) =>
+                        response ||
+                        new Response('Offline — no cached data', {
+                            status: 503,
+                        })
+                );
             })
         );
         return;

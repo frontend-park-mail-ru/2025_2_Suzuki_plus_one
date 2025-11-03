@@ -28,6 +28,49 @@ class FilmPage {
         this.renderFilms();
     }
 
+    afterRender() {
+        this.setupScrollButtons();
+    }
+
+    setupScrollButtons() {
+        const list = this.#parent.querySelector('#recommendations-section');
+        const leftBtn = this.#parent.querySelector(
+            '.films-recommendations__button--left'
+        );
+        const rightBtn = this.#parent.querySelector(
+            '.films-recommendations__button--right'
+        );
+
+        if (!list || !leftBtn || !rightBtn) return;
+
+        const scrollAmount = 300;
+
+        leftBtn.addEventListener('click', () => {
+            list.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth',
+            });
+        });
+
+        rightBtn.addEventListener('click', () => {
+            list.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth',
+            });
+        });
+
+        const updateButtons = () => {
+            leftBtn.style.opacity = list.scrollLeft <= 0 ? '0.5' : '1';
+            rightBtn.style.opacity =
+                list.scrollLeft >= list.scrollWidth - list.clientWidth - 10
+                    ? '0.5'
+                    : '1';
+        };
+
+        list.addEventListener('scroll', updateButtons);
+        updateButtons();
+    }
+
     renderStarCards() {
         const starsContainer = this.#parent.querySelector('#stars-section');
         // const starData = await fetchStars(this.params.id);
