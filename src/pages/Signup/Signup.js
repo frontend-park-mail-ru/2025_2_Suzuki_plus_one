@@ -62,7 +62,7 @@ class Signup {
             const fields = {
                 username: form.querySelector('input[name="username"]').value,
                 email: form.querySelector('input[name="email"]').value,
-                password: form.querySelector('#password').value,
+                password: form.querySelector('input[name="password"]').value,
             };
 
             const validations = {
@@ -71,7 +71,7 @@ class Signup {
                 password: validatePassword(fields.password),
                 confirm:
                     fields.password !==
-                    form.querySelector('#confirm-password').value
+                    form.querySelector('input[name="confirm_password"]').value
                         ? 'Passwords do not match'
                         : null,
             };
