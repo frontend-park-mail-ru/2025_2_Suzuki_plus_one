@@ -12,8 +12,5 @@ import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
 export async function fetchMovies() {
     return fetchWithErrorsHandling('/api/v1/movies', {
         method: 'GET',
-        headers: {
-            Accept: 'application/json',
-        },
     });
 }
