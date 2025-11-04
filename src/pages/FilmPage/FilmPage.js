@@ -7,25 +7,56 @@ import star_photo from '@assets/images/star_photo.png';
 import StarCard from '@features/StarCard/StarCard.js';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
+import { fetchFilm } from '@shared/api/moviesApi.js';
 
 class FilmPage {
     #parent;
     #app;
+    #filmId;
 
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
         this.params = params;
+        this.#filmId = params.id;
     }
 
-    render() {
-        const filmId = this.params.id;
-        this.#parent.innerHTML = template({
-            poster,
-            id: filmId,
-        });
-        this.renderStarCards();
-        this.renderFilms();
+async render() {
+        try {
+            const film = await fetchFilm(this.#filmId);
+            const genres = film.genres ? film.genres.join(', ').toLowerCase() : '';
+            const year = film.release_date ? film.release_date.split('-')[0] : '';
+            const duration = this.#formatDuration(film.duration_minutes);
+            const poster = film.posters && film.posters.length > 0 ? film.posters[0] : '';
+
+            this.#parent.innerHTML = template({
+                id: film.id,
+                poster: poster,
+                title: film.title || 'Unknown',
+                description: film.description || '',
+                genres: genres,
+                country: film.country || '',
+                rating: film.rating ? film.rating.toFixed(1) : '—',
+                release_date: year,
+                duration: duration,
+                age_rating: film.age_rating ? `${film.age_rating}+` : '—',
+                plot_summary: film.plot_summary || film.description || '',
+            });
+
+            this.renderStarCards();
+            this.renderFilms();
+            this.afterRender();
+        } catch (err) {
+            this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
+            console.error('Failed to load film:', err);
+        }
+    }
+
+    #formatDuration(minutes) {
+        if (!minutes) return '—';
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        return `${h}h ${m > 0 ? m + 'm' : ''}`.trim();
     }
 
     afterRender() {
@@ -83,6 +114,9 @@ class FilmPage {
                 star_photo: star_photo,
             },
         ];
+        
+        starsContainer.innerHTML = '';
+        
         starData.forEach((star) => {
             const starElement = document.createElement('div');
             starsContainer.appendChild(starElement);
@@ -95,6 +129,7 @@ class FilmPage {
         const filmsContainer = this.#parent.querySelector(
             '#recommendations-section'
         );
+        // const filmsData = await fetchStars(this.params.id);
 
         const filmsData = [
             {
@@ -105,6 +140,9 @@ class FilmPage {
                 year: '2015',
             },
         ];
+        
+        filmsContainer.innerHTML = '';
+        
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);

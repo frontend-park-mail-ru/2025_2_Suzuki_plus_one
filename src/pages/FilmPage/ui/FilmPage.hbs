@@ -1,29 +1,26 @@
 <main class='film-banner__content'>
     <section class='film-banner container'>
-        <img class='film-banner__image' src='{{poster}}' alt='Interstellar' />
+        <img class='film-banner__image' src='{{poster}}' alt='{{title}}' />
         <div class='film-banner__overlay container'>
             <div class='film-banner__description'>
-                <h1 class='film-banner__title'>Interstellar</h1>
+                <h1 class='film-banner__title'>{{title}}</h1>
                 <h4 class='film-banner__text'>
-                    When Earth becomes uninhabitable in the future, a farmer and
-                    ex-NASA pilot, Joseph Cooper, is tasked to pilot a
-                    spacecraft, along with a team of researchers, to find a new
-                    planet for humans.
+                    {{description}}
                 </h4>
                 <div class='film-banner__info'>
-                    <p class='film-banner__genre'>SCI-FI, drama</p>
+                    <p class='film-banner__genre'>{{genres}}</p>
                     <p class='film-banner__delimiter'>|</p>
-                    <p class='film-banner__country'>USA</p>
+                    <p class='film-banner__country'>{{country}}</p>
                 </div>
 
                 <div class='film-banner__info'>
-                    <p>IMDB: <span class='film-banner__rating'>8.7</span></p>
+                    <p>IMDB: <span class='film-banner__rating'>{{rating}}</span></p>
                     <p class='film-banner__delimiter'>|</p>
-                    <p class='film-banner__year'>2025</p>
+                    <p class='film-banner__year'>{{release_date}}</p>
                     <p class='film-banner__delimiter'>|</p>
-                    <p class='film-banner__duration'>2h 49m</p>
+                    <p class='film-banner__duration'>{{duration}}</p>
                     <p class='film-banner__delimiter'>|</p>
-                    <p class='film-banner__age-limit'>18+</p>
+                    <p class='film-banner__age-limit'>{{age_rating}}</p>
                 </div>
 
                 <div class='film-banner__actions'>
@@ -112,19 +109,7 @@
             <div class='description__block'>
                 <h3 class='description__title'>Plot</h3>
                 <h4 class='description__text'>
-                    In the near future around the American Midwest, Cooper, an
-                    ex-science engineer and pilot, is tied to his farming land
-                    with his daughter Murph and son Tom. As devastating
-                    sandstorms ravage Earth's crops, the people of Earth realize
-                    their life here is coming to an end as food begins to run
-                    out. Eventually stumbling upon a N.A.S.A. base 6 hours from
-                    Cooper's home, he is asked to go on a daring mission with a
-                    few other scientists into a wormhole because of Cooper's
-                    scientific intellect and ability to pilot aircraft unlike
-                    the other crew members. In order to find a new home while
-                    Earth decays, Cooper must decide to either stay, or risk
-                    never seeing his children again in order to save the human
-                    race by finding another habitable planet.
+                    {{plot_summary}}
                 </h4>
             </div>
         </div>

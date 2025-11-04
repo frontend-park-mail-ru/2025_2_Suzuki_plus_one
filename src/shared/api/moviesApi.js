@@ -14,3 +14,9 @@ export async function fetchMovies() {
         method: 'GET',
     });
 }
+
+export async function fetchFilm(filmId) {
+        return await fetchWithErrorsHandling(`/api/v1/movies/${filmId}`, {
+            method: 'GET',
+        });
+    }
