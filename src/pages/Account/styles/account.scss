@@ -9,6 +9,7 @@
         justify-content: center;
         min-height: 100vh;
         background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
+        padding-bottom: var(--padding-medium);
     }
 
     &__form {
