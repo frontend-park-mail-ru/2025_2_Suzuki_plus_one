@@ -4,11 +4,14 @@ import Signup from '@pages/Signup/Signup.js';
 import FilmPage from '@pages/FilmPage/FilmPage.js';
 import StarPage from '@pages/StarPage/StarPage.js';
 import Player from '@widgets/Player/Player.js';
+import Account from '@pages/Account/Account.js';
 
 const routes = {
     '/': Home,
     '/login': Login,
     '/signup': Signup,
+    '/account/settings': Account,
+    '/account/security': Account,
     '/film/:id': FilmPage,
     '/star/:id': StarPage,
     '/player/:filmId': Player,
