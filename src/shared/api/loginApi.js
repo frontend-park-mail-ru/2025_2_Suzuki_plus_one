@@ -14,8 +14,6 @@ import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
 export async function login(email, password) {
     return fetchWithErrorsHandling('/api/v1/auth/signin', {
         method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
     });
 }

@@ -1,15 +1,12 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
+import { clearAccessToken } from '@shared/utils/auth.js';
 
 export async function signOut() {
     try {
         await fetchWithErrorsHandling('/api/v1/auth/signout', {
             method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
         });
-
+        clearAccessToken();
         return { success: true };
     } catch (error) {
         console.error('Sign-out failed:', error);
