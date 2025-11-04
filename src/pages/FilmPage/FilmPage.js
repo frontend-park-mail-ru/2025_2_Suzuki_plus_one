@@ -44,8 +44,6 @@ async render() {
             });
 
             this.renderStarCards();
-            this.renderFilms();
-            this.afterRender();
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
@@ -122,32 +120,6 @@ async render() {
             starsContainer.appendChild(starElement);
             const starCard = new StarCard(starElement, this.#app);
             starCard.render(star);
-        });
-    }
-
-    renderFilms() {
-        const filmsContainer = this.#parent.querySelector(
-            '#recommendations-section'
-        );
-        // const filmsData = await fetchStars(this.params.id);
-
-        const filmsData = [
-            {
-                id: '123',
-                title: 'Interstellar',
-                preview: preview,
-                genres: 'drama',
-                year: '2015',
-            },
-        ];
-        
-        filmsContainer.innerHTML = '';
-        
-        filmsData.forEach((film) => {
-            const filmElement = document.createElement('div');
-            filmsContainer.appendChild(filmElement);
-            const filmCard = new FilmCard(filmElement, this.#app);
-            filmCard.render(film);
         });
     }
 }
