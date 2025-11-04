@@ -33,28 +33,5 @@ class StarPage {
     afterRender() {
         initBiographyToggle(this.#parent);
     }
-
-    renderFilms() {
-        const filmsContainer = this.#parent.querySelector(
-            '#recommendations-section'
-        );
-        // const filmsData = await fetchMoviesForStar(this.params.id);
-
-        const filmsData = [
-            {
-                id: '123',
-                title: 'Interstellar',
-                preview: preview,
-                genres: 'drama',
-                year: '2015',
-            },
-        ];
-        filmsData.forEach((film) => {
-            const filmElement = document.createElement('div');
-            filmsContainer.appendChild(filmElement);
-            const filmCard = new FilmCard(filmElement, this.#app);
-            filmCard.render(film);
-        });
-    }
 }
 export default StarPage;
