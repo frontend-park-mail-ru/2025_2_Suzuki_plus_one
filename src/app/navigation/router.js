@@ -5,16 +5,23 @@ import FilmPage from '@pages/FilmPage/FilmPage.js';
 import StarPage from '@pages/StarPage/StarPage.js';
 import Player from '@widgets/Player/Player.js';
 import Account from '@pages/Account/Account.js';
+import NotFound from '@pages/NotFound/NotFound.js';
 
 const routes = {
     '/': Home,
     '/login': Login,
     '/signup': Signup,
-    '/account/settings': Account,
-    '/account/security': Account,
+
+    '/account/:tab': Account,
+
     '/film/:id': FilmPage,
     '/star/:id': StarPage,
     '/player/:filmId': Player,
+
+    '/series': '/',
+    '/films': '/',
+
+    '*': NotFound,
 };
 
 export class Router {
@@ -43,13 +50,17 @@ export class Router {
     }
 
     matchRoute(pathname) {
+        if (routes[pathname] === '/') {
+            return { Page: routes['/'], params: {} };
+        }
+
         for (const route in routes) {
             const params = this.getParams(route, pathname);
             if (params !== null) {
                 return { Page: routes[route], params };
             }
         }
-        return null;
+        return { Page: routes['*'], params: {} };
     }
 
     async navigate(pathname = window.location.pathname) {

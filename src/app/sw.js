@@ -19,6 +19,7 @@ const STATIC_ASSETS = [
     '/src/pages/FilmPage/FilmPage.js',
     '/src/pages/StarPage/StarPage.js',
     '/src/pages/Account/Account.js',
+    '/src/pages/NotFound/NotFound.js',
 
     '/src/features/FilmCard/FilmCard.js',
     '/src/features/StarCard/StarCard.js',
