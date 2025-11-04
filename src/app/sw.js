@@ -18,6 +18,7 @@ const STATIC_ASSETS = [
     '/src/pages/Signup/Signup.js',
     '/src/pages/FilmPage/FilmPage.js',
     '/src/pages/StarPage/StarPage.js',
+    '/src/pages/Account/Account.js',
 
     '/src/features/FilmCard/FilmCard.js',
     '/src/features/StarCard/StarCard.js',
@@ -59,6 +60,8 @@ const STATIC_ASSETS = [
     '/src/shared/assets/images/icons/menu.svg',
     '/src/shared/assets/images/icons/chevron_down.svg',
     '/src/shared/assets/images/icons/generic_avatar.svg',
+    '/src/shared/assets/images/icons/pencil-white.svg',
+    '/src/shared/assets/images/icons/camera-white.svg',
 
     '/src/shared/assets/videos/trailer.mp4',
 
