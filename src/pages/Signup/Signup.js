@@ -54,7 +54,11 @@ class Signup {
         };
 
         const setError = (field, message) => {
-            if (errorDivs[field]) errorDivs[field].textContent = message;
+            const errorEl = this.#parent.querySelector(`#${field}Error`);
+                if (errorEl) {
+                    errorEl.textContent = message || '';
+                    errorEl.style.display = message ? 'block' : 'none';
+                }
         };
 
         form.addEventListener('submit', async (e) => {

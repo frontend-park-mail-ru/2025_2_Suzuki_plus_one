@@ -9,7 +9,7 @@
             type='email'
             placeholder='Email'
         />
-        <div class='signup__error signup__error--email' hidden>Error message</div>
+        <div class='signup__error signup__error--email' id='emailError' hidden>Error message</div>
         <label class='signup__label' for='username'>Username</label>
         <input
             class='signup__input input'
@@ -18,7 +18,7 @@
             type='text'
             placeholder='Username'
         />
-        <div class='signup__error signup__error--username' hidden>Error message</div>
+        <div class='signup__error signup__error--username' id='usernameError' hidden>Error message</div>
         <label class='signup__label' for='password'>Password</label>
         <div class='signup__password'>
             <input
@@ -70,7 +70,7 @@
                 </svg>
             </button>
         </div>
-        <div class='signup__error signup__error--password' hidden>Error message</div>
+        <div class='signup__error signup__error--password' id='passwordError' hidden>Error message</div>
         <label class='signup__label' for='confirm_password'>Confirm Password</label>
         <div class='signup__password'>
             <input
@@ -122,7 +122,7 @@
                 </svg>
             </button>
         </div>
-        <div class='signup__error signup__error--confirm' hidden>Error message</div>
+        <div class='signup__error signup__error--confirm' id='confirmError' hidden>Error message</div>
         <button class='signup__button button' type='submit'>Sign up</button>
     </form>
 </main>
