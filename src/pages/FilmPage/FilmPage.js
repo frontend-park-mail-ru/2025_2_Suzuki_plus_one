@@ -45,7 +45,6 @@ async render() {
 
             this.renderStarCards();
             this.renderFilms();
-            this.afterRender();
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
