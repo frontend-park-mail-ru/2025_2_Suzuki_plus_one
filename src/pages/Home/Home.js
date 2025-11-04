@@ -53,19 +53,19 @@ class Home {
         }
     }
 
-    renderMovies() {
+    async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
-        // const filmsData = await fetchMovies();
+        const filmsData = await fetchMovies();
 
-        const filmsData = [
-            {
-                id: '123',
-                title: 'Interstellar',
-                preview: preview,
-                genres: 'drama',
-                year: '2015',
-            },
-        ];
+        // const filmsData = [
+        //     {
+        //         id: '123',
+        //         title: 'Interstellar',
+        //         preview: preview,
+        //         genres: 'drama',
+        //         year: '2015',
+        //     },
+        // ];
         filmsData.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);
