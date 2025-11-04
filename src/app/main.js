@@ -2,7 +2,7 @@
  * @module main
  * @description Entry point, initializes SPA + manages rendering
  */
-import App from '@app/App.js';
+import App from './App.js';
 import { Router } from '@app/navigation/router.js';
 
 if ('serviceWorker' in navigator) {
