@@ -5,6 +5,7 @@ export async function signOut() {
     try {
         await fetchWithErrorsHandling('/api/v1/auth/signout', {
             method: 'GET',
+            credentials: 'include',
         });
         clearAccessToken();
         return { success: true };
