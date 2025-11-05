@@ -21,7 +21,7 @@ class FilmPage {
         this.#filmId = params.id;
     }
 
-async render() {
+    async render() {
         try {
             const film = await fetchFilm(this.#filmId);
             const genres = film.genres ? film.genres.join(', ').toLowerCase() : '';
@@ -43,7 +43,7 @@ async render() {
                 plot_summary: film.plot_summary || film.description || '',
             });
 
-            this.renderStarCards();
+            this.renderStarCards(film);
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
@@ -100,28 +100,52 @@ async render() {
         updateButtons();
     }
 
-    renderStarCards() {
+    async renderStarCards(film) {
         const starsContainer = this.#parent.querySelector('#stars-section');
         // const starData = await fetchStars(this.params.id);
+        // const response = await fetchStars(this.params.id);
 
-        const starData = [
-            {
-                id: '456',
-                star_name: 'Matthew McConaughey',
-                role_name: 'Cooper',
-                star_photo: star_photo,
-            },
-        ];
-        
+        const starData = film.actors;
+
+
+        // const starData = [
+        //     {
+        //         id: '456',
+        //         star_name: 'Matthew McConaughey',
+        //         role_name: 'Cooper',
+        //         star_photo: star_photo,
+        //     },
+        // ];
+
         starsContainer.innerHTML = '';
-        
-        starData.forEach((star) => {
+
+        // starData.forEach((star) => {
+        //     const starElement = document.createElement('div');
+        //     starsContainer.appendChild(starElement);
+        //     const starCard = new StarCard(starElement, this.#app);
+        //     starCard.render(star);
+        // });
+
+        starData.forEach((actor) => {
             const starElement = document.createElement('div');
             starsContainer.appendChild(starElement);
+
             const starCard = new StarCard(starElement, this.#app);
-            starCard.render(star);
+
+            const photo =
+                actor.image_urls && actor.image_urls.length > 0
+                    ? actor.image_urls[0]
+                    : star_photo;
+
+            starCard.render({
+                id: actor.id,
+                star_name: actor.name,
+                role_name: '',
+                star_photo: photo,
+            });
         });
     }
+
 }
 
 export default FilmPage;

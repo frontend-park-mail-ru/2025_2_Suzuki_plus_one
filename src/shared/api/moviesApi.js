@@ -10,13 +10,15 @@ import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
  * @returns {Promise<Array<Object>>} Array of movie objects
  */
 export async function fetchMovies() {
-    return fetchWithErrorsHandling('/api/v1/movies', {
+    return fetchWithErrorsHandling('/api/v1/movie/recommendations?limit=2', {
+        //   return fetchWithErrorsHandling('http://217.16.18.125/api/v1/movie/recommendations?limit=2', {
         method: 'GET',
     });
 }
 
 export async function fetchFilm(filmId) {
-        return await fetchWithErrorsHandling(`/api/v1/movies/${filmId}`, {
-            method: 'GET',
-        });
-    }
+    return await fetchWithErrorsHandling(`/api/v1/media/${filmId}`, {
+        //   return await fetchWithErrorsHandling(`http://217.16.18.125/api/v1/media/${filmId}`, {
+        method: 'GET',
+    });
+}

@@ -55,7 +55,14 @@ class Home {
 
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
-        const filmsData = await fetchMovies();
+        const response = await fetchMovies();
+        const films = response.movies.map(film => ({
+            id: film.media_id,
+            title: film.title,
+            genres: film.genres ? film.genres.join(', ').toLowerCase() : '',
+            release_date: film.release_date.substr(0, 4),
+            poster: film.posters[0],
+        }));
 
         // const filmsData = [
         //     {
@@ -66,7 +73,7 @@ class Home {
         //         year: '2015',
         //     },
         // ];
-        filmsData.forEach((film) => {
+        films.forEach((film) => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);
             const filmCard = new FilmCard(filmElement, this.#app);
