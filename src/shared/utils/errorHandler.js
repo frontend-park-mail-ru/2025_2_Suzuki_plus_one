@@ -49,7 +49,7 @@ export async function fetchWithErrorsHandling(url, options = {}) {
         const data = await handleHttpError(response);
 
         if (data?.accessToken) {
-            setAccessToken(data.accessToken);
+            setAccessToken(data.access_token);
         }
 
         return data;
@@ -64,7 +64,7 @@ export async function fetchWithErrorsHandling(url, options = {}) {
                 if (!refreshResponse.ok) throw new Error('Refresh failed');
 
                 const refreshData = await refreshResponse.json();
-                const newToken = refreshData.accessToken;
+                const newToken = refreshData.access_token;
 
                 if (!newToken) throw new Error('No access token in refresh');
 

@@ -41,21 +41,23 @@ class Login {
         const form = this.#parent.querySelector('#login-form');
         const passwordErrorDiv = this.#parent.querySelector('#passwordError');
 
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = form.querySelector('input[type="email"]').value;
-                const password = form.querySelector('#password').value;
+        form?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = form.querySelector('input[type="email"]').value.trim();
+            const password = form.querySelector('#password').value;
 
-                try {
-                    await submitLoginForm(email, password, this.#appInstance);
-                    await this.#appInstance.checkAuthOnLoad();
-                } catch (err) {
-                    passwordErrorDiv.textContent =
-                        err.message || 'Unexpected error';
+            try {
+                const data = await submitLoginForm(email, password);
+
+                if (data?.access_token) {
+                    this.#appInstance.loginUser(data.access_token);
+                } else {
+                    throw new Error('No access token received');
                 }
-            });
-        }
+            } catch (err) {
+                passwordErrorDiv.textContent = err.message || 'Login failed';
+            }
+        });
     }
 }
 
