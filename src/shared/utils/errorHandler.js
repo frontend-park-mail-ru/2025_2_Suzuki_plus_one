@@ -48,7 +48,7 @@ export async function fetchWithErrorsHandling(url, options = {}) {
         const response = await fetch(url, finalOptions);
         const data = await handleHttpError(response);
 
-        if (data?.accessToken) {
+        if (data?.access_token) {
             setAccessToken(data.access_token);
         }
 
