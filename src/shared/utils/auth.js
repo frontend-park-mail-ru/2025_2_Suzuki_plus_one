@@ -23,7 +23,7 @@ export const isTokenValid = () => {
 
 export const refreshAccessToken = async () => {
     try {
-        const response = await fetch('/api/v1/refresh', {
+        const response = await fetch('/api/v1/auth/refresh', {
             method: 'GET',
             credentials: 'include',
         });
