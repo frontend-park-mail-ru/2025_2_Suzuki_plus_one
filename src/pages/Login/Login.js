@@ -49,6 +49,9 @@ class Login {
 
                 try {
                     const result = await submitLoginForm(email, password);
+                    console.log(`data prishla na login`);
+                    console.log(result);
+                    console.log(result.access_token);
                     if (result?.access_token) {
                         this.#appInstance.loginUser(result.access_token);
                     }

@@ -88,6 +88,9 @@ class Signup {
 
             try {
                 const data = await submitSignupForm(fields);
+                console.log(`data prishla na signup`);
+                console.log(data);
+                console.log(data.access_token)
                 if (data?.access_token) {
                     this.#appInstance.loginUser(data.access_token);
                 } else {
