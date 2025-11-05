@@ -26,5 +26,6 @@ export async function login(email, password) {
  */
 export async function submitLoginForm(email, password) {
     const data = await login(email, password);
+    console.log(data);
     return data;
 }

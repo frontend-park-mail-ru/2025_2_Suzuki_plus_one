@@ -87,8 +87,12 @@ class Signup {
             if (Object.values(validations).some(Boolean)) return;
 
             try {
-                await submitSignupForm(fields, this.#appInstance);
-                await this.#appInstance.checkAuthOnLoad();
+                const data = await submitSignupForm(fields);
+                if (data?.access_token) {
+                    this.#appInstance.loginUser(data.access_token);
+                } else {
+                    throw new Error('Registration failed: no token');
+                }
             } catch (err) {
                 setError('confirm', err.message || 'Unexpected error');
             }

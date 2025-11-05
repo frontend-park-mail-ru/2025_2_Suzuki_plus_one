@@ -8,5 +8,7 @@ export async function signup(data) {
 }
 
 export async function submitSignupForm(data) {
-    await signup(data);
+    const data = await signup(data);
+    console.log(data);
+    return data;
 }
