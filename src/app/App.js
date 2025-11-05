@@ -31,7 +31,20 @@ class App {
         this.user = null;
         this.setUp();
         this.restoreSession();
-        this.checkAuthOnLoad();
+        // this.checkAuthOnLoad();
+    }
+
+    async restoreSession() {
+        try {
+            const token = await refreshAccessToken();
+            this.isAuthorized = true;
+        } catch {
+            this.isAuthorized = false;
+            this.user = null;
+            clearAccessToken();
+        }
+
+        window.dispatchEvent(new PopStateEvent('popstate'));
     }
 
     checkAuthOnLoad() {
