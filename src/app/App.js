@@ -5,6 +5,7 @@ import {
     isTokenValid,
     clearAccessToken,
     refreshAccessToken,
+    setAccessToken
 } from '@shared/utils/auth.js';
 import { signOut } from '@shared/api/signOut.js';
 
@@ -77,7 +78,7 @@ class App {
     loginUser(token) {
         setAccessToken(token); 
         this.isAuthorized = true;
-        this.user = this.getUserFromToken();
+        // this.user = this.getUserFromToken();
 
         window.history.pushState({}, '', '/');
         window.dispatchEvent(new PopStateEvent('popstate'));
