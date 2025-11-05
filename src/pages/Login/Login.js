@@ -48,8 +48,10 @@ class Login {
                 const password = form.querySelector('#password').value;
 
                 try {
-                    await submitLoginForm(email, password, this.#appInstance);
-                    await this.#appInstance.checkAuthOnLoad();
+                    const result = await submitLoginForm(email, password, this.#appInstance);
+                    if (result?.access_token) {
+                        this.#appInstance.loginUser(result.access_token);
+                    }
                 } catch (err) {
                     passwordErrorDiv.textContent =
                         err.message || 'Unexpected error';

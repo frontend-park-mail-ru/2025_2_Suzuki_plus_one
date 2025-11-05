@@ -75,8 +75,10 @@ class App {
      * @returns {void}
      */
     loginUser(token) {
-        setAccessToken(token);
-        this.checkAuthOnLoad();
+        setAccessToken(token); 
+        this.isAuthorized = true;
+        this.user = this.getUserFromToken();
+
         window.history.pushState({}, '', '/');
         window.dispatchEvent(new PopStateEvent('popstate'));
     }
