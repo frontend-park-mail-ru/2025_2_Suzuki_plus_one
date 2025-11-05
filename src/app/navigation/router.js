@@ -15,7 +15,7 @@ const routes = {
     '/account/:tab': Account,
 
     '/film/:id': FilmPage,
-    '/star/:id': StarPage,
+    '/actor/:id': StarPage,
     '/player/:filmId': Player,
 
     '/series': '/',

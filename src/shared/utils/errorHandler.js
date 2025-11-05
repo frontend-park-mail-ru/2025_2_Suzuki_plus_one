@@ -2,6 +2,7 @@ import statuses from 'statuses';
 import { getAccessToken, setAccessToken, clearAccessToken } from './auth.js';
 
 const API_BASE = '/api/v1';
+// const API_BASE = 'http://217.16.18.125/api/v1';
 
 export class HttpError extends Error {
     constructor(status, message, data = null) {

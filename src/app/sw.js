@@ -108,6 +108,15 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
 
+    if (
+        request.url.startsWith('chrome-extension://') ||
+        request.url.startsWith('chrome-devtools://') ||
+        request.url.startsWith('ws://') ||
+        request.url.startsWith('wss://')
+    ) {
+        return;
+    }
+
     // кэш апи Network First
     if (API_ENDPOINTS.some((endpoint) => url.pathname.startsWith(endpoint))) {
         event.respondWith(
