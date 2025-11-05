@@ -1,6 +1,11 @@
 import Header from '@shared/components/Header/Header.js';
 import Footer from '@shared/components/Footer/Footer.js';
-import { checkAuth } from '@shared/api/checkAuth.js';
+import {
+    getAccessToken,
+    isTokenValid,
+    clearAccessToken,
+    refreshAccessToken,
+} from '@shared/utils/auth.js';
 import { signOut } from '@shared/api/signOut.js';
 
 /** Class representing the main application.
@@ -27,11 +32,15 @@ class App {
         this.checkAuthOnLoad();
     }
 
-    async checkAuthOnLoad() {
-        const { isAuthorized, user } = await checkAuth();
-        this.isAuthorized = isAuthorized;
-        this.user = user;
-    }
+    checkAuthOnLoad() {
+            if (isTokenValid()) {
+                this.isAuthorized = true;
+            } else {
+                this.isAuthorized = false;
+                this.user = null;
+                clearAccessToken();
+            }
+        }
 
     /**
      * Sets up the header and footer components and appends them to the container.
@@ -65,8 +74,9 @@ class App {
      * Logs in the user, updates authorization state, and set home page.
      * @returns {void}
      */
-    loginUser() {
-        this.isAuthorized = true;
+    loginUser(token) {
+        setAccessToken(token);
+        this.checkAuthOnLoad();
         window.history.pushState({}, '', '/');
         window.dispatchEvent(new PopStateEvent('popstate'));
     }
