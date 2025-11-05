@@ -30,6 +30,7 @@ class App {
         this.isAuthorized = false;
         this.user = null;
         this.setUp();
+        this.restoreSession();
         this.checkAuthOnLoad();
     }
 
@@ -76,6 +77,7 @@ class App {
      * @returns {void}
      */
     loginUser(token) {
+        console.log('here in login User')
         setAccessToken(token); 
         this.isAuthorized = true;
         // this.user = this.getUserFromToken();
