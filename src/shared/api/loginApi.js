@@ -25,5 +25,6 @@ export async function login(email, password) {
  * @param {string} password - User password
  */
 export async function submitLoginForm(email, password) {
-    await login(email, password);
+    const data = await login(email, password);
+    return data;
 }
