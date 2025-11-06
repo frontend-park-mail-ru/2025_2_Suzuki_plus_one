@@ -90,11 +90,8 @@ class App {
      * @returns {void}
      */
     loginUser(token) {
-        console.log('here in login User')
         setAccessToken(token); 
         this.isAuthorized = true;
-        // this.user = this.getUserFromToken();
-
         window.history.pushState({}, '', '/');
         window.dispatchEvent(new PopStateEvent('popstate'));
     }

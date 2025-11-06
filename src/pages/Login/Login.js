@@ -47,17 +47,18 @@ class Login {
                 const email = form.querySelector('input[type="email"]').value;
                 const password = form.querySelector('#password').value;
 
+                passwordErrorDiv.textContent = '';
+                passwordErrorDiv.hidden = true;
+
                 try {
                     const result = await submitLoginForm(email, password);
-                    console.log(`data prishla na login`);
-                    console.log(result);
-                    console.log(result.access_token);
                     if (result?.access_token) {
                         this.#appInstance.loginUser(result.access_token);
                     }
                 } catch (err) {
                     passwordErrorDiv.textContent =
                         err.message || 'Unexpected error';
+                    passwordErrorDiv.hidden = false;
                 }
             });
         }
