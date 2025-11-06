@@ -1,14 +1,8 @@
 import Header from '@shared/components/Header/Header.js';
 import Footer from '@shared/components/Footer/Footer.js';
-import {
-    getAccessToken,
-    isTokenValid,
-    clearAccessToken,
-    refreshAccessToken,
-    setAccessToken
-} from '@shared/utils/auth.js';
+import {getAccessToken, isTokenValid, clearAccessToken, refreshAccessToken, setAccessToken} from '@shared/utils/auth.js';
 import { signOut } from '@shared/api/signOut.js';
-
+import {getUserInfo} from '@shared/api/userApi.js'
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
@@ -38,6 +32,7 @@ class App {
         try {
             const token = await refreshAccessToken();
             this.isAuthorized = true;
+            await this.updateUserInfo();
         } catch {
             this.isAuthorized = false;
             this.user = null;
@@ -80,7 +75,7 @@ class App {
     renderWithContainer(mainContentContainer) {
         this.#main_content.innerHTML = '';
         this.#main_content.appendChild(mainContentContainer);
-        this.header.render(); // Обновляем header (для авторизации)
+        this.header.render();
         window.scrollTo({ top: 0, behavior: 'instant' });
         return this.#container;
     }
@@ -92,6 +87,7 @@ class App {
     loginUser(token) {
         setAccessToken(token); 
         this.isAuthorized = true;
+        this.updateUserInfo();
         window.history.pushState({}, '', '/');
         window.dispatchEvent(new PopStateEvent('popstate'));
     }
@@ -109,6 +105,21 @@ class App {
             window.dispatchEvent(new PopStateEvent('popstate'));
         }
         return { success, error };
+    }
+
+    async updateUserInfo() {
+        try {
+            const userInfo = await getUserInfo();
+            this.user = userInfo;
+            this.isAuthorized = true;
+            this.header.render();
+        } catch (err) {
+            console.error('Failed to fetch user info:', err);
+            this.isAuthorized = false;
+            this.user = null;
+            clearAccessToken();
+            this.header.render();
+        }
     }
 }
 

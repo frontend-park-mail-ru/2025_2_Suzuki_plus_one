@@ -86,4 +86,36 @@
             }
         }
     }
+    
+    &__user {
+        display: flex;
+        align-items: center;
+        gap: var(--padding-small);
+        color: white;
+        font-weight: 500;
+    }
+
+    &__avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--color-grey-light);
+
+        &--placeholder {
+            background: var(--color-grey);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+
+    &__username {
+        @include media.tablet {
+            display: none;
+        }
+    }
 }

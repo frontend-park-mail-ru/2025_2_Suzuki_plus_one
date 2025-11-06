@@ -5,6 +5,14 @@
         {{! <input class='header__input input' type='text' placeholder='Search' /> }}
         <div class='header__auth'>
             {{#if isAuthorized}}
+                <div class="header__user">
+                    {{#if user.avatar_url}}
+                        <img src="{{user.avatar_url}}" alt="{{user.username}}" class="header__avatar" />
+                    {{else}}
+                        <div class="header__avatar header__avatar--placeholder"></div>
+                    {{/if}}
+                    <span class="header__username">{{user.username}}</span>
+                </div>
                 <button
                     class='header__auth-button button'
                     type='button'

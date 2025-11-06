@@ -20,6 +20,7 @@ class Header {
             isAuthorized: this.#app.isAuthorized,
             logoUrl: logo,
             searchUrl: searchIcon,
+            user: this.#app.user,
         });
 
         if (this.#app.isAuthorized) {
