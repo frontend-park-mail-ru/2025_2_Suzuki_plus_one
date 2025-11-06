@@ -57,7 +57,7 @@ class Login {
                     }
                 } catch (err) {
                     passwordErrorDiv.textContent =
-                        err.message || 'Unexpected error';
+                        err.details || 'Unexpected error';
                     passwordErrorDiv.hidden = false;
                 }
             });
