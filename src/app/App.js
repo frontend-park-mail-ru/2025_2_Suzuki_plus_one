@@ -32,7 +32,7 @@ class App {
         try {
             const token = await refreshAccessToken();
             this.isAuthorized = true;
-            await this.updateUserInfo();
+            this.updateUserInfo();
         } catch {
             this.isAuthorized = false;
             this.user = null;
