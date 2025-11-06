@@ -1,7 +1,7 @@
 <main class="account__content">
     <form class="account__form">
         <div class="account__avatar">
-            <img class="account__avatar-image" src="{{data.photo}}" alt="User avatar" width="100" height="100">
+            <img class="account__avatar-image" src="{{data.avatar_url}}" alt="User avatar" width="100" height="100">
             <button class="account__avatar-edit" type="button" aria-label="Edit avatar">
                 <img class="account__avatar-icon" src="{{camera_icon}}" alt="Edit avatar" width="24"
                     height="24">
@@ -9,31 +9,31 @@
         </div>
         <label class="account__label" for="name">Name</label>
         <div class="account__input-wrapper">
-            <input class="account__input input" id="name" type="text" placeholder="Your name">
+            <input class="account__input input" id="name" type="text" placeholder="Your name" value="{{data.name}}">
             <img class="account__input-icon" src="{{pencil_icon}}" alt="Edit" width="24" height="24">
         </div>
         <div class="account__error account__error--name" hidden>Error message</div>
         <label class="account__label" for="username">Username</label>
         <div class="account__input-wrapper">
-            <input class="account__input input" id="username" type="text" placeholder="Your username">
+            <input class="account__input input" id="username" type="text" placeholder="Your username" value="{{data.username}}">
             <img class="account__input-icon" src="{{pencil_icon}}" alt="Edit" width="24" height="24">
         </div>
         <div class="account__error account__error--username" hidden>Error message</div>
         <label class="account__label" for="email">Email</label>
         <div class="account__input-wrapper">
-            <input class="account__input input" id="email" type="email" placeholder="Your email">
+            <input class="account__input input" id="email" type="email" placeholder="Your email" value="{{data.email}}">
             <img class="account__input-icon" src="{{pencil_icon}}" alt="Edit" width="24" height="24">
         </div>
         <div class="account__error account__error--email" hidden>Error message</div>
         <label class="account__label" for="birthdate">Date of birth</label>
         <div class="account__input-wrapper">
-            <input class="account__input input" id="birthdate" type="text" placeholder="Your date of birth">
+            <input class="account__input input" id="birthdate" type="date" value="{{data.date_of_birth}}">
             <img class="account__input-icon" src="{{pencil_icon}}" alt="Edit" width="24" height="24">
         </div>
         <div class="account__error account__error--birthdate" hidden>Error message</div>
         <label class="account__label" for="phone">Phone</label>
         <div class="account__input-wrapper">
-            <input class="account__input input" id="phone" type="tel" placeholder="Your phone number">
+            <input class="account__input input" id="phone" type="tel" placeholder="Your phone number" value="{{data.phone_number}}">
             <img class="account__input-icon" src="{{pencil_icon}}" alt="Edit" width="24" height="24">
         </div>
         <div class="account__error account__error--phone" hidden>Error message</div>

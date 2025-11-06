@@ -6,23 +6,32 @@ export async function getUserInfo() {
     });
 }
 
-export async function setUserInfo() {
+export async function updateUserProfile(data) {
     return fetchWithErrorsHandling('/api/v1/user/me/update', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
 }
 
-export async function setUserAvatar() {
+export async function uploadUserAvatar(file) {
+    const formData = new FormData();
+    formData.append('avatar', file);
+
     return fetchWithErrorsHandling('/api/v1/user/me/update/avatar', {
         method: 'POST',
-        body: JSON.stringify(data),
+        body: formData,
     });
 }
 
-export async function setUserPassword() {
+export async function updateUserPassword(data) {
     return fetchWithErrorsHandling('/api/v1/user/me/update/password', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
     });
 }

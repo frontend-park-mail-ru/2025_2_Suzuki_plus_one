@@ -5,7 +5,7 @@
         {{! <input class='header__input input' type='text' placeholder='Search' /> }}
         <div class='header__auth'>
             {{#if isAuthorized}}
-                <div class="header__user">
+                <div class="header__user" data-navigate="/account/settings">
                     {{#if user.avatar_url}}
                         <img src="{{user.avatar_url}}" alt="{{user.username}}" class="header__avatar" />
                     {{else}}
