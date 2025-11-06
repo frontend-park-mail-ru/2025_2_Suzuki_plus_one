@@ -59,7 +59,7 @@ class Home {
         const films = response.movies.map(film => ({
             id: film.media_id,
             title: film.title,
-            genres: film.genres ? film.genres.join(', ').toLowerCase() : '',
+            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
             release_date: film.release_date.substr(0, 4),
             poster: film.posters[0],
         }));
