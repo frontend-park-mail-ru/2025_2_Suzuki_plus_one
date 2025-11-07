@@ -5,7 +5,7 @@ import securityTemplate from './ui/Security.hbs';
 import pencil_icon from '@assets/images/icons/pencil-white.svg';
 import camera_icon from '@assets/images/icons/camera-white.svg';
 import Tabs from '@shared/components/Tabs/Tabs.js';
-import { updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
+import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
 import { validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
 
