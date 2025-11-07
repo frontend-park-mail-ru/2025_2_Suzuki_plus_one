@@ -1,0 +1,40 @@
+@use '../media';
+@use '../mixins';
+
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: url('../images/hero_bg.svg') center/cover no-repeat;
+
+    &__content {
+        padding-block: var(--padding-large);
+        text-align: center;
+        gap: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__button {
+        border-radius: var(--border-radius-large);
+        min-width: 100px;
+        min-height: var(--button-height);
+        background-color: white;
+        color: var(--color-bg);
+        text-align: center;
+        @include mixins.fluid-text(32, 16);
+
+        @include media.tablet {
+            min-width: 0px;
+            min-height: 0px;
+            padding-inline: var(--padding-medium);
+        }
+
+        @include media.hover {
+            background-color: var(--color-light-grey);
+        }
+    }
+}
