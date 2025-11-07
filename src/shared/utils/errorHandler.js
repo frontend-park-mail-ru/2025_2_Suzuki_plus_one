@@ -33,13 +33,16 @@ export async function handleHttpError(response) {
 export async function fetchWithErrorsHandling(url, options = {}) {
     const token = getAccessToken();
     const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+    const isFormData = options.body instanceof FormData;
 
     const finalOptions = {
         ...options,
         headers: {
             ...authHeaders,
             ...options.headers,
-            ...(options.headers?.['Content-Type'] ? {} : { 'Content-Type': 'application/json' }),
+            ...(isFormData || options.headers?.['Content-Type']
+                ? {} 
+                : { 'Content-Type': 'application/json' }),
         },
         credentials: 'include',
     };
