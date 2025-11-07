@@ -133,6 +133,25 @@ class FilmPage {
             });
         });
     }
+
+    #setupPlayButton() {
+        const playButton = this.#parent.querySelector('.film-banner__button-play');
+        if (!playButton) return;
+
+        playButton.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            try {
+                const media = await fetchMedia(this.#filmId);
+                const mediaUrl = media.url;
+
+                this.#app.navigate(`/player/${this.#filmId}`, { mediaUrl });
+
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    }
 }
 
 export default FilmPage;
