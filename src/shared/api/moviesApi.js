@@ -10,7 +10,7 @@ import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
  * @returns {Promise<Array<Object>>} Array of movie objects
  */
 export async function fetchMovies() {
-    return fetchWithErrorsHandling('/api/v1/movie/recommendations?limit=2', {
+    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=movie&limit=2', {
         //   return fetchWithErrorsHandling('http://217.16.18.125/api/v1/movie/recommendations?limit=2', {
         method: 'GET',
     });
