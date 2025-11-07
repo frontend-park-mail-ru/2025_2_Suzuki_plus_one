@@ -79,7 +79,7 @@ class Account {
 
         const avatarInput = document.createElement('input');
         avatarInput.type = 'file';
-        avatarInput.accept = 'image/*';
+        avatarInput.accept = 'image/png,image/jpeg,image/jpg';
         avatarInput.style.display = 'none';
         form.appendChild(avatarInput);
 
@@ -92,6 +92,22 @@ class Account {
             const file = avatarInput.files[0];
             if (!file) return;
 
+            const validTypes = ['image/png', 'image/jpeg'];
+            const fileType = file.type;
+
+            if (!validTypes.includes(fileType)) {
+                this.#showError('avatar', 'Please select a PNG or JPEG image');
+                avatarInput.value = '';
+                return;
+            }
+
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                this.#showError('avatar', 'Image must be less than 5 MB');
+                avatarInput.value = '';
+                return;
+            }
+            
             try {
                 const result = await uploadUserAvatar(file);
                 this.user.avatar_url = result.avatar_url;

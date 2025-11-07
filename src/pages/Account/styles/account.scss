@@ -115,4 +115,11 @@
         width: 100%;
         height: 54px;
     }
+
+    &__error--avatar {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #ef4444;
+    text-align: center;
+    }
 }
