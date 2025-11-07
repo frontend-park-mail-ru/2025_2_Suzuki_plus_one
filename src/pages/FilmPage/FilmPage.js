@@ -24,7 +24,7 @@ class FilmPage {
     async render() {
         try {
             const film = await fetchFilm(this.#filmId);
-            const genres = film.genres ? film.genres.join(', ').toLowerCase() : '';
+            const genres = film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '';
             const year = film.release_date ? film.release_date.split('-')[0] : '';
             const duration = this.#formatDuration(film.duration_minutes);
             const poster = film.posters && film.posters.length > 0 ? film.posters[0] : '';
