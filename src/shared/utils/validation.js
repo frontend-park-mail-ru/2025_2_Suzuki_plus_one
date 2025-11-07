@@ -101,3 +101,26 @@ export function validateUsername(username) {
 
     return null;
 }
+
+
+/**
+ * @function validatePhone
+ * @description Validates phone number (E.164 format: +[country code][number])
+ * @param {string} phone - The phone input
+ * @returns {string|null} Error message or null if valid
+ */
+export function validatePhone(phone) {
+    if (!phone) return 'Phone number is required';
+    const purePhone = purifyInputString(phone).trim();
+
+    if (purePhone !== phone)
+        return 'Phone contains invalid characters (< > ; \' " `)';
+
+    if (!/^\+[0-9]{1,15}$/.test(purePhone))
+        return 'Phone must be in format: +1234567890 (up to 15 digits)';
+
+    if (purePhone.length < 4 || purePhone.length > 16)
+        return 'Phone number must be between 4 and 16 characters';
+
+    return null;
+}
