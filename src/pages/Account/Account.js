@@ -6,7 +6,8 @@ import pencil_icon from '@assets/images/icons/pencil-white.svg';
 import camera_icon from '@assets/images/icons/camera-white.svg';
 import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
-import { validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
+import { validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
+import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
 
 class Account {
     #parent;
@@ -72,8 +73,65 @@ class Account {
 
         if (this.activeTab === 'settings'){
             this.#setupSettingsForm();
-        }
+        } else if (this.activeTab === 'security') {
+        this.#setupSecurityForm();
     }
+    }
+
+    #setupSecurityForm() {
+        const form = this.#parent.querySelector('.security__form');
+        if (!form) return;
+
+        setupPasswordToggle(form);
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            this.#clearErrors();
+
+            const oldPassword = form.querySelector('#old_password').value;
+            const newPassword = form.querySelector('#new_password').value;
+            const repeatPassword = form.querySelector('#repeat_password').value;
+
+            const errors = {};
+
+            if (!oldPassword) {
+                errors.old = 'Old password is required';
+            }
+
+            const newPassError = validatePassword(newPassword);
+            if (newPassError) {
+                errors.new = newPassError;
+            }
+
+            if (newPassword !== repeatPassword) {
+                errors.repeat = 'Passwords do not match';
+            }
+
+            if (Object.keys(errors).length > 0) {
+                Object.entries(errors).forEach(([field, msg]) => {
+                    this.#showError(`password_${field}`, msg);
+                });
+                return;
+            }
+
+            try {
+                await updateUserPassword({
+                    old_password: oldPassword,
+                    new_password: newPassword,
+                });
+
+                form.reset();
+                this.#showSuccess('Password changed successfully!');
+            } catch (err) {
+                if (err.status === 401 || err.message.toLowerCase().includes('old')) {
+                    this.#showError('password_old', 'Incorrect old password');
+                } else {
+                    this.#showError('form', err.message || 'Failed to change password');
+                }
+            }
+        });
+    }
+
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
         if (!form) return;
@@ -183,7 +241,9 @@ class Account {
     }
 
     #showError(field, message) {
-        const errorEl = this.#parent.querySelector(`.account__error--${field}`);
+        const errorEl = this.#parent.querySelector(
+            `.account__error--${field}, .security__error--${field}`
+        );
         if (errorEl) {
             errorEl.textContent = message;
             errorEl.hidden = false;
