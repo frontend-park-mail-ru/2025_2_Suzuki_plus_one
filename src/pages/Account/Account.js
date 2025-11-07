@@ -84,49 +84,66 @@ class Account {
 
         setupPasswordToggle(form);
 
+        const errorDivs = {
+            old: this.#parent.querySelector('#oldError'),
+            new: this.#parent.querySelector('#newError'),
+            repeat: this.#parent.querySelector('#repeatError'),
+        };
+
+        const setError = (field, message) => {
+            const errorEl = this.#parent.querySelector(`#${field}Error`);
+            if (errorEl) {
+                errorEl.textContent = message || '';
+                errorEl.style.display = message ? 'block' : 'none';
+            }
+        };
+
+        const clearErrors = () => {
+            Object.values(errorDivs).forEach(el => {
+                if (el) {
+                    el.textContent = '';
+                    el.style.display = 'none';
+                }
+            });
+        };
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            this.#clearErrors();
+            clearErrors();
 
             const oldPassword = form.querySelector('#old_password').value;
             const newPassword = form.querySelector('#new_password').value;
             const repeatPassword = form.querySelector('#repeat_password').value;
 
-            const errors = {};
+            const validations = {
+                old: !oldPassword ? 'Old password is required' : null,
+                new: validatePassword(newPassword),
+                repeat: newPassword !== repeatPassword ? 'Passwords do not match' : null,
+            };
 
-            if (!oldPassword) {
-                errors.old = 'Old password is required';
-            }
+            let hasError = false;
+            Object.entries(validations).forEach(([field, error]) => {
+                if (error) {
+                    setError(field, error);
+                    hasError = true;
+                }
+            });
 
-            const newPassError = validatePassword(newPassword);
-            if (newPassError) {
-                errors.new = newPassError;
-            }
-
-            if (newPassword !== repeatPassword) {
-                errors.repeat = 'Passwords do not match';
-            }
-
-            if (Object.keys(errors).length > 0) {
-                Object.entries(errors).forEach(([field, msg]) => {
-                    this.#showError(`password_${field}`, msg);
-                });
-                return;
-            }
+            if (hasError) return;
 
             try {
                 await updateUserPassword({
-                    old_password: oldPassword,
+                    current_password: oldPassword,
                     new_password: newPassword,
                 });
 
                 form.reset();
                 this.#showSuccess('Password changed successfully!');
             } catch (err) {
-                if (err.status === 401 || err.message.toLowerCase().includes('old')) {
-                    this.#showError('password_old', 'Incorrect old password');
+                if (err.status === 401 || err.message?.toLowerCase().includes('current')) {
+                    setError('old', 'Incorrect old password');
                 } else {
-                    this.#showError('form', err.message || 'Failed to change password');
+                    setError('repeat', err.message || 'Failed to change password');
                 }
             }
         });
