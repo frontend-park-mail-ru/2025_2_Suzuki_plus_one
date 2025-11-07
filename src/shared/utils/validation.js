@@ -42,6 +42,9 @@ export function validateEmail(email) {
     if (!domain.includes('.')) {
         return 'Domain must contain a dot';
     }
+    if (localPart.length < 3) {
+        return 'Local part of the email is too short (minimum 3 characters)'
+    }
 
     return null;
 }
