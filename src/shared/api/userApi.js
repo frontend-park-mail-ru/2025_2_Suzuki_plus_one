@@ -22,9 +22,9 @@ export async function uploadUserAvatar(file) {
 
     return fetchWithErrorsHandling('/api/v1/user/me/update/avatar', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+        // headers: {
+        //     'Content-Type': 'multipart/form-data',
+        // },
         body: formData,
     });
 }
