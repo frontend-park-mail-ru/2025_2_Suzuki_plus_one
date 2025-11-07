@@ -93,6 +93,17 @@
         gap: var(--padding-small);
         color: white;
         font-weight: 500;
+        text-decoration: none; 
+        border-radius: 8px;
+        padding: 4px 8px; 
+        transition: background 0.2s ease;
+
+        @include media.hover {
+            background: rgba(255, 255, 255, 0.1);
+            .header__avatar {
+                transform: scale(1.05);
+            }
+        }
     }
 
     &__avatar {
