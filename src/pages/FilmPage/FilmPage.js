@@ -8,6 +8,7 @@ import StarCard from '@features/StarCard/StarCard.js';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
+import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 
 class FilmPage {
     #parent;
@@ -43,7 +44,7 @@ class FilmPage {
                 plot_summary: film.plot_summary || film.description || '',
             });
 
-            this.renderStarCards(film);
+            this.renderStarCards();
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
@@ -100,31 +101,18 @@ class FilmPage {
         updateButtons();
     }
 
-    async renderStarCards(film) {
+    async renderStarCards() {
         const starsContainer = this.#parent.querySelector('#stars-section');
-        // const starData = await fetchStars(this.params.id);
-        // const response = await fetchStars(this.params.id);
 
-        const starData = film.actors;
-
-
-        // const starData = [
-        //     {
-        //         id: '456',
-        //         star_name: 'Matthew McConaughey',
-        //         role_name: 'Cooper',
-        //         star_photo: star_photo,
-        //     },
-        // ];
+        const data = await fetchStarsByFilmId(this.params.id);
+        const starData = data.actors;
 
         starsContainer.innerHTML = '';
 
-        // starData.forEach((star) => {
-        //     const starElement = document.createElement('div');
-        //     starsContainer.appendChild(starElement);
-        //     const starCard = new StarCard(starElement, this.#app);
-        //     starCard.render(star);
-        // });
+        if (!starData || starData.length === 0) {
+            starsContainer.innerHTML = '<p>Actors not found</p>';
+            return;
+        }
 
         starData.forEach((actor) => {
             const starElement = document.createElement('div');
@@ -145,7 +133,6 @@ class FilmPage {
             });
         });
     }
-
 }
 
 export default FilmPage;
