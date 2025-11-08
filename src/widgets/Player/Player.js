@@ -3,7 +3,7 @@ import template from './ui/Player.hbs';
 import { initPlayerControls } from './js/player-controls.js';
 import video from '@assets/videos/trailer.mp4';
 import poster from '@assets/images/poster.png';
-import { fetchMedia } from '@shared/api/moviesApi.js'; 
+import { fetchTrailer } from '@shared/api/trailerApi.js';
 
 class Player {
     #parent;
@@ -13,7 +13,7 @@ class Player {
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
-        this.#filmId = params.filmId || params.id;;
+        this.#filmId = params.id;
     }
 
     async render() {
@@ -23,27 +23,28 @@ class Player {
         //     video: film.videoUrl,
         //     poster: film.poster,
         // });
-        let videoUrl = null;
 
-        const state = this.#app.currentState;
-        if (state?.mediaUrl) {
-            videoUrl = state.mediaUrl;
-        } else if (this.#filmId) {
-            try {
-                const media = await fetchMedia(this.#filmId);
-                videoUrl = media.url;
-            } catch (err) {
-                console.error('Failed to fetch media:', err);
-                this.#parent.innerHTML = '<p style="color: red; text-align: center;">Video not available</p>';
+        const film = await fetchTrailer(this.#filmId);
+        const videoUrl = film.trailers && film.trailers.length > 0 
+                ? film.trailers[0] 
+                : null;
+
+            const posterUrl = film.posters && film.posters.length > 0 
+                ? film.posters[0] 
+                : poster;
+
+            if (!videoUrl) {
+                this.#parent.innerHTML = '<p style="text-align:center; color:red;">Trailer not available</p>';
                 return;
             }
-        }
-        
-        this.#parent.innerHTML = template({ 
-            video: videoUrl,
-            poster 
-        });
-        
+
+            this.#parent.innerHTML = template({
+                video: videoUrl,
+                poster: posterUrl,
+            });
+
+        // this.#parent.innerHTML = template({ video, poster });
+
         requestAnimationFrame(() => {
             initPlayerControls();
         });

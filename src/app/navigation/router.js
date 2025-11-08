@@ -16,7 +16,7 @@ const routes = {
 
     '/film/:id': FilmPage,
     '/actor/:id': StarPage,
-    '/player/:filmId': Player,
+    '/player/:id': Player,
 
     '/series': '/',
     '/films': '/',

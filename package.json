@@ -1,57 +1,58 @@
 {
-    "name": "2025_2_suzuki_plus_one",
-    "version": "1.0.0",
-    "description": "* Репозиторий команды: `Сузуки + 1` * Проект: `Netflix`",
-    "main": "src/app/main.js",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "test": "vitest run",
-        "setup": "npm install",
-        "lint": "eslint .",
-        "format": "prettier --write .",
-        "prepare": "husky"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one/issues"
-    },
-    "homepage": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one#readme",
-    "dependencies": {
-        "handlebars": "^4.7.8",
-        "statuses": "^2.0.2"
-    },
-    "devDependencies": {
-        "@babel/cli": "^7.28.3",
-        "@babel/preset-env": "^7.28.3",
-        "@eslint/js": "^9.36.0",
-        "@yoichiro/vite-plugin-handlebars": "^1.4.0",
-        "eslint": "^9.36.0",
-        "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.4",
-        "glob": "^10.4.5",
-        "globals": "^16.4.0",
-        "husky": "^9.1.7",
-        "prettier": "^3.6.2",
-        "sass-embedded": "^1.93.2",
-        "vite": "^7.1.9",
-        "vite-plugin-babel": "^1.3.2",
-        "vitest": "^2.1.3"
-    },
-    "directories": {
-        "doc": "docs"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "npm run format && npm run lint"
-        }
+  "name": "2025_2_suzuki_plus_one",
+  "version": "1.0.0",
+  "description": "* Репозиторий команды: `Сузуки + 1` * Проект: `Netflix`",
+  "main": "src/app/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "setup": "npm install",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2025_2_Suzuki_plus_one#readme",
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "statuses": "^2.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@eslint/js": "^9.36.0",
+    "@yoichiro/vite-plugin-handlebars": "^1.4.0",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "glob": "^10.4.5",
+    "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "patch-package": "^8.0.1",
+    "prettier": "^3.6.2",
+    "sass-embedded": "^1.93.2",
+    "vite": "^7.2.2",
+    "vite-plugin-babel": "^1.3.2",
+    "vitest": "^2.1.3"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format && npm run lint"
     }
+  }
 }

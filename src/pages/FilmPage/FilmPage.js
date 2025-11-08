@@ -31,7 +31,7 @@ class FilmPage {
             const poster = film.posters && film.posters.length > 0 ? film.posters[0] : '';
 
             this.#parent.innerHTML = template({
-                id: film.id,
+                id: film.media_id,
                 poster: poster,
                 title: film.title || 'Unknown',
                 description: film.description || '',

@@ -39,6 +39,7 @@ const STATIC_ASSETS = [
     '/src/shared/api/signupApi.js',
     '/src/shared/api/signOut.js',
     '/src/shared/api/moviesApi.js',
+    '/src/shared/api/trailerApi.js',
 
     '/src/shared/assets/images/poster.png',
     '/src/shared/assets/images/star_photo.png',

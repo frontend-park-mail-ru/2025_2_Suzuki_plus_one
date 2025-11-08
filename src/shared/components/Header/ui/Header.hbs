@@ -12,10 +12,14 @@
                     {{else}}
                     <div class="header__avatar header__avatar--placeholder"></div>
                     {{/if}}
-                    <span class="header__username">{{user.username}}</span>
+                    <span class="header__username" data-navigate="/account/settings">{{user.username}}</span>
                     </a>
-                    <button class='header__auth-button button' type='button' id='logOutBtn'>Log out</button>
-                    </div>
+                </div>
+                <button
+                    class='header__auth-button button'
+                    type='button'
+                    id='logOutBtn'
+                >Log out</button>
             {{else}}
                 <button
                     class='header__auth-button button'

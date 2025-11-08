@@ -25,5 +25,12 @@
         @include media.hover {
             background-color: var(--color-grey-hover);
         }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--color-grey-hover);
+            color: var(--color-grey-text);
+        }
     }
 }

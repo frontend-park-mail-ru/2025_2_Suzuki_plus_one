@@ -52,6 +52,18 @@
         @include media.hover {
             background-color: orangered;
         }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: orangered;
+            color: var(--color-grey-light);
+            
+            @include media.hover {
+                background-color: orangered;
+                transform: none;
+            }
+        }
     }
 
     &__button {
@@ -67,6 +79,20 @@
 
             @include media.hover {
                 background-color: var(--color-grey-hover);
+            }
+
+            &[aria-disabled="true"] {
+                opacity: 0.5;
+                cursor: not-allowed;
+                background-color: var(--color-grey-light);
+
+                svg {
+                    opacity: 0.6;
+                    
+                    path[stroke] {
+                        stroke: var(--color-grey-text);
+                    }
+                }
             }
         }
     }
