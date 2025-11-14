@@ -1,0 +1,12 @@
+<div class="tabs">
+    {{#each tabs}}
+        <a 
+            class="tabs__tab {{#if active}}tabs__tab--active{{/if}}"
+            href="{{href}}"
+            data-navigate
+            data-page="{{page}}"
+        >
+            {{label}}
+        </a>
+    {{/each}}
+</div>

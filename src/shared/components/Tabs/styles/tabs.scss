@@ -1,0 +1,34 @@
+ @use '@shared/styles/media';
+@use '@shared/styles/mixins';
+
+ .tabs {
+     display: flex;
+     justify-content: center;
+     column-gap: var(--padding-large);
+     height: 33px;
+     margin-bottom: var(--padding-large);
+
+     &__tab {
+         font-size: 24px;
+         @include mixins.reset-link;
+
+         @include media.hover {
+             color: var(--color-light-blue);
+         }
+
+         &--active {
+             color: var(--color-light-blue);
+             position: relative;
+
+             &::after {
+                 content: '';
+                 position: absolute;
+                 bottom: -4px;
+                 left: 0;
+                 width: 100%;
+                 height: 2px;
+                 background-color: var(--color-light-blue);
+             }
+         }
+     }
+ }

@@ -1,0 +1,108 @@
+@use '../media';
+@use '../mixins';
+
+.film-banner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-height: 600px;
+
+    &__image {
+        width: 100%;
+        max-height: 600px;
+        object-fit: cover;
+    }
+
+    &__overlay {
+        top: 0;
+        left: 0;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.8),
+            rgba(0, 0, 0, 0)
+        );
+
+        display: flex;
+        flex-direction: column;
+        row-gap: var(--padding-medium);
+        color: white;
+        justify-content: center;
+        row-gap: var(--padding-medium);
+    }
+
+    &__title {
+        display: flex;
+    }
+
+    &__actions {
+        display: flex;
+        gap: var(--padding-medium);
+    }
+
+    &__button-play {
+        background-color: var(--color-red);
+        color: var(--color-dark-grey);
+
+        @include media.hover {
+            background-color: orangered;
+        }
+    }
+
+    &__button {
+        background-color: var(--color-dark-grey);
+
+        @include media.hover {
+            background-color: var(--color-grey-hover);
+        }
+
+        &-reaction {
+            border-radius: 50%;
+            background-color: var(--color-dark-grey);
+
+            @include media.hover {
+                background-color: var(--color-grey-hover);
+            }
+        }
+    }
+
+    &__description {
+        padding-left: var(--padding-medium);
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        row-gap: var(--padding-medium);
+    }
+
+    &__text {
+        display: block;
+        max-width: 50%;
+        text-align: left;
+    }
+
+    &__title {
+        display: flex;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        column-gap: var(--padding-medium);
+
+        p {
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+    }
+
+    &__rating {
+        color: var(--color-green);
+        margin-left: var(--padding-small);
+    }
+}
