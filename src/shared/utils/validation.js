@@ -129,8 +129,9 @@ export function validatePhone(phone) {
 }
 
 
+
 export function validateBirthdate(birthdate) {
-    if (!birthdate) return null;
+    if (!birthdate) return null; 
 
     const pureBirthdate = purifyInputString(birthdate).trim();
 
@@ -142,25 +143,26 @@ export function validateBirthdate(birthdate) {
         return 'Date must be in format YYYY-MM-DD';
     }
 
-    const date = new Date(pureBirthdate);
-    if (isNaN(date.getTime())) {
+    const [y, m, d] = pureBirthdate.split('-').map(Number);
+    const inputDate = new Date(y, m - 1, d);
+
+    if (
+        inputDate.getFullYear() !== y ||
+        inputDate.getMonth() + 1 !== m ||
+        inputDate.getDate() !== d
+    ) {
         return 'Invalid date';
     }
 
-    const year = date.getFullYear();
-    const currentYear = new Date().getFullYear();
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    if (year < 1900) {
-        return 'Year must be 1900 or later';
-    }
-
-    if (year > currentYear) {
+    if (inputDate > today) {
         return 'Date cannot be in the future';
     }
 
-    const [y, m, d] = pureBirthdate.split('-').map(Number);
-    if (date.getFullYear() !== y || date.getMonth() + 1 !== m || date.getDate() !== d) {
-        return 'Invalid date';
+    if (y < 1900) {
+        return 'Year must be 1900 or later';
     }
 
     return null;
