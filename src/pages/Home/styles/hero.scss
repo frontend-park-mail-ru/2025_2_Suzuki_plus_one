@@ -6,17 +6,22 @@
     align-items: center;
     justify-content: center;
 
-    background: url('@assets/images/hero_bg.svg') center/cover no-repeat;
-
     &__content {
         padding-block: var(--padding-large);
         text-align: center;
         gap: 32px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-    }
+       background: 
+            linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+            url('@assets/images/hero_bg.png') center/cover no-repeat;
+            margin-inline: var(--padding-medium);
 
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+    }
+    
     &__button.button {
         border-radius: var(--border-radius-large);
         min-width: 100px;

@@ -481,7 +481,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('../images/hero_bg.svg') center/cover no-repeat;
+    background: url('../images/hero_bg.png') center/cover no-repeat;
 }
 .hero__content {
     padding-block: var(--padding-large);

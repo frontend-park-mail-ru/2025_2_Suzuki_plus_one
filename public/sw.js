@@ -14,11 +14,8 @@ const STATIC_ASSETS = [
     '/src/app/styles/movies.css',
 
     '/src/pages/Home/Home.js',
-    '/src/pages/Login/Login.js',
-    '/src/pages/Signup/Signup.js',
     '/src/pages/FilmPage/FilmPage.js',
     '/src/pages/StarPage/StarPage.js',
-    '/src/pages/Account/Account.js',
 
     '/src/features/FilmCard/FilmCard.js',
     '/src/features/StarCard/StarCard.js',
@@ -29,15 +26,7 @@ const STATIC_ASSETS = [
     '/src/shared/components/Header/Header.js',
     '/src/shared/components/Footer/Footer.js',
 
-    '/src/shared/utils/errorHandler.js',
-    '/src/shared/utils/validation.js',
     '/src/shared/ui/passwordToggle.js',
-
-    '/src/shared/api/checkAuth.js',
-    '/src/shared/api/loginApi.js',
-    '/src/shared/api/signupApi.js',
-    '/src/shared/api/signOut.js',
-    '/src/shared/api/moviesApi.js',
 
     '/src/shared/assets/images/poster.png',
     '/src/shared/assets/images/star_photo.png',
@@ -45,7 +34,7 @@ const STATIC_ASSETS = [
     '/src/shared/assets/images/film_card2.png',
     '/src/shared/assets/images/logo.svg',
     '/src/shared/assets/images/user-icon.svg',
-    '/src/shared/assets/images/hero_bg.svg',
+    '/src/shared/assets/images/hero_bg.png',
     '/src/shared/assets/images/bg_picture.svg',
 
     '/src/shared/assets/images/icons/play_icon.svg',

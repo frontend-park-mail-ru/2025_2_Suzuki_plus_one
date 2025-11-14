@@ -39,10 +39,7 @@
         height: 54px;
         padding: 0 var(--padding-medium);
         border-radius: var(--border-radius);
-
-        &::placeholder {
-            color: var(--color-light-gray);
-        }
+        color: var(--color-gray);
 
         &.is-invalid {
             border-color: var(--color-red);

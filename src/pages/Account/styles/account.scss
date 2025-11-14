@@ -44,7 +44,7 @@
         width: 44px;
         height: 44px;
         border-radius: 50%;
-        background-color: var(--color-light-gray);
+        background-color: var(--color-light-grey);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -71,7 +71,7 @@
         text-align: left;
 
         &::placeholder {
-            color: var(--color-light-gray);
+            color: var(--color-light-grey);
         }
 
         &.is-invalid {
