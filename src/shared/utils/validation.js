@@ -127,3 +127,41 @@ export function validatePhone(phone) {
 
     return null;
 }
+
+
+export function validateBirthdate(birthdate) {
+    if (!birthdate) return null;
+
+    const pureBirthdate = purifyInputString(birthdate).trim();
+
+    if (pureBirthdate !== birthdate) {
+        return 'Date contains invalid characters (< > ; \' " `)';
+    }
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(pureBirthdate)) {
+        return 'Date must be in format YYYY-MM-DD';
+    }
+
+    const date = new Date(pureBirthdate);
+    if (isNaN(date.getTime())) {
+        return 'Invalid date';
+    }
+
+    const year = date.getFullYear();
+    const currentYear = new Date().getFullYear();
+
+    if (year < 1900) {
+        return 'Year must be 1900 or later';
+    }
+
+    if (year > currentYear) {
+        return 'Date cannot be in the future';
+    }
+
+    const [y, m, d] = pureBirthdate.split('-').map(Number);
+    if (date.getFullYear() !== y || date.getMonth() + 1 !== m || date.getDate() !== d) {
+        return 'Invalid date';
+    }
+
+    return null;
+}

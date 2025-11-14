@@ -6,7 +6,7 @@ import pencil_icon from '@assets/images/icons/pencil-white.svg';
 import camera_icon from '@assets/images/icons/camera-white.svg';
 import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
-import { validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
+import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
 
 class Account {
@@ -195,9 +195,6 @@ class Account {
             }
         });
         const birthInput = form.querySelector('#birthdate');
-        birthInput.type = 'text';
-        birthInput.placeholder = 'YYYY-MM-DD';
-        birthInput.value = this.user.date_of_birth || '';
 
         birthInput.addEventListener('input', (e) => {
             let val = e.target.value.replace(/\D/g, '');
@@ -227,15 +224,9 @@ class Account {
             const phoneError = validatePhone(data.phone_number);
             if (phoneError) errors.phone = phoneError;
 
-            if (data.date_of_birth) {
-                if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date_of_birth)) {
-                    errors.birthdate = 'Date must be in format YYYY-MM-DD';
-                } else {
-                    const date = new Date(data.date_of_birth);
-                    if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > new Date().getFullYear()) {
-                        errors.birthdate = 'Invalid date';
-                    }
-                }
+            const birthdateError = validateBirthdate(data.date_of_birth);
+            if (birthdateError) {
+                errors.birthdate = birthdateError;
             }
 
         if (Object.keys(errors).length > 0) {
