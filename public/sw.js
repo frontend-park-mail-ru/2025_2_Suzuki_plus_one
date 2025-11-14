@@ -68,6 +68,7 @@ const API_ENDPOINTS = [
     '/api/v1/auth',
     '/api/v1/media',
     '/api/v1/actor',
+    '/account',
 
 ];
 
