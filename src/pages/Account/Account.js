@@ -23,7 +23,7 @@ class Account {
         this.activeTab = params.tab || 'settings';
 
         this.user = this.#app.user;
-
+        this.#app.updateUserInfo();
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
