@@ -40,6 +40,7 @@
     &__info {
         display: flex;
         flex-direction: column;
+        text-align: center;
         align-items: center;
         color: white;
         row-gap: var(--padding-small);

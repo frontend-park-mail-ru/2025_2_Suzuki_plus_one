@@ -65,7 +65,7 @@
         text-align: left;
 
         &::placeholder {
-            color: var(--color-light-grey);
+            color: var(--color-light-gray);
         }
 
         &.is-invalid {
@@ -79,12 +79,10 @@
         top: 50%;
         right: var(--padding-medium);
         transform: translateY(-50%);
-        color: var(--color-light-grey);
 
-        svg {
-            width: 24px;
-            height: 24px;
-        }
+        width: 24px;
+        height: 24px;
+        color: var(--color-light-gray);
 
         .security__eye-icon--closed {
             display: none;
