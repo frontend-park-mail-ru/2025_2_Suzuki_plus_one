@@ -2,6 +2,8 @@ import './styles/account.scss';
 import './styles/security.scss';
 import './styles/support.scss';
 import supportTemplate from './ui/Support.hbs';
+import SupportItem from './SupportItem.js';
+
 import settingsTemplate from './ui/Settings.hbs';
 import securityTemplate from './ui/Security.hbs';
 import pencil_icon from '@assets/images/icons/pencil-white.svg';
@@ -10,6 +12,7 @@ import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
 import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
+import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
 class Account {
     #parent;
@@ -37,7 +40,6 @@ class Account {
         this.#parent.innerHTML = `
             <div id="accountTabs"></div>
             <div id="tabContent"></div>
-            <div id="supportContent"></div>
         `;
         this.#initTabs();
         this.#renderActiveTab();
@@ -157,7 +159,21 @@ class Account {
         });
     }
 
-    #setupSupport() {
+    async #setupSupport() {
+        const listContainer = this.#parent.querySelector('.support-tab__list');
+        if (!listContainer) return;
+
+        try {
+            const { appeals } = await fetchMyAppeals();
+            this.#renderAppeals(appeals, listContainer);
+        } catch (err) {
+            listContainer.innerHTML = `
+                <div class="support-tab__error">
+                    Failed to load appeals: ${err.message || 'Unknown error'}
+                </div>
+            `;
+        }
+
         const openNewAppealButton = document.getElementById("openNewAppeal");
         const iframePopup = document.getElementById('iframePopup');
         const closeBtn = document.getElementById('closeIframeBtn');
@@ -182,32 +198,20 @@ class Account {
                 closeBtn.style.display = 'none';
             }
         });
+    }
 
-        const openCurAppealButton = document.getElementById("openCurAppeal");
-        const curAppealFrame = document.getElementById('curAppealFrame');
-        const closeCurIframeBtn = document.getElementById('closeCurIframeBtn');
+    #renderAppeals(appeals, container) {
+        if (!appeals || appeals.length === 0) {
+            container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
+            return;
+        }
 
-        openCurAppealButton.addEventListener('click', function() {
-            curAppealFrame.style.display = 'block';
-            closeCurIframeBtn.style.display = 'block';
+        appeals.forEach((appeal) => {
+            const appealElement = document.createElement('div');
+            container.appendChild(appealElement);
+            const supportItem = new SupportItem(container, this.#app);
+            supportItem.render(appeal);
         });
-
-        closeCurIframeBtn.addEventListener('click', () => {
-            curAppealFrame.style.display = 'none';
-            closeCurIframeBtn.style.display = 'none';
-        });
-
-
-        document.addEventListener('click', function(event) {
-            const isClickInsideCurIframe = curAppealFrame.contains(event.target);
-            const isClickOnOpenCurButton = event.target === openCurAppealButton;
-    
-            if (!isClickInsideCurIframe && !isClickOnOpenCurButton) {
-                curAppealFrame.style.display = 'none';
-                closeCurIframeBtn.style.display = 'none';
-            }
-        });
-
     }
 
     #setupSettingsForm() {

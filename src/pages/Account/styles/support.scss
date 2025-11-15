@@ -39,7 +39,8 @@
 
     &__item {
         display: grid;
-        grid-template-columns: 2fr 2fr 4fr 1fr;
+        width: 600px;
+        grid-template-columns: 3fr 2fr 4fr 1fr;
 
         margin: var(--padding-medium);
         padding: var(--padding-medium);
