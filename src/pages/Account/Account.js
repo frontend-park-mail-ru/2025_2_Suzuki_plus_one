@@ -183,6 +183,31 @@ class Account {
             }
         });
 
+        const openCurAppealButton = document.getElementById("openCurAppeal");
+        const curAppealFrame = document.getElementById('curAppealFrame');
+        const closeCurIframeBtn = document.getElementById('closeCurIframeBtn');
+
+        openCurAppealButton.addEventListener('click', function() {
+            curAppealFrame.style.display = 'block';
+            closeCurIframeBtn.style.display = 'block';
+        });
+
+        closeCurIframeBtn.addEventListener('click', () => {
+            curAppealFrame.style.display = 'none';
+            closeCurIframeBtn.style.display = 'none';
+        });
+
+
+        document.addEventListener('click', function(event) {
+            const isClickInsideCurIframe = curAppealFrame.contains(event.target);
+            const isClickOnOpenCurButton = event.target === openCurAppealButton;
+    
+            if (!isClickInsideCurIframe && !isClickOnOpenCurButton) {
+                curAppealFrame.style.display = 'none';
+                closeCurIframeBtn.style.display = 'none';
+            }
+        });
+
     }
 
     #setupSettingsForm() {

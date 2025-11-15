@@ -3,11 +3,9 @@
 
 .support-chat {
     &__content {
-        display: flex;
-        flex-direction: column;
-        height: 85vh;
-        background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
-        font-family: inherit;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
     }
 
     &__header {

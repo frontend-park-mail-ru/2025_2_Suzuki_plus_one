@@ -2,8 +2,14 @@
     <div class="support-tab__name">
         <h3>Appeals history</h3>
     </div>
+
+    <div id="curAppealFrame" class="curIframe-wrapper">
+                <iframe id="curAppealIframe" src="/currentAppeal"></iframe>
+                <button id="closeCurIframeBtn" class="close-cur-iframe">×</button>
+            </div>
+            
     <div class="support-tab__list">
-        <a class="support-tab__item" href='/apppeal/{{id}}' data-navigate>
+        <a class="support-tab__item" id="openCurAppeal">
             <div class="support-tab__item-date">
                 <p>01-01-2025</p>
             </div>
@@ -18,7 +24,7 @@
             </div>
         </a>
 
-        <a class="support-tab__item" href='/apppeal/{{id}}' data-navigate>
+        <a class="support-tab__item" id="openCurAppeal">
             <div class="support-tab__item-date">
                 <p>01-01-2025</p>
             </div>
@@ -34,11 +40,13 @@
         </a>        
     </div>
 
+    
+
     <div id="iframePopup" class="iframe-wrapper">
         <iframe id="newAppealIframe" src="/newAppeal"></iframe>
         <button id="closeIframeBtn" class="close-iframe">×</button>
     </div>
-
-
+    
     <button class='support-tab__new button' id='openNewAppeal' type='button'>Create new</button>
+
 </main>

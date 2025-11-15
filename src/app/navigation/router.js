@@ -27,7 +27,7 @@ const routes = {
     '*': NotFound,
 
     '/newAppeal' : NewAppeal,
-    '/CurrentAppeal': CurrentAppeal,
+    '/currentAppeal': CurrentAppeal,
 };
 
 export class Router {
@@ -79,7 +79,7 @@ export class Router {
 
         const { Page, params } = match;
 
-        const standaloneRoutes = ['/newAppeal', '/CurrentAppeal'];
+        const standaloneRoutes = ['/newAppeal', '/currentAppeal'];
         const isStandalone = standaloneRoutes.includes(pathname);
 
         this.root.innerHTML = '';
