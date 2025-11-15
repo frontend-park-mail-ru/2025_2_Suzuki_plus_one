@@ -13,7 +13,6 @@ import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared
 import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
 import { fetchMyAppeals } from '@shared/api/appealApi.js';
-import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
 class Account {
     #parent;
@@ -158,24 +157,6 @@ class Account {
                 }
             }
         });
-    }
-
-    async #setupSupport() {
-        const listContainer = this.#parent.querySelector('.support-tab__list');
-        if (!listContainer) return;
-
-        try {
-            const { appeals } = await fetchMyAppeals();
-            this.#renderAppeals(appeals, listContainer);
-        } catch (err) {
-            listContainer.innerHTML = `
-                <div class="support-tab__error">
-                    Failed to load appeals: ${err.message || 'Unknown error'}
-                </div>
-            `;
-        }
-    
-    
     }
 
     async #setupSupport() {
