@@ -45,7 +45,9 @@
         padding: 0 var(--padding-medium);
         border-radius: var(--border-radius);
         border: 1px solid var(--color-light-gray);
-        color: var(--color-gray);
+        // color: var(--color-gray);
+        color: #ffffff;
+        background-color: #000000;
         font-family: inherit;
 
         &:focus {
@@ -55,6 +57,7 @@
     }
 
     &__textarea {
+        color: #ffffff;
         resize: vertical;
         min-height: 100px;
         padding: var(--padding-medium);

@@ -1,6 +1,6 @@
 import './styles/newAppeal.scss';
 import template from './ui/NewAppeal.hbs';
-import { submitSupportForm } from '@shared/api/supportApi.js';
+// import { submitSupportForm } from '@shared/api/supportApi.js';
 
 
 class NewAppeal {
@@ -29,8 +29,8 @@ class NewAppeal {
 
                 const tag = form.querySelector('#support-tag').value;
                 const message = form.querySelector('#support-message').value.trim();
-                const fileInput = form.querySelector('#support-file');
-                const file = fileInput.files[0] || null;
+                // const fileInput = form.querySelector('#support-file');
+                // const file = fileInput.files[0] || null;
 
                 errorDiv.textContent = '';
                 errorDiv.hidden = true;
@@ -75,7 +75,7 @@ class NewAppeal {
     #showSuccess() {
         const errorDiv = this.#parent.querySelector('#supportError');
         errorDiv.textContent = 'Thank you! Your message has been sent.';
-        errorDiv.style.color = 'var(--color-green)'; // Optional: use green for success
+        errorDiv.style.color = 'var(--color-green)'; 
         errorDiv.hidden = false;
 
         setTimeout(() => {

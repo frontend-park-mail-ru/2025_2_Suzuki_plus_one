@@ -6,6 +6,9 @@ import StarPage from '@pages/StarPage/StarPage.js';
 import Player from '@widgets/Player/Player.js';
 import Account from '@pages/Account/Account.js';
 import NotFound from '@pages/NotFound/NotFound.js';
+import NewAppeal from '@features/AppealCard/NewAppeal.js';
+import CurrentAppeal from '@features/AppealCard/CurrentAppeal.js';
+
 
 const routes = {
     '/': Home,
@@ -22,6 +25,9 @@ const routes = {
     '/films': '/',
 
     '*': NotFound,
+
+    '/newAppeal' : NewAppeal,
+    '/CurrentAppeal': CurrentAppeal,
 };
 
 export class Router {
