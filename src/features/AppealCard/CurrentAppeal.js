@@ -12,10 +12,9 @@ class CurrentAppeal {
     #appealId;
     #appInstance;
 
-    constructor(parent, appInstance, params = {}) {
+    constructor(parent, params = {}) {
         this.#parent = parent;
         this.#appealId = params.id;
-        this.#appInstance = appInstance;
     }
 
     async render() {
