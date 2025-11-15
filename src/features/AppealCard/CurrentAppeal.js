@@ -100,7 +100,7 @@ class CurrentAppeal {
 
                 this.#addUserMessage(message);
             } catch (err) {
-                alert('Failed to send reply: ' + (err.message || 'Unknown error'));
+                console.log(err.message || 'Unknown error');
             }
         });
     }
@@ -136,10 +136,8 @@ class CurrentAppeal {
         closeBtn.addEventListener('click', async () => {
             try {
                 await markAppealAsResolved(this.#appealId);
-
-                alert('Appeal has been marked as resolved.');
             } catch (err) {
-                alert('Failed to close appeal: ' + (err.message || 'Unknown error'));
+                console.log(err.message || 'Unknown error');
             }
         });
     }
