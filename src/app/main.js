@@ -5,18 +5,18 @@
 import App from './App.js';
 import { Router } from '@app/navigation/router.js';
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker
-            .register('/sw.js')
-            .then((registration) => {
-                console.log('SW registered:', registration);
-            })
-            .catch((error) => {
-                console.error('SW registration failed:', error);
-            });
-    });
-}
+// if ('serviceWorker' in navigator) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker
+//             .register('/sw.js')
+//             .then((registration) => {
+//                 console.log('SW registered:', registration);
+//             })
+//             .catch((error) => {
+//                 console.error('SW registration failed:', error);
+//             });
+//     });
+// }
 
 /**
  * Initializes the application and renders it into the root element.
