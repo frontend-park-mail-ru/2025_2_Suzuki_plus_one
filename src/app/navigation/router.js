@@ -79,9 +79,18 @@ export class Router {
 
         const { Page, params } = match;
 
+        const standaloneRoutes = ['/newAppeal', '/CurrentAppeal'];
+        const isStandalone = standaloneRoutes.includes(pathname);
+
         this.root.innerHTML = '';
         const pageContainer = document.createElement('div');
-        this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+        // this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+
+        if (isStandalone) {
+            this.root.appendChild(pageContainer);
+        } else {
+            this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+        }
 
         const pageInstance = new Page(pageContainer, this.#app, params);
         pageInstance.render();
