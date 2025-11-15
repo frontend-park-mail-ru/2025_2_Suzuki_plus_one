@@ -211,6 +211,9 @@ class Account {
             container.appendChild(appealElement);
             const supportItem = new SupportItem(container, this.#app);
             supportItem.render(appeal);
+            console.log(appeal);
+            console.log(appeal.appeal_id);
+
         });
     }
 
