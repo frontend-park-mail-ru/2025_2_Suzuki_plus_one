@@ -1,0 +1,35 @@
+.support {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__name {
+        margin-bottom: 0;
+
+        h3 {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    &__list {
+        justify-content: center;
+    }
+
+    &__item {
+        display: grid;
+        grid-template-columns: 2fr 2fr 4fr 1fr;
+
+        margin: var(--padding-medium);
+        padding: var(--padding-medium);
+
+        border: 1px solid var(--color-text);
+        border-radius: 12px;
+
+        &-status {
+            color: var(--color-green);
+        }
+    }
+}

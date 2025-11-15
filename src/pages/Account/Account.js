@@ -1,5 +1,7 @@
 import './styles/account.scss';
 import './styles/security.scss';
+import './styles/support.scss';
+import supportTemplate from './ui/Support.hbs';
 import settingsTemplate from './ui/Settings.hbs';
 import securityTemplate from './ui/Security.hbs';
 import pencil_icon from '@assets/images/icons/pencil-white.svg';
@@ -27,6 +29,7 @@ class Account {
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
+            support: supportTemplate,
         };
     }
 
@@ -34,6 +37,7 @@ class Account {
         this.#parent.innerHTML = `
             <div id="accountTabs"></div>
             <div id="tabContent"></div>
+            <div id="supportContent"></div>
         `;
         this.#initTabs();
         this.#renderActiveTab();
@@ -45,6 +49,7 @@ class Account {
         const tabsConfig = [
             { label: 'Settings', href: '/account/settings', page: 'settings', active: this.activeTab === 'settings' },
             { label: 'Security', href: '/account/security', page: 'security', active: this.activeTab === 'security' },
+            { label: 'Support', href: '/account/support', page: 'support', active: this.activeTab === 'support' },
         ];
 
         this.#tabs = new Tabs(tabsContainer, (page, href) => this.#handleTabChange(page, href));
@@ -74,8 +79,11 @@ class Account {
         if (this.activeTab === 'settings'){
             this.#setupSettingsForm();
         } else if (this.activeTab === 'security') {
-        this.#setupSecurityForm();
-    }
+            this.#setupSecurityForm();
+        } else if (this.activeTab === 'support') {
+            this.#setupSupport();
+        }
+
     }
 
     #setupSecurityForm() {
@@ -148,6 +156,10 @@ class Account {
             }
         });
     }
+
+    #setupSupport() {
+    }
+
 
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
