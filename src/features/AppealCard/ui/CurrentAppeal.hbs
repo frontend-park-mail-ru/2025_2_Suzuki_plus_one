@@ -1,0 +1,50 @@
+<!-- <DOCUMENT filename="SupportChat.hbs"> -->
+<main class="support-chat__content">
+    <div class="support-chat__header">
+        <div class="support-chat__info">
+            <div class="support-chat__tag">{{tag}}</div>
+            <div class="support-chat__name">{{name}}</div>
+        </div>
+        <div class="support-chat__meta">
+            <div class="support-chat__created">
+                Created: {{formatDate created_at}}
+            </div>
+            <div class="support-chat__status support-chat__status--{{status}}">
+                {{#if (eq status "open")}}Open{{/if}}
+                {{#if (eq status "in_progress")}}In Progress{{/if}}
+                {{#if (eq status "closed")}}Closed{{/if}}
+            </div>
+        </div>
+    </div>
+
+    <div class="support-chat__messages" id="messages">
+        {{#each messages}}
+        <div class="support-chat__message support-chat__message--{{sender}}">
+            <div class="support-chat__bubble">
+                {{{this.message}}}
+            </div>
+            <div class="support-chat__time">{{formatTime this.timestamp}}</div>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="support-chat__actions">
+        <button class="support-chat__action-btn" id="close-button" title="Close appeal">
+            Cross
+        </button>
+        <button class="support-chat__action-btn" id="reply-button" title="Reply">
+            Check
+        </button>
+    </div>
+
+    <div class="support-chat__reply" id="reply-container" hidden>
+        <textarea
+            id="reply-text"
+            class="support-chat__reply-input"
+            placeholder="Type your reply..."
+            rows="3"
+        ></textarea>
+        <button id="send-reply" class="support-chat__send-btn">Send</button>
+    </div>
+</main>
+<!-- </DOCUMENT> -->
