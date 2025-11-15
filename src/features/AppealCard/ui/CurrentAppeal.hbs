@@ -1,19 +1,4 @@
 <main class="support-chat__content">
-    <div class="support-chat__header">
-        <div class="support-chat__info">
-            <div class="support-chat__tag">{{tag}}</div>
-            <div class="support-chat__name">{{name}}</div>
-        </div>
-        <div class="support-chat__meta">
-            <div class="support-chat__created">
-                Created: {{createdDate}}
-            </div>
-            <div class="support-chat__status support-chat__status--{{status}}">
-                {{displayStatus}}
-            </div>
-        </div>
-    </div>
-
     <div class="support-chat__messages" id="messages">
         {{#each messages}}
         <div class="support-chat__message support-chat__message--{{sender}}">
@@ -37,10 +22,10 @@
 
     <div class="support-chat__actions">
         <button class="support-chat__action-btn" id="close-button" title="Close appeal">
-            Cross
+            I'm satisfied with the answer
         </button>
         <button class="support-chat__action-btn" id="reply-button" title="Reply">
-            Check
+            My problem is not solved
         </button>
     </div>
 </main>

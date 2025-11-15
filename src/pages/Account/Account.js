@@ -205,7 +205,7 @@ class Account {
         }
 
         container.innerHTML = appeals.map(appeal => `
-            <a class="support-tab__item" href="/appeal/${appeal.id || ''}" data-navigate>
+            <a class="support-tab__item" href='/appeal/${appeal.id}' data-navigate>
                 <div class="support-tab__item-date">
                     <p>${appeal.created_at}</p>
                 </div>

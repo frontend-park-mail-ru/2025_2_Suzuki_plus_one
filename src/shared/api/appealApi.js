@@ -32,6 +32,12 @@ export async function createNewAppeal(data) {
 }
 
 export async function fetchAppealById(appeal_id) {
+    return [{
+  "tag": "bug",
+  "name": "I have a problem...",
+  "status": "open",
+  "created_at": "11:11 01.01.2024"
+}]
     return await fetchWithErrorsHandling(`/api/v1/appeal/{appeal_id}`, {
         method: 'GET',
     });
@@ -52,6 +58,22 @@ export async function AddMessageToAppeal(appeal_id, data) {
 }
 
 export async function getMessageOfAppeal(appeal_id) {
+    return {
+  "messages": [
+    {
+      "is_response": false,
+      "message": "Thank you for your feedback!",
+      "timestamp": "11:15 01.01.2024"
+    },
+
+    {
+      "is_response": true,
+      "message": "Thank you for your feedback!",
+      "timestamp": "11:15 01.01.2024"
+    }
+  ]
+}
+
     return fetchWithErrorsHandling('/api/v1/appeal/{appeal_id}/message', {
         method: 'GET',
     });
