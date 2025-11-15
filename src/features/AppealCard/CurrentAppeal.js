@@ -1,11 +1,11 @@
 import './styles/currentAppeal.scss';
 import template from './ui/CurrentAppeal.hbs';
-
-const sendReply = async (appealId, message) => {
-    console.log('Simulated reply sent:', { appealId, message });
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return { success: true };
-};
+import {
+    AddMessageToAppeal,
+    markAppealAsResolved,
+    fetchAppealById,
+    getMessageOfAppeal
+} from '@shared/api/appealApi.js';
 
 class CurrentAppeal {
     #parent;
@@ -20,31 +20,25 @@ class CurrentAppeal {
 
     async render() {
         try {
-            const appeal = {
-                "tag": "bug",
-                "name": "I have a problem...",
-                "status": "open",
-                "created_at": "11:11 01.01.2024",
-                "messages": [
-                    {
-                        "sender": "user",
-                        "message": "Thank you for your feedback!",
-                        "timestamp": "11:15 01.01.2024"
-                    }
-                ]
+            const appealInfo = await fetchAppealById(this.#appealId);
+
+            const messagesData = await getMessageOfAppeal(this.#appealId);
+
+            const formattedMessages = messagesData.messages.map(msg => ({
+                sender: msg.is_response ? "support" : "user",
+                message: msg.message,
+                timestamp: msg.timestamp,
+                displayTime: this.#formatTime(msg.timestamp)
+            }));
+
+            const finalFormatted = {
+                ...appealInfo,
+                createdDate: this.#formatDate(appealInfo.created_at),
+                displayStatus: this.#getDisplayStatus(appealInfo.status),
+                messages: formattedMessages
             };
 
-            const formattedAppeal = {
-                ...appeal,
-                createdDate: this.#formatDate(appeal.created_at),
-                displayStatus: this.#getDisplayStatus(appeal.status),
-                messages: appeal.messages.map(msg => ({
-                    ...msg,
-                    displayTime: this.#formatTime(msg.timestamp)
-                }))
-            };
-
-            this.#parent.innerHTML = template(formattedAppeal);
+            this.#parent.innerHTML = template(finalFormatted);
 
             this.#setupReplyButton();
             this.#setupCloseButton();
@@ -99,12 +93,14 @@ class CurrentAppeal {
             if (!message) return;
 
             try {
-                await sendReply(this.#appealId, message);
+                await AddMessageToAppeal(this.#appealId, { message });
+
                 textarea.value = '';
                 replyContainer.hidden = true;
+
                 this.#addUserMessage(message);
             } catch (err) {
-                alert('Failed to send reply: ' + (err.message || 'Unknown error'));
+                console.log(err.message || 'Unknown error');
             }
         });
     }
@@ -135,11 +131,15 @@ class CurrentAppeal {
 
     #setupCloseButton() {
         const closeBtn = this.#parent.querySelector('#close-button');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                alert('Closing appeal is not implemented yet.');
-            });
-        }
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener('click', async () => {
+            try {
+                await markAppealAsResolved(this.#appealId);
+            } catch (err) {
+                console.log(err.message || 'Unknown error');
+            }
+        });
     }
 }
 
