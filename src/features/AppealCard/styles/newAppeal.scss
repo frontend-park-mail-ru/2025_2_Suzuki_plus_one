@@ -3,25 +3,14 @@
 
 .support {
     &__content {
-        display: flex;
-        align-items: center;
         justify-content: center;
-        padding-bottom: 5%;
-        min-height: 7vh;
-        background: linear-gradient(
-            to bottom,
-            var(--color-bg),
-            var(--color-blue)
-        );
+        margin: 0;
+        padding: 0;
     }
 
     &__form {
-        width: 440px;
-        min-height: 500px;
+        width: 100vw;
         padding: var(--padding-large);
-        background-color: var(--color-bg);
-        border-radius: var(--border-radius);
-        border: var(--border);
         display: flex;
         flex-direction: column;
         row-gap: var(--padding-medium);

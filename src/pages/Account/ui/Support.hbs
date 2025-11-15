@@ -1,12 +1,12 @@
-<main class="support__content">
-    <div class="support__name">
+<main class="support-tab__content">
+    <div class="support-tab__name">
         <h3>Appeals history</h3>
     </div>
-    <div class="support__list">
+    <div class="support-tab__list">
     </div>
-    <button
-        class='support__new button'
-        type='button'
-        data-navigate='/appeal/new'
-    >Create new</button>
+    <div id="iframePopup" class="iframe-wrapper" style="display: none;">
+        <iframe id="newAppealIframe" src="/newAppeal"></iframe>
+        <button id="closeIframeBtn" class="close-iframe" style="display: none;">×</button>
+    </div>
+    <button class='support-tab__new button' id='openNewAppeal' type='button'>Create new</button>
 </main>

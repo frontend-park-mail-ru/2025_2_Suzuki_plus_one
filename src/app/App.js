@@ -61,7 +61,10 @@ class App {
         this.#container.appendChild(headerContainer);
 
         this.header = new Header(headerContainer, this);
-        this.header.render();
+
+        if (window == top) {
+            this.header.render();
+        }
 
         this.#container.appendChild(this.#main_content);
 

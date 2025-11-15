@@ -1,4 +1,3 @@
-// <DOCUMENT filename="Account.js">
 import './styles/account.scss';
 import './styles/security.scss';
 import './styles/support.scss';
@@ -159,7 +158,7 @@ class Account {
     }
 
     async #setupSupport() {
-        const listContainer = this.#parent.querySelector('.support__list');
+        const listContainer = this.#parent.querySelector('.support-tab__list');
         if (!listContainer) return;
 
         try {
@@ -167,31 +166,56 @@ class Account {
             this.#renderAppeals(appeals, listContainer);
         } catch (err) {
             listContainer.innerHTML = `
-                <div class="support__error">
+                <div class="support-tab__error">
                     Failed to load appeals: ${err.message || 'Unknown error'}
                 </div>
             `;
         }
+
+        const openNewAppealButton = document.getElementById("openNewAppeal");
+        const iframePopup = document.getElementById('iframePopup');
+        const closeBtn = document.getElementById('closeIframeBtn');
+
+        openNewAppealButton.addEventListener('click', function() {
+            iframePopup.style.display = 'block';
+            closeBtn.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            iframePopup.style.display = 'none';
+            closeBtn.style.display = 'none';
+        });
+
+
+        document.addEventListener('click', function(event) {
+            const isClickInsideIframe = iframePopup.contains(event.target);
+            const isClickOnOpenButton = event.target === openNewAppealButton;
+    
+            if (!isClickInsideIframe && !isClickOnOpenButton) {
+                iframePopup.style.display = 'none';
+                closeBtn.style.display = 'none';
+            }
+        });
     }
 
     #renderAppeals(appeals, container) {
         if (!appeals || appeals.length === 0) {
-            container.innerHTML = '<p class="support__no-appeals">No appeals found.</p>';
+            container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
             return;
         }
 
         container.innerHTML = appeals.map(appeal => `
-            <a class="support__item" href="/appeal/${appeal.id || ''}" data-navigate>
-                <div class="support__item-date">
+            <a class="support-tab__item" href="/appeal/${appeal.id || ''}" data-navigate>
+                <div class="support-tab__item-date">
                     <p>${appeal.created_at}</p>
                 </div>
-                <div class="support__item-tag">
+                <div class="support-tab__item-tag">
                     <p>tag: ${appeal.tag}</p>
                 </div>
-                <div class="support__item-name">
+                <div class="support-tab__item-name">
                     <p>Message: ${appeal.name}</p>
                 </div>
-                <div class="support__item-status">
+                <div class="support-tab__item-status">
                     <p>${appeal.status}</p>
                 </div>
             </a>
