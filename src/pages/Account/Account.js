@@ -1,3 +1,4 @@
+// <DOCUMENT filename="Account.js">
 import './styles/account.scss';
 import './styles/security.scss';
 import './styles/support.scss';
@@ -10,6 +11,7 @@ import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
 import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
+import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
 class Account {
     #parent;
@@ -37,7 +39,6 @@ class Account {
         this.#parent.innerHTML = `
             <div id="accountTabs"></div>
             <div id="tabContent"></div>
-            <div id="supportContent"></div>
         `;
         this.#initTabs();
         this.#renderActiveTab();
@@ -157,9 +158,45 @@ class Account {
         });
     }
 
-    #setupSupport() {
+    async #setupSupport() {
+        const listContainer = this.#parent.querySelector('.support__list');
+        if (!listContainer) return;
+
+        try {
+            const { appeals } = await fetchMyAppeals();
+            this.#renderAppeals(appeals, listContainer);
+        } catch (err) {
+            listContainer.innerHTML = `
+                <div class="support__error">
+                    Failed to load appeals: ${err.message || 'Unknown error'}
+                </div>
+            `;
+        }
     }
 
+    #renderAppeals(appeals, container) {
+        if (!appeals || appeals.length === 0) {
+            container.innerHTML = '<p class="support__no-appeals">No appeals found.</p>';
+            return;
+        }
+
+        container.innerHTML = appeals.map(appeal => `
+            <a class="support__item" href="/appeal/${appeal.id || ''}" data-navigate>
+                <div class="support__item-date">
+                    <p>${appeal.created_at}</p>
+                </div>
+                <div class="support__item-tag">
+                    <p>tag: ${appeal.tag}</p>
+                </div>
+                <div class="support__item-name">
+                    <p>Message: ${appeal.name}</p>
+                </div>
+                <div class="support__item-status">
+                    <p>${appeal.status}</p>
+                </div>
+            </a>
+        `).join('');
+    }
 
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
