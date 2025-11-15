@@ -158,8 +158,32 @@ class Account {
     }
 
     #setupSupport() {
-    }
+        const openNewAppealButton = document.getElementById("openNewAppeal");
+        const iframePopup = document.getElementById('iframePopup');
+        const closeBtn = document.getElementById('closeIframeBtn');
 
+        openNewAppealButton.addEventListener('click', function() {
+            iframePopup.style.display = 'block';
+            closeBtn.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            iframePopup.style.display = 'none';
+            closeBtn.style.display = 'none';
+        });
+
+
+        document.addEventListener('click', function(event) {
+            const isClickInsideIframe = iframePopup.contains(event.target);
+            const isClickOnOpenButton = event.target === openNewAppealButton;
+    
+            if (!isClickInsideIframe && !isClickOnOpenButton) {
+                iframePopup.style.display = 'none';
+                closeBtn.style.display = 'none';
+            }
+        });
+
+    }
 
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
