@@ -14,7 +14,7 @@ class CurrentAppeal {
 
     constructor(parent, appealId, appInstance = null) {
         this.#parent = parent;
-        this.#appealId = appealId;
+        this.#appealId = params.id;
         this.#appInstance = appInstance;
     }
 
