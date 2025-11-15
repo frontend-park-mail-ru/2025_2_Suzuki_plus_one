@@ -27,8 +27,9 @@ const routes = {
     '*': NotFound,
 
     '/newAppeal' : NewAppeal,
-    '/currentAppeal': CurrentAppeal,
     '/appealStats': AppealStats,
+    '/currentAppeal/:id': CurrentAppeal,
+
 };
 
 export class Router {
@@ -81,7 +82,9 @@ export class Router {
         const { Page, params } = match;
 
         const standaloneRoutes = ['/newAppeal', '/currentAppeal'];
-        const isStandalone = standaloneRoutes.includes(pathname);
+        const isStandalone = standaloneRoutes.some(route =>
+            pathname === route || pathname.startsWith(route + '/')
+        );
 
         this.root.innerHTML = '';
         const pageContainer = document.createElement('div');
