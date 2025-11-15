@@ -1,0 +1,38 @@
+<main class='support__content'>
+    <form class='support__form' id='support-form' enctype='multipart/form-data'>
+        <h2 class='support__title'>Support Request</h2>
+
+        <label class='support__label' for='support-tag'>Topic</label>
+        <select class='support__input input' id='support-tag' required>
+            <option value='' disabled selected>Select a topic</option>
+            <option value='bug'>Report a bug</option>
+            <option value='feature'>Feature request</option>
+            <option value='product'>Product issue</option>
+            <option value='other'>Other</option>
+        </select>
+        <div class='support__error' hidden>Error message</div>
+
+        <label class='support__label' for='support-message'>Message</label>
+        <textarea
+            class='support__input support__textarea'
+            id='support-message'
+            placeholder='Describe your issue or request...'
+            rows='5'
+            required
+        ></textarea>
+
+        <!-- {{!-- <label class='support__file-label' for='support-file'>
+            Attach file (optional)
+        </label>
+        <input
+            type='file'
+            id='support-file'
+            class='support__file-input'
+            accept='.jpg,.jpeg,.png,.pdf,.txt,.doc,.docx'
+        /> --}} -->
+
+        <div class='support__error' id='supportError' hidden>Error message</div>
+
+        <button class='support__button button' type='submit'>Send Message</button>
+    </form>
+</main>
