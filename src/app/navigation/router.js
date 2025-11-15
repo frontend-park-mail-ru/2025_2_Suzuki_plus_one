@@ -8,7 +8,7 @@ import Account from '@pages/Account/Account.js';
 import NotFound from '@pages/NotFound/NotFound.js';
 import NewAppeal from '@features/AppealCard/NewAppeal.js';
 import CurrentAppeal from '@features/AppealCard/CurrentAppeal.js';
-
+import AppealStats from '@features/AppealCard/AppealStats.js';
 
 const routes = {
     '/': Home,
@@ -28,6 +28,7 @@ const routes = {
 
     '/newAppeal' : NewAppeal,
     '/currentAppeal': CurrentAppeal,
+    '/appealStats': AppealStats,
 };
 
 export class Router {

@@ -1,6 +1,16 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
 
 export async function fetchAllAppeals() {
+    return {
+  "appeals": [
+    {
+      "tag": "bug",
+      "name": "I have a problem...",
+      "status": "open",
+      "created_at": "11:11 01.01.2024"
+    }
+  ]
+}
     return await fetchWithErrorsHandling(`/api/v1/appeal/all`, {
         method: 'GET',
     });
