@@ -58,8 +58,6 @@ export async function AddMessageToAppeal(appeal_id, data) {
 }
 
 export async function getMessageOfAppeal(appeal_id) {
-<<<<<<< HEAD
-=======
     return {
   "messages": [
     {
@@ -75,8 +73,6 @@ export async function getMessageOfAppeal(appeal_id) {
     }
   ]
 }
-
->>>>>>> 2e375656b664d1cc0a8047b412d216f5f606ca77
     return fetchWithErrorsHandling('/api/v1/appeal/{appeal_id}/message', {
         method: 'GET',
     });
