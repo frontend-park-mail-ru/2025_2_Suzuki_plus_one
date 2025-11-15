@@ -58,7 +58,6 @@ export async function AddMessageToAppeal(appeal_id, data) {
 }
 
 export async function getMessageOfAppeal(appeal_id) {
-
     return {
   "messages": [
     {
