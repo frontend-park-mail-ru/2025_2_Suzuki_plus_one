@@ -5,7 +5,7 @@
     &__content {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 85vh;
         background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
         font-family: inherit;
     }
@@ -167,4 +167,18 @@
         padding: var(--padding-large);
         font-size: 14px;
     }
+
+    &__reply {
+            display: flex;
+            flex-direction: column;
+            padding: var(--padding-large);
+            background: var(--color-bg);
+            border-top: var(--border);
+            gap: var(--padding-small);
+            flex-shrink: 0;
+
+            &[hidden] {
+                display: none;
+            }
+        }
 }
