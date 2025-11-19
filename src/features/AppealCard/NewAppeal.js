@@ -47,6 +47,7 @@ class NewAppeal {
 
                 try {
                     const result = await createNewAppeal(data);
+                    console.log(result);
                     if (result?.success) {
                         this.#showSuccess();
                         form.reset();
@@ -73,10 +74,10 @@ class NewAppeal {
             errorDiv.style.color = 'var(--color-green)';
             errorDiv.hidden = false;
 
-            setTimeout(() => {
-                errorDiv.hidden = true;
-                errorDiv.style.color = '';
-            }, 5000);
+            // setTimeout(() => {
+            //     errorDiv.hidden = true;
+            //     errorDiv.style.color = '';
+            // }, 5000);
         }
     }
 }

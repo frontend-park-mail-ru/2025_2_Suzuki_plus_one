@@ -1,19 +1,18 @@
-<div id="curAppealWrapper" class="curIframe-wrapper">
-    <iframe id="curAppealIframe" src`/currentAppeal/{{appeal_id}}`></iframe>
+{{!-- <div id="curAppealWrapper" class="curIframe-wrapper">
+    <iframe id="curAppealIframe" src=`/currentAppeal/{{appeal_id}}`></iframe>
     <button id="closeCurIframeBtn" class="close-cur-iframe">×</button>
-</div>
-
-<a class="support-tab__item" id="openCurAppeal">
-            <div class="support-tab__item-date" id="openCurAppeal" >
+</div> --}}
+<a class="support-tab__item openCurAppeal">
+            <div class="support-tab__item-date" >
                 <p>{{created_at}}</p>
             </div>
-            <div class="support-tab__item-tag" id="openCurAppeal">
+            <div class="support-tab__item-tag">
                 <p>{{tag}}</p>
             </div>
-            <div class="support-tab__item-name" id="openCurAppeal">
+            <div class="support-tab__item-name">
                 <p>{{name}}</p>
             </div>
-            <div class="support-tab__item-status" id="openCurAppeal">
+            <div class="support-tab__item-status">
                 <p>{{status}}</p>
             </div>
         </a>

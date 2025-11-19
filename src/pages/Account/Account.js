@@ -165,6 +165,7 @@ class Account {
 
         try {
             const { appeals } = await fetchMyAppeals();
+            console.log(appeals);
             this.#renderAppeals(appeals, listContainer);
         } catch (err) {
             listContainer.innerHTML = `
@@ -200,22 +201,24 @@ class Account {
         });
     }
 
+
     #renderAppeals(appeals, container) {
+        container.innerHTML = "";
+
         if (!appeals || appeals.length === 0) {
             container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
-            return;
+            return;            
         }
-
-        appeals.forEach((appeal) => {
-            const appealElement = document.createElement('div');
-            container.appendChild(appealElement);
-            const supportItem = new SupportItem(container, this.#app);
-            supportItem.render(appeal);
-            console.log(appeal);
-            console.log(appeal.appeal_id);
-
+    
+        appeals.forEach(appeal => {
+            const itemContainer = document.createElement("div");
+            container.appendChild(itemContainer);
+    
+            const item = new SupportItem(itemContainer, this.#app);
+            item.render(appeal);
         });
     }
+    
 
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');

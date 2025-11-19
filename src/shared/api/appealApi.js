@@ -35,7 +35,6 @@ export async function fetchMyAppeals() {
 }
 
 export async function createNewAppeal(data) {
-    console.log()
     return fetchWithErrorsHandling('/api/v1/appeal/new', {
         method: 'POST',
         body: JSON.stringify(data),
