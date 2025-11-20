@@ -53,7 +53,7 @@ export async function fetchAppealById(appeal_id) {
     });
 }
 
-export async function markAppealAsResolved(data) {
+export async function markAppealAsResolved(appeal_id) {
     return fetchWithErrorsHandling(`/api/v1/appeal/${appeal_id}/resolve`, {
         method: 'PUT',
         // body: JSON.stringify(data),

@@ -130,12 +130,25 @@ class CurrentAppeal {
     }
 
     #setupCloseButton() {
+        const supportActions = this.#parent.querySelector('#supportActions'); 
         const closeBtn = this.#parent.querySelector('#close-button');
+        const statusEl = this.#parent.querySelector('#appeal-status');
+
         if (!closeBtn) return;
+
+        if (statusEl.textContent === 'resolved') {
+            supportActions.style.display = 'none';
+        }
 
         closeBtn.addEventListener('click', async () => {
             try {
                 await markAppealAsResolved(this.#appealId);
+
+                statusEl.className = 'support-chat__header-status--resolved';
+                statusEl.textContent = 'resolved';
+
+                supportActions.style.display = 'none';
+                
             } catch (err) {
                 console.log(err.message || 'Unknown error');
             }

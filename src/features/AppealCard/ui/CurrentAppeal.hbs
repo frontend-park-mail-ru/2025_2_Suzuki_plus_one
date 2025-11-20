@@ -1,13 +1,32 @@
-{{displayStatus}}
+
 <main class="support-chat__content">
+    
     {{!-- <div class="support-chat__status" id="status">
         {{status}} --}}
     {{!-- </div> --}}
+
+    <div class="support-chat__header">
+            <div class="support-chat__header-tag">
+                <p>tag:&nbsp;{{tag}}</p>
+            </div>
+            <div class="support-chat__header-status">
+                <p class="support-chat__header-status-label">status:&nbsp;</p>
+                <p id="appeal-status" class="support-chat__header-status--{{status}}">{{status}}</p>
+            </div>
+        </div>
+
     <div class="support-chat__messages" id="messages">
+        <div class="support-chat__message support-chat__message--user">
+            <div class="support-chat__bubble">
+                {{{name}}}
+            </div>
+            <div class="support-chat__time">{{created_at}}</div>
+        </div>
+
         {{#each messages}}
         <div class="support-chat__message support-chat__message--{{sender}}">
             <div class="support-chat__bubble">
-                {{{this.message}}}
+                {{{message}}}
             </div>
             <div class="support-chat__time">{{displayTime}}</div>
         </div>
@@ -24,7 +43,7 @@
         <button id="send-reply" class="support-chat__send-btn">Send</button>
     </div>
 
-    <div class="support-chat__actions">
+    <div id="supportActions" class="support-chat__actions">
         <button class="support-chat__action-btn" id="close-button" title="Close appeal">
             I'm satisfied with the answer
         </button>
