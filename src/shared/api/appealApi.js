@@ -48,20 +48,20 @@ export async function fetchAppealById(appeal_id) {
 //   "status": "open",
 //   "created_at": "11:11 01.01.2024"
 // }]
-    return await fetchWithErrorsHandling(`/api/v1/appeal/{appeal_id}`, {
+    return await fetchWithErrorsHandling(`/api/v1/appeal/${appeal_id}`, {
         method: 'GET',
     });
 }
 
 export async function markAppealAsResolved(data) {
-    return fetchWithErrorsHandling('/api/v1/appeal/{appeal_id}/resolve', {
+    return fetchWithErrorsHandling(`/api/v1/appeal/${appeal_id}/resolve`, {
         method: 'PUT',
         // body: JSON.stringify(data),
     });
 }
 
 export async function AddMessageToAppeal(appeal_id, data) {
-    return fetchWithErrorsHandling('/api/v1/appeal/{appeal_id}/message', {
+    return fetchWithErrorsHandling(`/api/v1/appeal/${appeal_id}/message`, {
         method: 'POST',
         body: JSON.stringify(data),
     });
@@ -85,7 +85,7 @@ export async function getMessageOfAppeal(appeal_id) {
     //     ]
     //   }
 
-    return fetchWithErrorsHandling('/api/v1/appeal/{appeal_id}/message', {
+    return fetchWithErrorsHandling(`/api/v1/appeal/${appeal_id}/message`, {
         method: 'GET',
     });
 }

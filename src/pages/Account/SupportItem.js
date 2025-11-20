@@ -9,25 +9,6 @@ class SupportItem {
         this.#parent = parent;
         this.#app = appInstance;
     }
-    // render(data) {
-    //     const item = template(data);
-
-    //     const openBtn = item.querySelector(".openCurAppeal");
-    //     const curAppealWrapper = document.getElementById("curAppealWrapper");
-    //     const closeBtn = document.getElementById("closeCurIframeBtn");
-    
-    //     openBtn.addEventListener("click", () => {
-    //         curAppealWrapper.style.display = "block";
-    //         closeBtn.style.display = "block";
-    //     });
-    
-    //     closeBtn.addEventListener("click", () => {
-    //         curAppealWrapper.style.display = "none";
-    //         closeBtn.style.display = "none";
-    //     });
-
-    //     this.#parent.innerHTML = item;
-    // }
 
     render(data) {
         const html = template(data);
@@ -41,7 +22,9 @@ class SupportItem {
     
         items.forEach(item => {
             item.addEventListener("click", () => {
-                iframe.src = `/currentAppeal/${data.appeal_id}`;
+                const id = data.appeal_id;
+                console.log(id);
+                iframe.src = `/currentAppeal/${id}`;
     
                 curAppealWrapper.style.display = "block";
                 closeBtn.style.display = "block";
@@ -52,44 +35,9 @@ class SupportItem {
             curAppealWrapper.style.display = "none";
             closeBtn.style.display = "none";
     
-            iframe.src = ""; // сбрасываем iframe
+            iframe.src = "";
         });
     }
-
-    
-    // render(data) {
-    //     const html = template(data); // ← строка HTML
-    
-    //     // создаём контейнер
-    //     const wrapper = document.createElement("div");
-    //     wrapper.innerHTML = html;
-    
-    //     const item = wrapper.firstElementChild; // ← полноценный DOM-элемент
-    
-    //     // теперь querySelector работает
-    //     // const openBtn = item.querySelector(".openCurAppeal");
-    
-    //     // const curAppealWrapper = document.getElementById("curAppealWrapper");
-    //     // const closeBtn = document.getElementById("closeCurIframeBtn");
-    
-    //     // openBtn.addEventListener("click", () => {
-    //     //     curAppealWrapper.style.display = "block";
-    //     //     closeBtn.style.display = "block";
-    
-    //     //     // Вставляем нужный ID для iframe
-    //     //     const iframe = document.getElementById("curAppealIframe");
-    //     //     iframe.src = `/currentAppeal/${data.appeal_id}`;
-    //     // });
-    
-    //     // closeBtn.addEventListener("click", () => {
-    //     //     curAppealWrapper.style.display = "none";
-    //     //     closeBtn.style.display = "none";
-    //     // });
-    
-    //     this.#parent.appendChild(item);
-    // }
-    
-    
 }
 
 export default SupportItem;
