@@ -27,8 +27,12 @@ class Account {
 
         this.activeTab = params.tab || 'settings';
 
-        this.user = this.#app.user;
-        this.#app.updateUserInfo();
+        this.#app.updateUserInfo().then(() => {
+            this.user = this.#app.user;
+            this.render();
+        });
+
+        
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
@@ -257,8 +261,8 @@ class Account {
 
             try {
                 const result = await uploadUserAvatar(file);
-                this.user.avatar_url = result.avatar_url;
-                this.#app.user = this.user;
+                this.#app.user.avatar_url = result.url;
+                this.user = this.#app.user;
                 this.#app.header.render();
                 this.#renderActiveTab();
             } catch (err) {
