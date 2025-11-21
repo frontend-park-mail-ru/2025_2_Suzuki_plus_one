@@ -1,5 +1,9 @@
 import './styles/account.scss';
 import './styles/security.scss';
+import './styles/support.scss';
+import supportTemplate from './ui/Support.hbs';
+import SupportItem from './SupportItem.js';
+
 import settingsTemplate from './ui/Settings.hbs';
 import securityTemplate from './ui/Security.hbs';
 import pencil_icon from '@assets/images/icons/pencil-white.svg';
@@ -8,6 +12,7 @@ import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
 import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
+import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
 class Account {
     #parent;
@@ -22,11 +27,16 @@ class Account {
 
         this.activeTab = params.tab || 'settings';
 
-        this.user = this.#app.user;
-        this.#app.updateUserInfo();
+        this.#app.updateUserInfo().then(() => {
+            this.user = this.#app.user;
+            this.render();
+        });
+
+        
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
+            support: supportTemplate,
         };
     }
 
@@ -45,6 +55,7 @@ class Account {
         const tabsConfig = [
             { label: 'Settings', href: '/account/settings', page: 'settings', active: this.activeTab === 'settings' },
             { label: 'Security', href: '/account/security', page: 'security', active: this.activeTab === 'security' },
+            { label: 'Support', href: '/account/support', page: 'support', active: this.activeTab === 'support' },
         ];
 
         this.#tabs = new Tabs(tabsContainer, (page, href) => this.#handleTabChange(page, href));
@@ -74,8 +85,11 @@ class Account {
         if (this.activeTab === 'settings'){
             this.#setupSettingsForm();
         } else if (this.activeTab === 'security') {
-        this.#setupSecurityForm();
-    }
+            this.#setupSecurityForm();
+        } else if (this.activeTab === 'support') {
+            this.#setupSupport();
+        }
+
     }
 
     #setupSecurityForm() {
@@ -149,6 +163,67 @@ class Account {
         });
     }
 
+    async #setupSupport() {
+        const listContainer = this.#parent.querySelector('.support-tab__list');
+        if (!listContainer) return;
+
+        try {
+            const { appeals } = await fetchMyAppeals();
+            console.log(appeals);
+            this.#renderAppeals(appeals, listContainer);
+        } catch (err) {
+            listContainer.innerHTML = `
+                <div class="support-tab__error">
+                    Failed to load appeals: ${err.message || 'Unknown error'}
+                </div>
+            `;
+        }
+
+        const openNewAppealButton = document.getElementById("openNewAppeal");
+        const iframePopup = document.getElementById('iframePopup');
+        const closeBtn = document.getElementById('closeIframeBtn');
+
+        openNewAppealButton.addEventListener('click', function() {
+            iframePopup.style.display = 'block';
+            closeBtn.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            iframePopup.style.display = 'none';
+            closeBtn.style.display = 'none';
+        });
+
+
+        document.addEventListener('click', function(event) {
+            const isClickInsideIframe = iframePopup.contains(event.target);
+            const isClickOnOpenButton = event.target === openNewAppealButton;
+    
+            if (!isClickInsideIframe && !isClickOnOpenButton) {
+                iframePopup.style.display = 'none';
+                closeBtn.style.display = 'none';
+            }
+        });
+    }
+
+
+    #renderAppeals(appeals, container) {
+        container.innerHTML = "";
+
+        if (!appeals || appeals.length === 0) {
+            container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
+            return;            
+        }
+    
+        appeals.forEach(appeal => {
+            const itemContainer = document.createElement("div");
+            container.appendChild(itemContainer);
+    
+            const item = new SupportItem(itemContainer, this.#app);
+            item.render(appeal);
+        });
+    }
+    
+
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
         if (!form) return;
@@ -186,8 +261,8 @@ class Account {
 
             try {
                 const result = await uploadUserAvatar(file);
-                this.user.avatar_url = result.avatar_url;
-                this.#app.user = this.user;
+                this.#app.user.avatar_url = result.url;
+                this.user = this.#app.user;
                 this.#app.header.render();
                 this.#renderActiveTab();
             } catch (err) {

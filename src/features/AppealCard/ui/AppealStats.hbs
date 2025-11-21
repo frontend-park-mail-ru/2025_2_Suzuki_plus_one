@@ -1,0 +1,15 @@
+{{!-- <div id="curAppealFrame" class="curIframe-wrapper" style="display:none;">
+    <iframe id="curAppealIframe"></iframe>
+    <button id="closeCurIframeBtn" class="close-cur-iframe">×</button>
+</div> --}}
+
+<div id="appealsList">
+    {{#each appeals}}
+        <a class="support-tab__item" data-appealid="{{id}}">
+            <div class="support-tab__item-date"><p>{{created_at}}</p></div>
+            <div class="support-tab__item-tag"><p>{{tag}}</p></div>
+            <div class="support-tab__item-name"><p>{{name}}</p></div>
+            <div class="support-tab__item-status"><p>{{displayStatus}}</p></div>
+        </a>
+    {{/each}}
+</div>
