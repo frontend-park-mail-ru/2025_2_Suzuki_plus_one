@@ -19,15 +19,20 @@ class Header {
     }
 
     render() {
-        if (!this.#isRendered) {
-            this.#parent.innerHTML = headerTemplate({
-                isAuthorized: this.#app.isAuthorized,
-                user: this.#app.user,
+            this.#parent.innerHTML = template({
+            isAuthorized: this.#app.isAuthorized,
+            logoUrl: logo,
+            searchUrl: searchIcon,
+            user: this.#app.user,
             });
+        // if (!this.#isRendered) {
+        //     this.#parent.innerHTML = headerTemplate({
+        //         isAuthorized: this.#app.isAuthorized,
+        //         user: this.#app.user,
+        //     });
 
-            this.#setupEventsOnce();
-            this.#isRendered = true;
-        }
+        this.#setupEventsOnce();
+        this.#isRendered = true;
 
         this.#renderDropdown();
     }
