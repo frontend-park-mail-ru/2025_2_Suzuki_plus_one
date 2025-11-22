@@ -38,6 +38,8 @@ class Header {
             el.addEventListener('click', () => router.navigate(el.dataset.navigate));
         });
 
+        this.#highlightActiveLink();
+
         if (this.#app.isAuthorized) {
             this.#parent.querySelector('#logOutBtn')?.addEventListener('click', () => {
                 this.#app.logoutUser();
@@ -99,6 +101,20 @@ class Header {
             dropdown.classList.remove('active');
         }
     }
+    #highlightActiveLink() {
+        const currentPath = window.location.pathname;
+        const links = this.#parent.querySelectorAll('.header__menu-link');
+    
+        links.forEach(link => {
+            const linkPath = link.getAttribute('href');
+            if (linkPath === currentPath) {
+                link.classList.add('header__menu-link--active');
+            } else {
+                link.classList.remove('header__menu-link--active');
+            }
+        });
+    }
+    
 }
 
 export default Header;

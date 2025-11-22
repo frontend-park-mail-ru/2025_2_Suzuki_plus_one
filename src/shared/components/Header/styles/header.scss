@@ -40,6 +40,7 @@
     }
 
     &__auth {
+        align-items: center;
         display: flex;
 
         column-gap: var(--padding-medium);
@@ -79,11 +80,22 @@
             display: inline-flex;
             align-items: center;
             height: 48px;
+            line-height: 1;
+            padding-bottom: 2px;
             font-size: 24px;
 
             @include media.hover {
                 color: white;
                 transition-duration: inherit;
+            }
+
+            &--active {
+                .header__menu-title {
+                    padding-bottom: 2px;
+                    font-weight: 700;
+                    border-bottom: 2px solid var(--color-text);
+                }
+                
             }
         }
     }
