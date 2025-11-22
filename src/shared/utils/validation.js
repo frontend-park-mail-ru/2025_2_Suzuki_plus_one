@@ -5,7 +5,7 @@
  * @returns {string} Purified string
  */
 function purifyInputString(input) {
-    return input.trim().replace(/[<>;"'`]/g, '');
+    return input.trim().replace(/<>;"'`/g, '');
 }
 
 /**
@@ -16,17 +16,18 @@ function purifyInputString(input) {
  */
 export function validateEmail(email) {
     if (!email) return 'Email is required';
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
     const pureEmail = purifyInputString(email);
+    
     const localPart = pureEmail.split('@')[0];
     const domain = pureEmail.split('@')[1];
 
     if (pureEmail !== email) {
         return 'Email contains invalid characters (< > ; \' " `)';
     }
-    if (!/^[a-zA-Z0-9._-]+@[\w.-]+\.\w+$/.test(pureEmail)) {
-        return 'Email must contain only Latin letters, digits, and special characters (._-)';
-    }
+    
+    const regex = /^[a-zA-Z0-9._%+-]+@(?:(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\])$/;
+    
     if (pureEmail.length > 254) {
         return 'Email is too long (maximum 254 characters)';
     }
@@ -39,13 +40,12 @@ export function validateEmail(email) {
     if (localPart.length > 64) {
         return 'Local part of the email is too long (maximum 64 characters)';
     }
-    if (!domain.includes('.')) {
+    if (!domain || (!domain.includes('.') && !domain.startsWith('['))) {
         return 'Domain must contain a dot';
     }
     if (localPart.length < 3) {
-        return 'Local part of the email is too short (minimum 3 characters)'
-    }
-
+        return 'Local part of the email is too short (minimum 3 characters)';
+    }    
     return null;
 }
 
