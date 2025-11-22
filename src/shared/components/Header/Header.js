@@ -98,14 +98,6 @@ class Header {
         } else {
             dropdown.classList.remove('active');
         }
-
-        // dropdown.querySelectorAll('[data-navigate]').forEach(el => {
-        //     el.style.cursor = 'pointer';
-        //     el.addEventListener('click', () => {
-        //         router.navigate(el.dataset.navigate);
-        //         dropdown.classList.remove('active');
-        //     });
-        // });
     }
 }
 
