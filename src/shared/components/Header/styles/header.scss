@@ -137,7 +137,8 @@
             color: #3b82f6;
         }
     }
-&__search-wrapper {
+    
+    &__search-wrapper {
         position: relative;
         flex: 1;
         max-width: 500px;
@@ -239,7 +240,6 @@
             margin-top: 2px;
         }
 
-        // Для актёров — круглое фото
         &.actor {
             img {
                 width: 48px ;

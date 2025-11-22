@@ -1,14 +1,16 @@
 import './styles/header.scss';
 import './styles/input.scss';
-import template from './ui/Header.hbs';
+import headerTemplate from './ui/Header.hbs';
+import dropdownTemplate from './ui/SearchDropdown.hbs';
 import logo from '@assets/images/logo.svg';
 import searchIcon from '@assets/images/icons/search.svg';
-import { search, debouncedSearch } from '@shared/api/search.js';
+import { search } from '@shared/api/search.js';
 
 class Header {
     #parent;
     #app;
     #searchResults = null;
+    #isRendered = false;
 
     constructor(parent, appInstance) {
         this.#parent = parent;
@@ -17,57 +19,92 @@ class Header {
     }
 
     render() {
-        this.#render();
-        this.#setupSearch();
-        this.#setupLogout();
+        if (!this.#isRendered) {
+            this.#parent.innerHTML = headerTemplate({
+                isAuthorized: this.#app.isAuthorized,
+                user: this.#app.user,
+            });
+
+            this.#setupEventsOnce();
+            this.#isRendered = true;
+        }
+
+        this.#renderDropdown();
     }
 
-    #render() {
-        this.#parent.innerHTML = template({
-            isAuthorized: this.#app.isAuthorized,
-            user: this.#app.user,
-            searchResults: this.#searchResults,
-        });
-
+    #setupEventsOnce() {
         this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
             el.style.cursor = 'pointer';
             el.addEventListener('click', () => router.navigate(el.dataset.navigate));
         });
-    }
 
-    #setupLogout() {
         if (this.#app.isAuthorized) {
             this.#parent.querySelector('#logOutBtn')?.addEventListener('click', () => {
                 this.#app.logoutUser();
             });
         }
+
+        const input = this.#parent.querySelector('#searchInput');
+        if (input) {
+            input.addEventListener('input', async (e) => {
+                const query = e.target.value.trim();
+
+                if (!query) {
+                    this.#searchResults = null;
+                } else {
+                    try {
+                        const data = await search(query);
+                        this.#searchResults = data?.[0] || { actors: [], medias: [] };
+                    } catch (err) {
+                        console.error(err);
+                        this.#searchResults = null;
+                    }
+                }
+
+                this.#renderDropdown();
+            });
+
+            input.addEventListener('focus', () => this.#renderDropdown());
+        }
+
+        document.addEventListener('click', (e) => {
+                if (!this.#parent.contains(e.target)) {
+                    this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+                }
+            });
     }
 
-    #setupSearch() {
-        const input = this.#parent.querySelector('#searchInput');
-        if (!input) return;
+    #renderDropdown() {
+        const dropdown = this.#parent.querySelector('#searchDropdown');
+        if (!dropdown) return;
 
-        const doSearch = debouncedSearch(async (query) => {
-            query = query.trim();
-            if (!query) {
-                this.#searchResults = null;
-                this.#render();
-                return;
-            }
-
-            try {
-                const data = await search(query);
-                this.#searchResults = data?.[0] || { actors: [], medias: [] };
-            } catch (err) {
-                this.#searchResults = null;
-            }
-            this.#render();
+        dropdown.innerHTML = dropdownTemplate({
+            searchResults: this.#searchResults
         });
 
-        input.addEventListener('input', e => doSearch(e.target.value));
+        const hasResults = this.#searchResults && 
+            (this.#searchResults.actors?.length > 0 || this.#searchResults.medias?.length > 0);
 
-        input.addEventListener('focus', () => {
-            if (this.#searchResults) this.#render();
+        const hasQuery = this.#parent.querySelector('#searchInput')?.value.trim().length > 0;
+
+        if (hasResults || (hasQuery && this.#searchResults !== null)) {
+            dropdown.classList.add('active');
+        } else {
+            dropdown.classList.remove('active');
+        }
+
+        dropdown.querySelectorAll('[data-navigate]').forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => {
+                router.navigate(el.dataset.navigate);
+                dropdown.classList.remove('active');
+            });
         });
     }
 }
