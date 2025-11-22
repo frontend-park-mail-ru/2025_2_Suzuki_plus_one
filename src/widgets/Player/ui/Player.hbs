@@ -1,5 +1,11 @@
 <main>
     <div class='video-container'>
+        <button class="video-hud__back" id="video-hud__back" title="Back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
         <video
             src="{{video}}"
             poster={{poster}}
@@ -65,6 +71,26 @@
                                 d='M4 3.11111C4 2.49746 4.51167 2 5.14286 2H8.57143C9.20261 2 9.71429 2.49746 9.71429 3.11111V20.8889C9.71429 21.5025 9.20261 22 8.57143 22H5.14286C4.51167 22 4 21.5025 4 20.8889V3.11111Z'
                                 fill='#F5F5F5'
                             />
+                        </svg>
+                    </button>
+
+                    <button class="video-hud__rewind" id="video-hud__rewind-back" title="−10 сек">
+                        {{{rewindLeftIcon}}}
+                    </button>
+
+                    <button class="video-hud__rewind" id="video-hud__rewind-forward" title="+10 сек">
+                        {{{rewindRightIcon}}}
+                    </button>
+
+                    <button class="video-hud__episode" id="video-hud__prev-episode"  title="Next episode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M15 18l-6-6 6-6M10 18V6"/>
+                        </svg>
+                    </button>
+
+                    <button class="video-hud__episode" id="video-hud__next-episode"  title="Previous episode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M9 18l6-6-6-6M14 18V6"/>
                         </svg>
                     </button>
                 </div>

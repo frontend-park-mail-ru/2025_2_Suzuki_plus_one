@@ -4,6 +4,8 @@ import { initPlayerControls } from './js/player-controls.js';
 import video from '@assets/videos/trailer.mp4';
 import poster from '@assets/images/poster.png';
 import { fetchTrailer } from '@shared/api/trailerApi.js';
+import RewindLeft from '@shared/assets/images/icons/circular-arrow-left.svg?raw';
+import RewindRight from '@shared/assets/images/icons/circular-arrow-right.svg?raw';
 
 class Player {
     #parent;
@@ -41,9 +43,16 @@ class Player {
             this.#parent.innerHTML = template({
                 video: videoUrl,
                 poster: posterUrl,
+                rewindLeftIcon: RewindLeft,
+                rewindRightIcon: RewindRight,
             });
 
-        // this.#parent.innerHTML = template({ video, poster });
+        // this.#parent.innerHTML = template({
+        //      video,
+        //     poster,
+        //     rewindLeftIcon: RewindLeft,
+        //     rewindRightIcon: RewindRight,
+        //     });
 
         requestAnimationFrame(() => {
             initPlayerControls();
