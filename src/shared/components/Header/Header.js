@@ -11,7 +11,8 @@ class Header {
     #app;
     #searchResults = null;
     #isRendered = false;
-
+    #lastAuthState = null;
+    
     constructor(parent, appInstance) {
         this.#parent = parent;
         this.#app = appInstance;
@@ -19,23 +20,22 @@ class Header {
     }
 
     render() {
-            this.#parent.innerHTML = template({
-            isAuthorized: this.#app.isAuthorized,
-            logoUrl: logo,
-            searchUrl: searchIcon,
-            user: this.#app.user,
-            });
-        // if (!this.#isRendered) {
-        //     this.#parent.innerHTML = headerTemplate({
-        //         isAuthorized: this.#app.isAuthorized,
-        //         user: this.#app.user,
-        //     });
+            const currentAuthState = this.#app.isAuthorized;
 
-        this.#setupEventsOnce();
-        this.#isRendered = true;
+            if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
+                this.#parent.innerHTML = headerTemplate({
+                    isAuthorized: this.#app.isAuthorized,
+                    user: this.#app.user,
+                });
 
-        this.#renderDropdown();
-    }
+                this.#setupEventsOnce();
+                this.#isRendered = true;
+            }
+
+            this.#lastAuthState = currentAuthState;
+
+            this.#renderDropdown();
+        }
 
     #setupEventsOnce() {
         this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
