@@ -2,7 +2,74 @@
     <div class='header__inner'>
         <a class='header__logo logo' href='/' data-navigate id='homeLink'>
         </a>
-        {{! <input class='header__input input' type='text' placeholder='Search' /> }}
+<div class="header__search-wrapper">
+            <input 
+                class='header__input input' 
+                type='text' 
+                placeholder='Search films, series, actors...' 
+                id="searchInput"
+            />
+
+            <div class="header__search-dropdown" id="searchDropdown">
+                {{#if searchResults}}
+                    {{#if searchResults.actors}}
+                        {{#each searchResults.actors}}
+                            <div class="header__search-section">
+                                {{#if @first}}
+                                    <div class="header__search-section-title">People</div>
+                                {{/if}}
+
+                                <div class="header__search-item actor" data-navigate="/actor/{{id}}">
+                                    <img 
+                                        src="{{#with image_urls}}{{#if this.[0]}}{{this.[0]}}{{else}}https://via.placeholder.com/48{{/if}}{{/with}}" 
+                                        alt="{{name}}"
+                                    />
+                                    <div class="header__search-item-info">
+                                        <div class="header__search-item-title">{{name}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+
+                    {{#if searchResults.medias}}
+                        {{#each searchResults.medias}}
+                            <div class="header__search-section">
+                                {{#if @first}}
+                                    <div class="header__search-section-title">Titles</div>
+                                {{/if}}
+
+                                <div class="header__search-item" data-navigate="/film/{{id}}">
+                                    <img 
+                                        src="{{#with posters}}{{#if this.[0]}}{{this.[0]}}{{else}}https://via.placeholder.com/40x60{{/if}}{{/with}}" 
+                                        alt="{{title}}"
+                                    />
+                                    <div class="header__search-item-info">
+                                        <div class="header__search-item-title">{{title}}</div>
+                                        <div class="header__search-item-subtitle">
+                                            {{#if rating}}★ {{rating}}{{/if}}
+                                            {{#if release_date}}
+                                                {{#with (split release_date "-")}}
+                                                    {{#if this.[0]}} | {{this.[0]}}{{/if}}
+                                                {{/with}}
+                                            {{/if}}
+                                            {{#if duration_minutes}} | {{duration_minutes}} min{{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{/if}}
+
+                    {{#unless searchResults.actors}}
+                        {{#unless searchResults.medias}}
+                            <div class="header__search-section-title">No results found</div>
+                        {{/unless}}
+                    {{/unless}}
+                {{/if}}
+            </div>
+        </div>
+
         <div class='header__auth'>
             {{#if isAuthorized}}
                 <div class="header__auth">
