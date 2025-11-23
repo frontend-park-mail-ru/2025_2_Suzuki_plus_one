@@ -31,7 +31,10 @@ class Header {
                 this.#setupEventsOnce();
                 this.#isRendered = true;
             }
-
+            this.#parent.innerHTML = headerTemplate({
+                isAuthorized: this.#app.isAuthorized,
+                user: this.#app.user,
+                });
             this.#lastAuthState = currentAuthState;
 
             this.#renderDropdown();
