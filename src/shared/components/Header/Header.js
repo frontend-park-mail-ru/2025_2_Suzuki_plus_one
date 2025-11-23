@@ -20,38 +20,36 @@ class Header {
     }
 
     render() {
-        const currentAuthState = this.#app.isAuthorized;
+            const currentAuthState = this.#app.isAuthorized;
 
-        if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
-            this.#parent.innerHTML = headerTemplate({
-                isAuthorized: this.#app.isAuthorized,
-                user: this.#app.user || {},
-            });
+            if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
+                this.#parent.innerHTML = headerTemplate({
+                    isAuthorized: this.#app.isAuthorized,
+                    user: this.#app.user,
+                });
 
-            this.#setupEventsOnce();  
-            this.#isRendered = true;
+                this.#setupEventsOnce();
+                this.#isRendered = true;
+            }
+
+            this.#lastAuthState = currentAuthState;
+
+            this.#renderDropdown();
         }
-
-        this.#lastAuthState = currentAuthState;
-
-        this.#renderDropdown();
-    }
 
     #setupEventsOnce() {
-this.#parent.addEventListener('click', (e) => {
-        const link = e.target.closest('[data-navigate]');
-        if (link) {
-            e.preventDefault();
-            router.navigate(link.dataset.navigate);
-            this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
-        }
-    });
+        this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => router.navigate(el.dataset.navigate));
+        });
 
-    this.#parent.addEventListener('click', (e) => {
-        if (e.target.id === 'logOutBtn') {
-            this.#app.logoutUser();
+        this.#highlightActiveLink();
+
+        if (this.#app.isAuthorized) {
+            this.#parent.querySelector('#logOutBtn')?.addEventListener('click', () => {
+                this.#app.logoutUser();
+            });
         }
-    });
 
         const input = this.#parent.querySelector('#searchInput');
         if (input) {
@@ -87,8 +85,6 @@ this.#parent.addEventListener('click', (e) => {
                     this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
                 }
             });
-
-        this.#highlightActiveLink();
     }
 
     #renderDropdown() {
