@@ -20,39 +20,38 @@ class Header {
     }
 
     render() {
-            const currentAuthState = this.#app.isAuthorized;
+        const currentAuthState = this.#app.isAuthorized;
 
-            if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
-                this.#parent.innerHTML = headerTemplate({
-                    isAuthorized: this.#app.isAuthorized,
-                    user: this.#app.user,
-                });
-
-                this.#setupEventsOnce();
-                this.#isRendered = true;
-            }
+        if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
             this.#parent.innerHTML = headerTemplate({
                 isAuthorized: this.#app.isAuthorized,
-                user: this.#app.user,
-                });
-            this.#lastAuthState = currentAuthState;
+                user: this.#app.user || {},
+            });
 
-            this.#renderDropdown();
+            this.#setupEventsOnce();  
+            this.#isRendered = true;
         }
+
+        this.#lastAuthState = currentAuthState;
+
+        this.#renderDropdown();
+    }
 
     #setupEventsOnce() {
-        this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
-            el.style.cursor = 'pointer';
-            el.addEventListener('click', () => router.navigate(el.dataset.navigate));
-        });
-
-        this.#highlightActiveLink();
-
-        if (this.#app.isAuthorized) {
-            this.#parent.querySelector('#logOutBtn')?.addEventListener('click', () => {
-                this.#app.logoutUser();
-            });
+this.#parent.addEventListener('click', (e) => {
+        const link = e.target.closest('[data-navigate]');
+        if (link) {
+            e.preventDefault();
+            router.navigate(link.dataset.navigate);
+            this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
         }
+    });
+
+    this.#parent.addEventListener('click', (e) => {
+        if (e.target.id === 'logOutBtn') {
+            this.#app.logoutUser();
+        }
+    });
 
         const input = this.#parent.querySelector('#searchInput');
         if (input) {
@@ -88,6 +87,8 @@ class Header {
                     this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
                 }
             });
+
+        this.#highlightActiveLink();
     }
 
     #renderDropdown() {
