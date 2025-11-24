@@ -23,6 +23,8 @@ class Header {
             const currentAuthState = this.#app.isAuthorized;
 
             if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
+                this.#lastAuthState = currentAuthState;
+                
                 this.#parent.innerHTML = headerTemplate({
                     isAuthorized: this.#app.isAuthorized,
                     user: this.#app.user,
@@ -32,7 +34,7 @@ class Header {
                 this.#isRendered = true;
             }
 
-            this.#lastAuthState = currentAuthState;
+
 
             this.#renderDropdown();
         }
