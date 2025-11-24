@@ -5,3 +5,26 @@ export async function addToFavourite(filmId) {
         method: 'PUT',
     });
 }
+
+export async function checkMediaIsLiked(media_id) {
+    return await fetchWithErrorsHandling(`/api/v1/media/${media_id}/like`, {
+        method: 'GET',
+    });
+}
+
+export async function deleteFromFavourite(media_id) {
+    return ({
+        "liked": true
+    })
+    // return await fetchWithErrorsHandling(`/api/v1/media/${media_id}/like`, {
+    //     method: 'DELETE',
+    // });
+}
+
+export async function fethcMyFavourite() {
+    // return await fetchWithErrorsHandling(`/api/v1/media/my`, {
+    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=movie&limit=10', {
+
+        method: 'GET',
+    });
+}
