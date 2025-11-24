@@ -20,24 +20,25 @@ class Header {
     }
 
     render() {
-            const currentAuthState = this.#app.isAuthorized;
+        const currentAuthState = this.#app.isAuthorized;
 
-            if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
-                this.#lastAuthState = currentAuthState;
-                
-                this.#parent.innerHTML = headerTemplate({
-                    isAuthorized: this.#app.isAuthorized,
-                    user: this.#app.user || {},
-                });
+        if (!this.#isRendered || this.#lastAuthState !== currentAuthState) {
+            this.#lastAuthState = currentAuthState;
 
-                this.#setupEventsOnce();
-                this.#isRendered = true;
-            }
+            this.#parent.innerHTML = headerTemplate({
+                isAuthorized: this.#app.isAuthorized,
+                user: this.#app.user || {},
+            });
 
-
-
-            this.#renderDropdown();
+            this.#setupEventsOnce();
+            this.#isRendered = true;
+        } 
+        else if (this.#app.isAuthorized && this.#app.user) {
+            this.#updateUserInfoInDOM();
         }
+
+        this.#renderDropdown();
+    }
 
     #setupEventsOnce() {
         this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
@@ -121,6 +122,34 @@ class Header {
             }
         });
     }
+
+    #updateUserInfoInDOM() {
+    const avatarEl = this.#parent.querySelector('.header__avatar');
+    const usernameEl = this.#parent.querySelector('.header__username');
+    const userLink = this.#parent.querySelector('.header__user');
+
+    if (!avatarEl || !usernameEl) return;
+
+    if (this.#app.user.avatar_url) {
+        if (avatarEl.tagName === 'IMG') {
+            avatarEl.src = this.#app.user.avatar_url;
+        } else {
+            const img = document.createElement('img');
+            img.src = this.#app.user.avatar_url;
+            img.alt = this.#app.user.username;
+            img.className = 'header__avatar';
+            avatarEl.replaceWith(img);
+        }
+    }
+
+    if (usernameEl) {
+        usernameEl.textContent = this.#app.user.username;
+    }
+
+    if (userLink) {
+        userLink.dataset.navigate = '/account/settings';
+    }
+}
     
 }
 
