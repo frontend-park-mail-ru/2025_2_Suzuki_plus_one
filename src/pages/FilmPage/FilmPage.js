@@ -9,7 +9,7 @@ import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import {addToFavourite} from '@shared/api/favouriteApi.js';
+import {addToFavourite, checkMediaIsLiked, deleteFromFavourite} from '@shared/api/favouriteApi.js';
 
 class FilmPage {
     #parent;
@@ -44,6 +44,8 @@ class FilmPage {
                 age_rating: film.age_rating ? `${film.age_rating}+` : '—',
                 plot_summary: film.plot_summary || film.description || '',
             });
+
+            await this.#updateFavouriteState();
 
             this.renderStarCards();
             this.#setupFavouriteButton();
@@ -136,6 +138,22 @@ class FilmPage {
         });
     }
 
+    async #updateFavouriteState() {
+        try {
+            const { liked } = await checkMediaIsLiked(this.#filmId);
+            const btn = this.#parent.querySelector('#btn_to_favourite');
+            if (btn) {
+                if (liked) {
+                    btn.classList.add('liked');
+                } else {
+                    btn.classList.remove('liked');
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     #setupFavouriteButton() {
         const favouriteBtn = this.#parent.querySelector('#btn_to_favourite');
         if (!favouriteBtn) return;
@@ -143,8 +161,16 @@ class FilmPage {
         favouriteBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
+            const isLiked = favouriteBtn.classList.contains('liked');
+
             try {
-                await addToFavourite(this.#filmId);
+                if (isLiked) {
+                    await deleteFromFavourite(this.#filmId);
+                    favouriteBtn.classList.remove('liked');
+                } else {
+                    await addToFavourite(this.#filmId);
+                    favouriteBtn.classList.add('liked');
+                }
             } catch (err) {
                 console.error(err);
             }
