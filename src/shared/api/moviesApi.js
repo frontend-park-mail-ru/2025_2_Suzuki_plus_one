@@ -16,6 +16,13 @@ export async function fetchMovies() {
     });
 }
 
+export async function fetchSeries() {
+    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=series&limit=10', {
+//    return fetchWithErrorsHandling('http://217.16.18.125/api/v1/media/recommendations?type=movie&limit=2', {
+        method: 'GET',
+    });
+}
+
 export async function fetchFilm(filmId) {
     return await fetchWithErrorsHandling(`/api/v1/media/${filmId}`, {
 //           return await fetchWithErrorsHandling(`http://217.16.18.125/api/v1/media/${filmId}`, {

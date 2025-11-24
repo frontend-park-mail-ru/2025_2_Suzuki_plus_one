@@ -3,6 +3,7 @@ import FilmCard from '@features/FilmCard/FilmCard.js';
 import template from './ui/Favourite.hbs';
 import { fetchMovies } from '@shared/api/moviesApi';
 import preview from '@assets/images/film_card.png';
+import { fethcMyFavourite } from '@shared/api/favouriteApi.js';
 
 class Favourite {
     #parent;
@@ -20,7 +21,7 @@ class Favourite {
 
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
-        const response = await fetchMovies();
+        const response = await fethcMyFavourite();
         const films = response.movies.map(film => ({
             id: film.media_id,
             title: film.title,

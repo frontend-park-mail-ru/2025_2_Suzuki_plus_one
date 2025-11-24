@@ -20,3 +20,9 @@ export async function deleteFromFavourite(media_id) {
     //     method: 'DELETE',
     // });
 }
+
+export async function fethcMyFavourite() {
+    return await fetchWithErrorsHandling(`/api/v1/media/my`, {
+        method: 'GET',
+    });
+}
