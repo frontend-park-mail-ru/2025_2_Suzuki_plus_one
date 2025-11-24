@@ -27,7 +27,7 @@ class Header {
                 
                 this.#parent.innerHTML = headerTemplate({
                     isAuthorized: this.#app.isAuthorized,
-                    user: this.#app.user,
+                    user: this.#app.user || {},
                 });
 
                 this.#setupEventsOnce();
