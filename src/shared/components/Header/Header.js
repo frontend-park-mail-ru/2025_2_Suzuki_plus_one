@@ -38,6 +38,7 @@ class Header {
         }
 
         this.#renderDropdown();
+        this.#highlightActiveLink();
     }
 
     #setupEventsOnce() {
