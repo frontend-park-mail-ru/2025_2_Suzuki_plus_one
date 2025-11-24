@@ -63,13 +63,19 @@
                 </a>
             </li>
             <li class='header__menu-item'>
-                <a
-                    class='header__menu-link'
-                    href='/favourite'
-                    data-navigate
-                >
-                    <h4 class='header__menu-title'>Favourite</h4>
-                </a>
+                {{#if isAuthorized}}
+                    <a
+                        class='header__menu-link'
+                        href='/favourite'
+                        data-navigate
+                    >
+                        <h4 class='header__menu-title'>Favourite</h4>
+                    </a>
+                {{else}}
+                    <span class='header__menu-link header__menu-link--disabled'>
+                        <h4 class='header__menu-title' title="Log in to view favourite">Favourite</h4>
+                    </span>
+                {{/if}}
             </li>
         </ul>
     </nav>

@@ -98,6 +98,20 @@
                 
             }
         }
+        &-link--disabled {
+            color: var(--color-grey-text) !important;
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+
+            .header__menu-title {
+                border-bottom: none !important;
+            }
+
+            &:hover {
+                color: var(--color-grey-text) !important;
+            }
+        }
     }
     
     &__user {
