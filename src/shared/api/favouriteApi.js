@@ -22,7 +22,9 @@ export async function deleteFromFavourite(media_id) {
 }
 
 export async function fethcMyFavourite() {
-    return await fetchWithErrorsHandling(`/api/v1/media/my`, {
+    // return await fetchWithErrorsHandling(`/api/v1/media/my`, {
+    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=movie&limit=10', {
+
         method: 'GET',
     });
 }
