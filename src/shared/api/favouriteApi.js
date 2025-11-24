@@ -8,7 +8,7 @@ export async function addToFavourite(filmId) {
 
 export async function checkMediaIsLiked(media_id) {
         return ({
-        "liked": true
+        "liked": false
     })
     // return await fetchWithErrorsHandling(`/api/v1/media/${media_id}/like`, {
     //     method: 'GET',
