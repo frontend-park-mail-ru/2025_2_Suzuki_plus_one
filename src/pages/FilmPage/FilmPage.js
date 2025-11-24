@@ -9,6 +9,7 @@ import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
+import {addToFavourite} from '@shared/api/favouriteApi.js';
 
 class FilmPage {
     #parent;
@@ -45,6 +46,7 @@ class FilmPage {
             });
 
             this.renderStarCards();
+            this.#setupFavouriteButton();
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
@@ -132,6 +134,22 @@ class FilmPage {
                 star_photo: photo,
             });
         });
+    }
+
+    #setupFavouriteButton() {
+        const favouriteBtn = this.#parent.querySelector('#btn_to_favourite');
+        if (!favouriteBtn) return;
+
+        favouriteBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            try {
+                await addToFavourite(this.#filmId);
+            } catch (err) {
+                console.error(err);
+            }
+        });
+
     }
 
     #setupPlayButton() {

@@ -7,6 +7,10 @@
     <div class='films__info'>
         <h3 class='films__title'>{{title}}</h3>
         <p class='films__genre'>{{genres}}</p>
-        <p class='films__genre'>{{release_date}}</p>
+        <p class='films__genre'>{{release_date}}
+            {{#if seasons}}
+                ,{{seasons}} seasons
+            {{/if}}
+        </p>
     </div>
 </div>

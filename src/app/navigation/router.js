@@ -2,6 +2,7 @@ import Home from '@pages/Home/Home.js';
 import Login from '@pages/Login/Login.js';
 import Signup from '@pages/Signup/Signup.js';
 import FilmPage from '@pages/FilmPage/FilmPage.js';
+import SeriesPage from '@pages/SeriesPage/SeriesPage.js';
 import StarPage from '@pages/StarPage/StarPage.js';
 import Player from '@widgets/Player/Player.js';
 import Account from '@pages/Account/Account.js';
@@ -20,10 +21,10 @@ const routes = {
     '/account/:tab': Account,
 
     '/film/:id': FilmPage,
+    '/series': SeriesPage,
     '/actor/:id': StarPage,
     '/player/:id': Player,
 
-    '/series': '/',
     '/films': '/',
 
     '*': NotFound,
