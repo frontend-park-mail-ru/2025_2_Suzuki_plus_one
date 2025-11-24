@@ -26,33 +26,33 @@ class Player {
         //     poster: film.poster,
         // });
 
-        const film = await fetchTrailer(this.#filmId);
-        const videoUrl = film.trailers && film.trailers.length > 0 
-                ? film.trailers[0] 
-                : null;
+        // const film = await fetchTrailer(this.#filmId);
+        // const videoUrl = film.trailers && film.trailers.length > 0 
+        //         ? film.trailers[0] 
+        //         : null;
 
-            const posterUrl = film.posters && film.posters.length > 0 
-                ? film.posters[0] 
-                : poster;
+        //     const posterUrl = film.posters && film.posters.length > 0 
+        //         ? film.posters[0] 
+        //         : poster;
 
-            if (!videoUrl) {
-                this.#parent.innerHTML = '<p style="text-align:center; color:red;">Trailer not available</p>';
-                return;
-            }
+        //     if (!videoUrl) {
+        //         this.#parent.innerHTML = '<p style="text-align:center; color:red;">Trailer not available</p>';
+        //         return;
+        //     }
 
-            this.#parent.innerHTML = template({
-                video: videoUrl,
-                poster: posterUrl,
-                rewindLeftIcon: RewindLeft,
-                rewindRightIcon: RewindRight,
-            });
-
-        // this.#parent.innerHTML = template({
-        //      video,
-        //     poster,
-        //     rewindLeftIcon: RewindLeft,
-        //     rewindRightIcon: RewindRight,
+        //     this.#parent.innerHTML = template({
+        //         video: videoUrl,
+        //         poster: posterUrl,
+        //         rewindLeftIcon: RewindLeft,
+        //         rewindRightIcon: RewindRight,
         //     });
+
+        this.#parent.innerHTML = template({
+             video,
+            poster,
+            rewindLeftIcon: RewindLeft,
+            rewindRightIcon: RewindRight,
+            });
 
         requestAnimationFrame(() => {
             initPlayerControls();

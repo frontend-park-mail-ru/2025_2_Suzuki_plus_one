@@ -212,7 +212,7 @@
 .video-hud__rewind {
     background: none;
     border: none;
-    padding: 10px;
+    padding: var(--padding-small);
     cursor: pointer;
     opacity: 0.8;
     transition: all 0.2s ease;
@@ -237,4 +237,24 @@
     // &#video-hud__rewind-forward:active svg {
     //     transform: rotate(360deg);
     // }
+    
+}
+.video-hud__episode {
+    background: none;
+    border: none;
+    padding: var(--padding-small);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+
+    &:hover {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
+    }
 }
