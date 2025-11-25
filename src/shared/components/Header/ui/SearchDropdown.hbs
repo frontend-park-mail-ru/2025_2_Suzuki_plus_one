@@ -17,13 +17,13 @@
         <div class="header__search-section">
             <div class="header__search-section-title">Titles</div>
             {{#each searchResults.medias}}
-                <div class="header__search-item" data-navigate="/film/{{id}}">
-                    <img src="{{#if image_urls.[0]}}{{image_urls.[0]}}{{else}}https://via.placeholder.com/40x60{{/if}}" alt="{{title}}" />
+                <div class="header__search-item" data-navigate="/film/{{media_id}}">
+                    <img src="{{#if posters.[0]}}{{posters.[0]}}{{else}}https://via.placeholder.com/40x60{{/if}}" alt="{{title}}" />
                     <div class="header__search-item-info">
                         <div class="header__search-item-title">{{title}}</div>
                         <div class="header__search-item-subtitle">
                             {{#if rating}}★ {{rating}}{{/if}}
-                            {{#if duration_minutes}} | {{duration_minutes}} min{{/if}}
+                            {{#if duration_minutes}} | {{duration_minutes}} min{{/if}}  
                         </div>
                     </div>
                 </div>
