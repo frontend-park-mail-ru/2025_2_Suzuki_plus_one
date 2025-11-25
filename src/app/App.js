@@ -30,14 +30,20 @@ class App {
     }
 
     async restoreSession() {
+        // if (isTokenValid()) {
+        //     this.isAuthorized = true;
+        //     await this.updateUserInfo();
+        //     window.dispatchEvent(new PopStateEvent('popstate'));
+        //     return;
+        // }
+
         try {
             const token = await refreshAccessToken();
             this.isAuthorized = true;
-            this.updateUserInfo();
+            await this.updateUserInfo();
         } catch {
             this.isAuthorized = false;
             this.user = null;
-            clearAccessToken();
         }
 
         window.dispatchEvent(new PopStateEvent('popstate'));
@@ -64,7 +70,7 @@ class App {
         this.header = new Header(headerContainer, this);
 
  //       if (window == top) {
-            this.header.render();
+       //     this.header.render();
   //      }
 
         this.#container.appendChild(this.#main_content);

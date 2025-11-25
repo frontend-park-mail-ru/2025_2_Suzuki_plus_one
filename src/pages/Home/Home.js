@@ -1,7 +1,10 @@
 import './styles/hero.scss';
+import './styles/section.scss';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import template from './ui/Home.hbs';
 import { fetchMovies } from '@shared/api/moviesApi';
+import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi'
+import dropdownTemplate from './ui/GenreDropdown.hbs';
 import preview from '@assets/images/film_card.png';
 
 /** Class representing the Home page, displays a list of movies. */
@@ -9,6 +12,8 @@ class Home {
     /** @type {HTMLElement} The parent element where the home page content will be rendered */
     #parent;
     #app;
+    #genreId;
+    #params;
 
     /**
      * Creates an instance of Home.
@@ -18,6 +23,9 @@ class Home {
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
+        if (params.id) {
+            this.#genreId = params.id;
+        }
     }
 
     /**
@@ -33,6 +41,7 @@ class Home {
 
     afterRender() {
         this.setupPlayButton();
+        this.setupGenreButton();
     }
 
     /**
@@ -53,16 +62,68 @@ class Home {
         }
     }
 
+    async setupGenreButton() {
+        const genreButton = this.#parent.querySelector('#genre_choose');
+        const dropdown = this.#parent.querySelector('#genreDropdown');
+        if (!dropdown) return;
+
+        const response = await fetchGenres();
+        console.log(response);
+
+        const genres = response.genres.map(genre => ({
+            id: genre.id,
+            name: genre.name,
+        }));
+        
+        dropdown.innerHTML = dropdownTemplate({
+            genres
+        });
+
+        genreButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+    
+        document.addEventListener('click', (e) => {
+            if (!dropdown.contains(e.target) && e.target !== genreButton) {
+                dropdown.classList.remove('active');
+            }
+        });
+    
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                dropdown.classList.remove('active');
+            }
+        });
+    }
+
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
-        const response = await fetchMovies();
-        const films = response.movies.map(film => ({
-            id: film.media_id,
-            title: film.title,
-            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-            release_date: film.release_date.substr(0, 4),
-            poster: film.posters[0],
-        }));
+        let response;
+        let films = [];
+
+        if (this.#genreId) {
+            response = await fetchMoviesByGenreId(this.#genreId);    
+            films = response.medias.map(film => ({
+                id: film.media_id,
+                title: film.title,
+  //              genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+                release_date: film.release_date.substr(0, 4),
+ //               poster: film.posters[0],
+            }));
+        }
+        else {
+            response = await fetchMovies();
+            films = response.movies.map(film => ({
+                id: film.media_id,
+                title: film.title,
+                genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+                release_date: film.release_date.substr(0, 4),
+                poster: film.posters[0],
+            }));
+        }
+        
+        
 
         // const filmsData = [
         //     {
@@ -80,6 +141,8 @@ class Home {
             filmCard.render(film);
         });
     }
+
+
 }
 
 export default Home;

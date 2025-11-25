@@ -42,10 +42,10 @@ class Header {
     }
 
     #setupEventsOnce() {
-        this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
-            el.style.cursor = 'pointer';
-            el.addEventListener('click', () => router.navigate(el.dataset.navigate));
-        });
+        // this.#parent.querySelectorAll('[data-navigate]').forEach(el => {
+        //     el.style.cursor = 'pointer';
+        //     el.addEventListener('click', () => router.navigate(el.dataset.navigate));
+        // });
 
         this.#highlightActiveLink();
 

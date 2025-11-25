@@ -1,0 +1,13 @@
+{{#if genres}}
+        <div class="section__genre-section">
+            {{#each genres}}
+                 <div class="section__genre-item" data-navigate="/films/genre/{{id}}">
+                        <div class="section__genre-title">{{name}}</div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+{{/if}}
+    {{#unless genres}}
+                <div class="section__genre-title">No results found</div>
+    {{/unless}}

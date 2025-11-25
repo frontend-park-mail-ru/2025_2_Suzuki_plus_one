@@ -15,7 +15,7 @@
         <header class='section__header'>
             <h3 class='section__title'>Popular films</h3>
             <div class='section__filters'>
-                <button class='section__button button' type='button' disabled>Sort 
+                <button class='section__button-item button' type='button' disabled>Sort 
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width='20'
@@ -32,7 +32,8 @@
                         />
                     </svg>
                 </button>
-                <button class='section__button button' type='button' disabled>Genre
+                <div class="section__button-wrapper">
+                <button class='section__button-item button' type='button' id="genre_choose">Genre
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width='20'
@@ -49,7 +50,11 @@
                         />
                     </svg>
                 </button>
-                <button class='section__button button' type='button' disabled>Year
+
+                <div class="section__button-dropdown" id="genreDropdown"></div>
+                </div>
+
+                <button class='section__button-item button' type='button' disabled>Year
                     <svg
                         xmlns='http://www.w3.org/2000/svg'
                         width='20'

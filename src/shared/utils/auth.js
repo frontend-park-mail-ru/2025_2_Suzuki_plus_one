@@ -1,3 +1,5 @@
+import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
+
 let accessToken = null;
 
 export const setAccessToken = (token) => {
@@ -22,10 +24,11 @@ export const isTokenValid = () => {
 };
 
 export const refreshAccessToken = async () => {
-    try {
-        const response = await fetch('/api/v1/auth/refresh', {
+    try {    
+    const response = await fetch('/api/v1/auth/refresh', {
             method: 'GET',
             credentials: 'include',
+            
         });
 
         if (!response.ok) throw new Error('Refresh failed');

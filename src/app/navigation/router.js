@@ -26,6 +26,7 @@ const routes = {
     '/player/:id': Player,
 
     '/films': '/',
+    '/films/genre/:id': Home,
 
     '*': NotFound,
 

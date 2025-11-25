@@ -1,0 +1,92 @@
+@use '@shared/styles/media';
+@use '@shared/styles/mixins';
+
+.section {
+    align-content: center;
+    padding-bottom: 0px;
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__filters {
+        display: flex;
+        justify-content: space-between;
+        column-gap: var(--padding-medium);
+    }
+
+    &__genre {
+        &-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s ease;
+            
+            & > * {
+                    pointer-events: none;
+                }
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+    }
+
+    &__button {
+        &-wrapper {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+            margin: 0 var(--padding-medium);
+        }
+    
+        &-item {
+        display: flex;
+        column-gap: var(--padding-small);
+        background-color: var(--color-dark-grey);
+
+        @include media.hover {
+            background-color: var(--color-grey-hover);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--color-grey-hover);
+            color: var(--color-grey-text);
+        }
+    }
+
+        &-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            margin-top: 8px;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+
+            &.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+    }   
+}
