@@ -254,7 +254,7 @@ class Account {
 
             const maxSize = 10 * 1024 * 1024;
             if (file.size > maxSize) {
-                this.#showError('avatar', 'Image must be less than 5 MB');
+                this.#showError('avatar', 'Image must be less than 10 MB');
                 avatarInput.value = '';
                 return;
             }
