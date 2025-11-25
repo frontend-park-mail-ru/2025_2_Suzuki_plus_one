@@ -13,6 +13,7 @@ class Home {
     #parent;
     #app;
     #genreId;
+    #allGenres;
     #params;
 
     /**
@@ -34,16 +35,24 @@ class Home {
      * Appends each movie card to the container element with ID "filmsContainer".
      * @async
      */
-    render() {
+    async render() {
         this.#parent.innerHTML = template({});
-        this.renderMovies();
+        await this.loadGenres();
+        await this.renderMovies();
     }
 
-    afterRender() {
+    async afterRender() {
         this.setupPlayButton();
         this.setupGenreButton();
     }
 
+    async loadGenres() {
+        const response = await fetchGenres();
+        this.#allGenres = response.genres.map(genre => ({
+            id: genre.id,
+            name: genre.name,
+        }));
+    }
     /**
      * Sets up the play button event listener for smooth scrolling.
      * @private
@@ -69,14 +78,9 @@ class Home {
 
         const response = await fetchGenres();
         console.log(response);
-
-        const genres = response.genres.map(genre => ({
-            id: genre.id,
-            name: genre.name,
-        }));
         
         dropdown.innerHTML = dropdownTemplate({
-            genres
+            genres: this.#allGenres
         });
 
         genreButton.addEventListener('click', (e) => {
@@ -99,10 +103,14 @@ class Home {
 
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
+        const sectionTitle = this.#parent.querySelector('#sectionTitle');
         let response;
         let films = [];
+        let genre;
 
         if (this.#genreId) {
+            genre = this.#allGenres.find(g => g.id == this.#genreId);
+            sectionTitle.textContent = genre ? genre.name : "Unknown genre";
             response = await fetchMoviesByGenreId(this.#genreId);    
             films = response.medias.map(film => ({
                 id: film.media_id,
