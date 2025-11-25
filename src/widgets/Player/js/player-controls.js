@@ -185,8 +185,8 @@ export function initPlayerControls() {
     if (rewindBackBtn) rewindBackBtn.addEventListener('click', () => rewind(-10));
     if (rewindForwardBtn) rewindForwardBtn.addEventListener('click', () => rewind(10));
 
-    // if (prevEpisodeBtn) prevEpisodeBtn.disabled = true;
-    // if (nextEpisodeBtn) nextEpisodeBtn.disabled = true;
+    if (prevEpisodeBtn) prevEpisodeBtn.disabled = true;
+    if (nextEpisodeBtn) nextEpisodeBtn.disabled = true;
 
     if (backButton) backButton.addEventListener('click', goBack);
 

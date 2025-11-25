@@ -161,6 +161,11 @@ class FilmPage {
         favouriteBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
+            if (!this.#app.isAuthorized) {
+                this.#showAuthToast();
+                return;
+            }
+            
             const isLiked = favouriteBtn.classList.contains('liked');
 
             try {
@@ -195,6 +200,27 @@ class FilmPage {
                 console.error(err);
             }
         });
+    }
+
+    #showAuthToast() {
+        const existingToast = document.querySelector('.auth-toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        const toast = document.createElement('div');
+        toast.className = 'auth-toast';
+        toast.textContent = 'Log in to add to favourites';
+        document.body.appendChild(toast);
+
+        toast.offsetHeight;
+
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }, 3000);
     }
 }
 

@@ -65,7 +65,7 @@ class Header {
                 } else {
                     try {
                         const data = await search(query);
-                        this.#searchResults = data?.[0] || { actors: [], medias: [] };
+                        this.#searchResults = data || { actors: [], medias: [] };
                     } catch (err) {
                         console.error(err);
                         this.#searchResults = null;
