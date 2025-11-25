@@ -161,26 +161,29 @@ class FilmPage {
         favouriteBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            if (!this.#app.isAuthorized) {
-                this.#showAuthToast();
-                return;
-            }
+        if (!this.#app.isAuthorized) {
+            this.#showToast('Log in to add to favourites', 'auth');
+            return;
+        }
             
             const isLiked = favouriteBtn.classList.contains('liked');
 
-            try {
+        try {
                 if (isLiked) {
                     await deleteFromFavourite(this.#filmId);
                     favouriteBtn.classList.remove('liked');
+                    this.#showToast('Removed from favourites successfully', 'success');
                 } else {
                     await addToFavourite(this.#filmId);
                     favouriteBtn.classList.add('liked');
+                    this.#showToast('Added to favourites successfully', 'success');
                 }
             } catch (err) {
-                console.error(err);
+                console.error('Favourite toggle failed:', err);
+                this.#showToast('Something went wrong', 'error');
             }
         });
-
+        
     }
 
     #setupPlayButton() {
@@ -202,26 +205,23 @@ class FilmPage {
         });
     }
 
-    #showAuthToast() {
-        const existingToast = document.querySelector('.auth-toast');
-        if (existingToast) {
-            existingToast.remove();
+    #showToast(message, type = 'info') {
+            const existing = document.querySelector('.action-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = `action-toast action-toast--${type}`;
+            toast.textContent = message;
+
+            document.body.appendChild(toast);
+
+            requestAnimationFrame(() => toast.classList.add('show'));
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            }, 2700);
         }
-
-        const toast = document.createElement('div');
-        toast.className = 'auth-toast';
-        toast.textContent = 'Log in to add to favourites';
-        document.body.appendChild(toast);
-
-        toast.offsetHeight;
-
-        toast.classList.add('show');
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-        }, 3000);
-    }
 }
 
 export default FilmPage;
