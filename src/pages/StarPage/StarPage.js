@@ -58,6 +58,7 @@ class StarPage {
             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
             release_date: film.release_date.substr(0, 4),
             poster: film.posters[0],
+            type: "film",
         }));
 
         films.forEach((film) => {
