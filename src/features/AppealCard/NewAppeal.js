@@ -1,6 +1,6 @@
 import './styles/newAppeal.scss';
 import template from './ui/NewAppeal.hbs';
-import { createNewAppeal } from '@shared/api/appealApi.js';
+import { createNewAppeal, AddMessageToAppeal } from '@shared/api/appealApi.js';
 
 class NewAppeal {
     #parent;
@@ -27,6 +27,7 @@ class NewAppeal {
 
                 const tag = form.querySelector('#support-tag').value;
                 const message = form.querySelector('#support-message').value.trim();
+                const name = form.querySelector('#support-name').value.trim();
 
                 errorDiv.textContent = '';
                 errorDiv.hidden = true;
@@ -40,17 +41,24 @@ class NewAppeal {
                     return;
                 }
 
+                if (!name) {
+                    this.#showError('Please write a message.');
+                    return;
+                }
+
                 const data = {
                     tag,
+                    name,
                     message
                 };
 
                 try {
                     const result = await createNewAppeal(data);
                     console.log(result);
-                    if (result?.success) {
+                    if (result) {
                         this.#showSuccess();
                         form.reset();
+                        await AddMessageToAppeal(result.id, { message });
                     }
                 } catch (err) {
                     this.#showError(err.message || 'Failed to send message. Please try again.');

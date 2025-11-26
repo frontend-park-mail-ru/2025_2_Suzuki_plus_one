@@ -16,13 +16,6 @@
         </div>
 
     <div class="support-chat__messages" id="messages">
-        <div class="support-chat__message support-chat__message--user">
-            <div class="support-chat__bubble">
-                {{{name}}}
-            </div>
-            <div class="support-chat__time">{{created_at}}</div>
-        </div>
-
         {{#each messages}}
         <div class="support-chat__message support-chat__message--{{sender}}">
             <div class="support-chat__bubble">

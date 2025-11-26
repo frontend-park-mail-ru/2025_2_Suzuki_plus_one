@@ -14,12 +14,18 @@ class SeriesPage {
     #parent;
     #app;
     #seriesId;
+    #currentSeason;
+    #allSeasons;
+    #episodesData;
 
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
         this.params = params;
         this.#seriesId = params.id;
+        this.#currentSeason = 1;
+        this.#allSeasons = 1;
+        this.#episodesData;
     }
 
     async render() {
@@ -49,7 +55,11 @@ class SeriesPage {
             this.renderStarCards();
             this.#setupFavouriteButton();
 
-            await this.renderEpisodeCards();
+            await this.getEpisodesData();
+            this.renderSeasons();
+            this.renderEpisodesBySeason();
+            this.setupSeasonSwitcher();
+
         } catch (err) {
             this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
@@ -106,19 +116,61 @@ class SeriesPage {
         updateButtons();
     }
 
-    async renderEpisodeCards() {
-        const episodesContainer = this.#parent.querySelector('#episodesContainer');
-        const data = await fetchEpisodesBySeriesId(this.#seriesId);
-        const episodesData = data.episodes;
+    renderSeasons() {
+        const container = this.#parent.querySelector('.series__seasons');
+        if (!container) return;
+    
+        container.innerHTML = `<h3 class="series__seasons-title">Seasons</h3>`;
+    
+        for (let i = 1; i <= this.#allSeasons; i++) {
+            const btn = document.createElement('a');
+            btn.className = `series__seasons-item${i === this.#currentSeason ? ' series__seasons-item--active' : ''}`;
+            btn.textContent = i;
+            container.appendChild(btn);
+        }
+    }
 
+    setupSeasonSwitcher() {
+        const buttons = this.#parent.querySelectorAll('.series__seasons-item, .series__seasons-item--active');
+        if (!buttons || buttons.length === 0) return;
+    
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const seasonNumber = Number(btn.textContent.trim());
+                if (!seasonNumber || seasonNumber === this.#currentSeason) return;
+    
+                this.#currentSeason = seasonNumber;
+
+                buttons.forEach(b => b.classList.remove('series__seasons-item--active'));
+                btn.classList.add('series__seasons-item--active');
+
+                this.renderEpisodesBySeason();
+            });
+        });
+    }
+
+    async getEpisodesData() {
+        const data = await fetchEpisodesBySeriesId(this.#seriesId);
+        this.#episodesData = data.episodes || [];
+
+        this.#allSeasons = this.#episodesData.length
+        ? Math.max(...this.#episodesData.map(ep => ep.season_number))
+        : 0;
+    }
+
+    async renderEpisodesBySeason() {
+        const episodesContainer = this.#parent.querySelector('#episodesContainer');
+    
         episodesContainer.innerHTML = '';
 
-        if (!episodesData || episodesData.length === 0) {
+        if (!this.#episodesData || this.#episodesData.length === 0) {
             episodesContainer.innerHTML = '<p>Episodes not found</p>';
             return;
         }
 
-        episodesData.forEach((episode) => {
+        this.#episodesData.forEach((episode) => {
+            if (this.#currentSeason == episode.season_number) {
+
             const episodeElement = document.createElement('div');
             episodesContainer.appendChild(episodeElement);
 
@@ -129,15 +181,17 @@ class SeriesPage {
                     ? episode.posters[0]
                     : star_photo;
 
-            episodeCard.render({
-                id: episode.id,
-                episode_number: episode.episode_number,
-                season_number: episode.season_number,
-                title: episode.title,
-                release_date: episode.release_date,
-                poster: poster,
-                plot_summary: episode.plot_summary,
-            });
+            
+                episodeCard.render({
+                    id: episode.id,
+                    episode_number: episode.episode_number,
+                    season_number: episode.season_number,
+                    title: episode.title,
+                    release_date: episode.release_date,
+                    poster: poster,
+                    plot_summary: episode.plot_summary,
+                });
+            }
         });
     }
 

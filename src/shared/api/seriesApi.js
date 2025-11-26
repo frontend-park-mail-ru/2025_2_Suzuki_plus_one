@@ -65,6 +65,15 @@ export async function fetchEpisodesBySeriesId(seriesId) {
                 "posters": [preview],
                 "plot_summary":"Lucas, Mike and Dustin try to talk to the girl they found in the woods. Meanwhile, Hopper questions an anxious Joyce about an unsettling phone call.",
             },
+            {
+                "media_id": 126,
+                "episode_number": 1,
+                "season_number": 2,
+                "title": "Chapter Two: The Weirdo on Maple Street",
+                "release_date": "2015-02-10T00:00:00Z",
+                "posters": [preview],
+                "plot_summary":"Lucas, Mike and Dustin try to talk to the girl they found in the woods. Meanwhile, Hopper questions an anxious Joyce about an unsettling phone call.",
+            },
         ]
     }
 }
