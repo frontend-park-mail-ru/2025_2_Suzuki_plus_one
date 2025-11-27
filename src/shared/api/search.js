@@ -1,20 +1,57 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
 
+let debounceTimer = null;
+let abortController = null;
+
 export async function search(query, type = 'any', limit = 10, offset = 0) {
-    if (!query.trim()) return null;
+    const trimmedQuery = query?.trim();
 
-    const params = new URLSearchParams({
-        query: query.trim(),
-        type,
-        limit: limit.toString(),
-        offset: offset.toString(),
-    });
+    if (!trimmedQuery) {
+        if (debounceTimer) clearTimeout(debounceTimer);
+        if (abortController) abortController.abort();
+        return null;
+    }
 
-    return await fetchWithErrorsHandling(`/api/v1/search?${params}`, {
-        method: 'GET',
+    if (abortController) {
+        abortController.abort();
+    }
+
+    if (debounceTimer) {
+        clearTimeout(debounceTimer);
+    }
+
+    abortController = new AbortController();
+
+    return new Promise((resolve, reject) => {
+        debounceTimer = setTimeout(async () => {
+            try {
+                const params = new URLSearchParams({
+                    query: trimmedQuery,
+                    type,
+                    limit: limit.toString(),
+                    offset: offset.toString(),
+                });
+
+                const response = await fetchWithErrorsHandling(`/api/v1/search?${params}`, {
+                    method: 'GET',
+                    signal: abortController.signal,
+                });
+
+                resolve(response);
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    resolve(null);
+                } else {
+                    reject(error);
+                }
+            } finally {
+                if (abortController) {
+                    abortController = null;
+                }
+            }
+        }, 300); 
     });
 }
-
 
 
 // const MOCK_DATA = [
