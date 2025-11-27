@@ -258,3 +258,87 @@
         stroke: white;
     }
 }
+
+@media (max-width: 768px) {
+
+    .video-container {
+        width: 100vw !important;
+        height: 56.25vw !important;
+        max-height: 70vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        video { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+    }
+
+    @media (orientation: portrait) {
+        .video-container { height: 50vw !important; max-height: 55vh !important; }
+    }
+
+    .video-hud {
+        padding: 6px 4px 10px !important;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+        background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.85) 40%) !important;
+    }
+
+    .video-hud__progress { gap: 4px !important; font-size: 11.5px !important; margin-bottom: 2px !important; }
+    .video-hud__controls { gap: 4px !important; padding: 0 2px !important; justify-content: space-between !important; }
+    .video-hud__controls-left, .video-hud__controls-right { gap: 5px !important; }
+
+    .video-hud__action-play,
+    .video-hud__rewind,
+    .video-hud__mute,
+    .video-hud__fullscreen,
+    .video-hud__episode {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        padding: 4px !important;
+    }
+
+    .video-hud__action-play svg,
+    .video-hud__rewind svg,
+    .video-hud__mute svg,
+    .video-hud__fullscreen svg,
+    .video-hud__episode svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .video-hud__volume { width: 60px !important; height: 28px !important; }
+    .video-hud__speed   { width: 52px !important; height: 28px !important; font-size: 12px !important; }
+
+    .video-hud__back {
+        width: 36px !important;
+        height: 36px !important;
+        top: 8px !important;
+        left: 8px !important;
+    }
+
+    @media (max-width: 360px) {
+        .video-hud__action-play,
+        .video-hud__rewind,
+        .video-hud__mute,
+        .video-hud__fullscreen { width: 28px !important; height: 28px !important; padding: 3px !important; }
+        svg { width: 16px !important; height: 16px !important; }
+        .video-hud__volume, .video-hud__speed { width: 48px !important; }
+    }
+
+    .video-container.mobile-fs-rotated {
+        position: fixed !important;
+        top: 50% !important;
+        left: 50% !important;
+        width: 100vh !important;
+        height: 100vw !important;
+        transform: translate(-50%, -50%) rotate(90deg) !important;
+        transform-origin: center center !important;
+        z-index: 2147483647 !important;
+        background: black !important;
+        transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+
+        video { object-fit: cover !important; }
+
+        .video-hud,
+        .video-hud__back { transform: none !important; }
+    }
+}

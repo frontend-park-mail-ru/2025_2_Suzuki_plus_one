@@ -139,17 +139,39 @@ export function initPlayerControls() {
     }
 
     function toggleFullscreen() {
+        const isMobile = window.innerWidth <= 768;
+
         if (!document.fullscreenElement) {
-            videoContainer.requestFullscreen().then(() => {
+            const elementToFullscreen = isMobile ? document.documentElement : videoContainer;
+
+            elementToFullscreen.requestFullscreen({ navigationUI: "hide" }).then(() => {
                 fullscreenButton.className = 'video-hud__action video-hud__fullscreen-true';
-                showControls();
+
+                if (isMobile) {
+                    setTimeout(() => {
+                        videoContainer.classList.add('mobile-fs-rotated');
+                    }, 100);
+
+                    if (screen.orientation?.lock) {
+                        screen.orientation.lock('landscape-primary').catch(() => {});
+                    }
+                }
+            }).catch(err => {
+                console.warn('Fullscreen denied:', err);
             });
+
         } else {
             document.exitFullscreen().then(() => {
                 fullscreenButton.className = 'video-hud__action video-hud__fullscreen-false';
+
+                if (isMobile) {
+                    videoContainer.classList.remove('mobile-fs-rotated');
+                    if (screen.orientation?.unlock) screen.orientation.unlock();
+                }
             });
         }
     }
+
 
     function goBack() {
         if (document.fullscreenElement) {
