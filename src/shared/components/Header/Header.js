@@ -26,6 +26,7 @@ class Header {
             this.#lastAuthState = currentAuthState;
 
             this.#parent.innerHTML = headerTemplate({
+                searchIcon,
                 isAuthorized: this.#app.isAuthorized,
                 user: this.#app.user || {},
             });
@@ -55,7 +56,31 @@ class Header {
             });
         }
 
+        const wrapper = this.#parent.querySelector('#searchWrapper');
         const input = this.#parent.querySelector('#searchInput');
+        const toggleBtn = wrapper.querySelector('#searchToggle');
+        const closeBtn = wrapper.querySelector('#searchCloseBtn');
+        const dropdown = this.#parent.querySelector('#searchDropdown');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                input.classList.add('active');
+                this.#parent.querySelector('#searchDropdown')?.classList.add('active');
+                input.focus();
+            });
+        }
+        
+
+        if (input) {
+            input.addEventListener('blur', () => {
+                if (!input.value.trim()) {
+                    wrapper.classList.remove('active');
+                    input.classList.remove('active');
+                }
+            });
+        }
+
+
         if (input) {
             input.addEventListener('input', async (e) => {
                 const query = e.target.value.trim();
@@ -81,18 +106,34 @@ class Header {
         document.addEventListener('click', (e) => {
                 if (!this.#parent.contains(e.target)) {
                     this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+                    closeBtn.classList.remove('active');
+                    input.classList.remove('active');
+                    input.value = '';
                 }
             });
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+                    closeBtn.classList.remove('active');
+                    input.classList.remove('active');
+                    input.value = '';
                 }
+            });
+
+            closeBtn?.addEventListener('click', () => {
+                this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+                closeBtn.classList.remove('active');
+                input.classList.remove('active');
+                input.value = '';
             });
     }
 
     #renderDropdown() {
         const dropdown = this.#parent.querySelector('#searchDropdown');
+        const searchCloseBtn = this.#parent.querySelector('#searchCloseBtn');
+        const input = this.#parent.querySelector('#searchInput'); 
+
         if (!dropdown) return;
 
         dropdown.innerHTML = dropdownTemplate({
@@ -106,8 +147,12 @@ class Header {
 
         if (hasResults || (hasQuery && this.#searchResults !== null)) {
             dropdown.classList.add('active');
+            searchCloseBtn.classList.add('active');
+            input.classList.add('active');
         } else {
             dropdown.classList.remove('active');
+            searchCloseBtn.classList.remove('active');
+            input.classList.remove('active');
         }
     }
     #highlightActiveLink() {

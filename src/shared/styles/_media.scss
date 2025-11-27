@@ -1,7 +1,9 @@
 $desktop: 1200px;
 $desktop-above: 1201px;
-$tablet: 800px;
-$tablet-above: 801px;
+$tablet: 768px;
+$tablet-above: 769px;
+$mobile: 480px;
+$mobile-above: 481px;
 
 @mixin desktop {
     @media (max-width: $desktop) {
@@ -26,6 +28,19 @@ $tablet-above: 801px;
         @content;
     }
 }
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin mobile-above {
+    @media (min-width: $mobile-above) {
+        @content;
+    }
+}
+
 
 @mixin hover {
     @media (hover: hover) {

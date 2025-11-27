@@ -13,7 +13,7 @@
         gap: 32px;
         display: flex;
         flex-direction: column;
-       background: 
+        background: 
             linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
             url('@assets/images/hero_bg.png') center/cover no-repeat;
             margin-inline: var(--padding-medium);
@@ -21,6 +21,14 @@
         align-items: center;
         width: 100%;
         max-width: 100%;
+
+        @include media.mobile {
+            margin-bottom: var(--padding-small);
+            padding-block: var(--padding-small);
+            text-align: center;
+            gap: var(--padding-small);
+        }
+
     }
     
     &__button.button {
@@ -32,10 +40,11 @@
         text-align: center;
         @include mixins.fluid-text(32, 16);
 
-        @include media.tablet {
+        @include media.mobile {
             min-width: 0px;
-            min-height: 0px;
             padding-inline: var(--padding-medium);
+            min-height: 0px;
+            max-height: 32px;
         }
 
         @include media.hover {

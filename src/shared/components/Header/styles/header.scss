@@ -1,4 +1,5 @@
 @use '@shared/styles/media';
+@use '@shared/styles/mixins';
 
 .header {
     padding-top: var(--padding-medium);
@@ -7,13 +8,22 @@
     @include media.tablet {
         padding-top: var(--padding-small);
     }
+    @include media.mobile {
+        padding-top: var(--padding-small);
+        row-gap: var(--padding-small);
+    }
 
     &__inner {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
         flex-wrap: nowrap;
         column-gap: var(--padding-medium);
+
+        @include media.mobile {
+            column-gap: var(--padding-small);
+        }
     }
 
 
@@ -26,16 +36,27 @@
     }
 
     &__input {
+        @include mixins.flex-center(true);
+        height: var(--input-height);
+        width: 100%;
+        max-width: var(--input-width);
+  //      min-width: 100px;
+        padding-inline: var(--padding-medium);
+        color: var(--color-text);
+        background-color: transparent;
+  //      border: var(--color-text);
+        border: 1px solid white;
+        border-radius: var(--border-radius);
+        font-size: 16px;
         flex: 1;
-        min-width: 120px;
-        max-width: 400px;
-
-        background: var(--search-icon) no-repeat 12px center;
-        background-size: 16px;
-        padding-left: 36px;
-
-        @include media.tablet {
-            min-width: 30px;
+        transition: all 0.3s ease;
+        @include media.mobile {
+            display: none; // скрываем на мобильных
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; // будет разворачиваться
+            z-index: 100;
         }
     }
 
@@ -45,7 +66,7 @@
 
         column-gap: var(--padding-medium);
 
-        @include media.tablet {
+        @include media.mobile {
             column-gap: var(--padding-small);
         }
 
@@ -61,6 +82,11 @@
                         transform 0.2s ease,
                         opacity 0.2s ease;
                 }
+            }
+
+            @include media.mobile {
+                height: var(--button-height);
+                min-width: 50px;
             }
         }
     }
@@ -164,50 +190,149 @@
         }
     }
 
-    &__search-wrapper {
-        position: relative;
-        flex: 1;
-        max-width: 500px;
-        margin: 0 var(--padding-medium);
-    }
+//     &__search-wrapper {
+//         position: relative;
+//         display: flex;
+//         flex: 1;
+//         justify-content: center;
+//         margin: 0 var(--padding-medium);
+//   //      max-width: 500px;
+//         margin: 0 var(--padding-medium);
+//         &.active {
+//             .header__input {
+//                 flex: 0 1 100%;
+//                 display: block;
+//             position: fixed; // фиксируем на весь экран
+//             top: 0px;
+//             left: 0;
+//             width: 100vw; // ширина экрана
+//             height: 56px; // можно задать высоту
+//             z-index: 1000; // поверх всего
+//             margin: 0;
+//             padding: 0 var(--padding-medium);
+//             align-items: center;
+//             padding-right: 40px;
+//             border-radius: 0;
+//             background-color: var(--color-dark, #1e1e28); // фон header
+//             border: none; 
+//             }
+//             .header__search-toggle {
+//                 display: none; // скрываем лупу при открытом input
+//             }
 
-    &__input {
-        flex: 1;
-        min-width: 120px;
-        max-width: 100%;
-        background: var(--search-icon) no-repeat 12px center;
-        background-size: 16px;
-        padding-left: 36px;
+//             .header__search-close {
+//                 display: flex;
+//                 position: fixed;
+//                 top: 4px;
+//                 right: 8px;
+//                 height: 50px; // совпадает с input
+//                 width: 50px;
+//                 align-items: center;
+//                 justify-content: center;
+//                 background: transparent;
+//                 border: none;
+//                 font-size: 48px;
+//                 color: white;
+//                 z-index: 1001;
+//                 cursor: pointer;
+//             }
 
-        @include media.tablet {
-            min-width: 30px;
-        }
-    }
+//             .header__search-toggle {
+//                 display: none; // скрываем лупу
+//             }
 
-    &__search-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(30, 30, 40, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: var(--border-radius);
-        margin-top: 8px;
-        max-height: 70vh;
-        overflow-y: auto;
-        z-index: 1000;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.2s ease;
+//             .header__search-dropdown {
+//                 position: fixed; // фиксируем под input
+//                 top: 56px; // сразу под input
+//                 left: 0;
+//                 width: 100vw;
+//                 max-width: 100vw;
+//                 background: rgba(30, 30, 40, 0.95);
+//                 border-radius: 0;
+//                 margin: 0;
+//                 z-index: 999;
+//                 overflow-y: auto;
+//                 max-height: calc(100vh - 56px);
+//                 opacity: 1;
+//                 visibility: visible;
+//    //             transform: translateY(0);
+//               }
+//         }
+//     }
 
-        &.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-    }
+    // &__search-close {
+    //     display: none;
+    
+    //     @include media.mobile {
+    //         display: none; // показываем только при active, см выше
+    //     }
+    // }
+
+    
+    // &__input {
+    //     flex: 1;
+    //     min-width: 180px;
+    //     max-width: 100%;
+    //     background: var(--search-icon) no-repeat 12px center;
+    //     background-size: 16px;
+    //     padding-left: 36px;
+
+    //     @include media.mobile {
+    //         min-width: 180px;
+    //     }
+    // }
+
+    // &__search-toggle {
+    //     display: none;
+    //     border: none;
+    //     background: transparent;
+    //     cursor: pointer;
+    //     padding: var(--padding-small);
+
+    //     @include media.mobile {
+    //         display: flex;
+    //         align-items: center;
+    //         justify-content: center;
+    //     }
+    // }
+
+    // &__search-dropdown {
+    //     position: absolute;
+    //     top: 100%;
+    //     left: 50%; // центрируем относительно wrapper
+    //     transform: translate(-50%, -10px);
+    //     width: 100%;
+    //     background: rgba(30, 30, 40, 0.95);
+    //     backdrop-filter: blur(10px);
+    //     border: 1px solid rgba(255, 255, 255, 0.1);
+    //     border-radius: var(--border-radius);
+    //     margin-top: 8px;
+    //     max-height: 70vh;
+    //     max-width: var(--input-width);
+    //     overflow-y: auto;
+    //     z-index: 1000;
+    //     opacity: 0;
+    //     visibility: hidden;
+    //     transition: all 0.2s ease;
+
+    //     &.active {
+    //         opacity: 1;
+    //         visibility: visible;
+    //         transform: translate(-50%, 0);
+    //     }
+    //     @include media.mobile {
+    //         position: fixed;
+    //         top: 56px;
+    //         left: 0;
+    //         width: 100vw;
+    //         max-width: 100vw;
+    //         border-radius: 0;
+    //         margin: 0;
+    //       }
+    // }
+
+
+
 
     &__search-section {
         padding: 12px 16px;
@@ -281,3 +406,181 @@
     }
 }
 
+
+  
+  .header__search-wrapper {
+    position: relative;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    margin: 0 var(--padding-medium);
+    
+    .header__search-container {
+        position: relative;
+        display: flex;
+        flex: 1;
+        width: 100%;
+        max-width: var(--input-width);
+        justify-content: center;
+        @include media.mobile {
+            max-width: 100vw;
+            width: 100%;
+        }  
+    }
+
+    .header__input {
+      @include mixins.flex-center(true);
+      height: var(--input-height);
+      width: 100%;
+
+      padding-right: 48px; // место под крестик
+    box-sizing: border-box;
+
+      max-width: var(--input-width);
+      padding-inline: var(--padding-medium);
+      padding-right: 48px;
+      color: var(--color-text);
+      background-color: transparent;
+      border: 1px solid white;
+      border-radius: var(--border-radius);
+      font-size: 16px;
+      flex: 1;
+      transition: all 0.3s ease;
+      position: relative;
+
+    //   &:active + .header__search-close {
+    //     display: flex; // крестик виден, когда input в фокусе
+    //   }
+  
+      @include media.mobile {
+        display: none; // скрыт по умолчанию
+        left: 0;
+        transform: translate(0);
+        width: 100%;
+        max-width: 100vw;
+        margin: 0;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 56px;
+        // margin: 0;
+        // padding-right: 48px;
+        // padding: 0 var(--padding-medium);
+        border-radius: 0;
+        background-color: var(--color-dark, #1e1e28);
+        z-index: 1000;
+        &.active {
+            display: block;
+        }
+      }
+    }
+
+    .header__search-close {
+        position: absolute;
+        top: 2px;
+        width: 50px;
+        height: 50px;
+        right: 0px;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        font-size: 48px;
+        color: white;
+        z-index: 1001;
+        cursor: pointer;
+        display: none;
+        @include media.mobile {
+            // на мобильных, когда input активен, крестик показываем
+            &.active {
+                display: flex;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 70vw;
+            }
+            
+        }
+        
+        &.active {
+            display: flex;
+        }
+        
+      }
+    
+    //   &.active .header__search-close {
+    //     display: flex; // показываем крестик если wrapper активен (например, при открытом dropdown)
+    //   }
+  
+    .header__search-toggle {
+      display: flex; // лупа по умолчанию видна на мобилке
+      cursor: pointer;
+      background: transparent;
+
+      padding: var(--padding-small);
+      align-items: center;
+      justify-content: center;
+  
+      @include media.mobile-above {
+        display: none;
+      }
+    }
+  
+    .header__search-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--input-width);
+      background: rgba(30, 30, 40, 0.95);
+      border-radius: var(--border-radius);
+      margin-top: 8px;
+      max-height: 70vh;
+      overflow-y: auto;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+    //   transition: all 0.2s ease;
+  
+      &.active {
+        opacity: 1;
+        visibility: visible;
+
+        //   .header__input {
+        //     display: block; // показываем input
+        //   }
+        // .header__search-close {
+        //     display: flex; // показываем крестик если wrapper активен (например, при открытом dropdown)
+        //   }
+        
+      }
+  
+      @include media.mobile {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        transform: translate(0);
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 0;
+        margin: 0;
+        z-index: 999;
+        max-height: calc(100vh - 56px);
+      
+
+      &.active {
+        .header__input {
+          display: block; // показываем input
+        }
+    
+        .header__search-toggle {
+          display: none; // скрываем лупу
+        }
+  
+      }
+    }
+    }
+  
+  }
+  

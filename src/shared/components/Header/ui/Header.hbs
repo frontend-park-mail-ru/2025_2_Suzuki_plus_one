@@ -2,14 +2,27 @@
     <div class='header__inner'>
         <a class='header__logo logo' href='/films' data-navigate>
         </a>
-        <div class="header__search-wrapper">
-                    <input 
-                        class='header__input input' 
+        <div class="header__search-wrapper" id="searchWrapper">
+            <div class="header__search-container">
+             <input 
+                        class='header__input' 
                         type='text' 
                         placeholder='Search films, series, actors...' 
-                        id="searchInput" />
-                    <div class="header__search-dropdown" id="searchDropdown"></div>
+                        id="searchInput" 
+                        />
+                             <button class="header__search-close" type="button" aria-label="Close search" id="searchCloseBtn">×</button>
+            </div>
+
+            <button class="header__search-toggle" id="searchToggle" type="button">
+                 <img src="{{searchIcon}}" alt="Search" />
+             </button>
+
+            
+
+          <div class="header__search-dropdown" id="searchDropdown"></div>
+                   
         </div>
+    
 
         <div class='header__auth'>
             {{#if isAuthorized}}

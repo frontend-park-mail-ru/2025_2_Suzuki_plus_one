@@ -104,3 +104,52 @@
         height: 54px;
     }
 }
+
+@include media.mobile {
+
+    .signup__content {
+        padding-bottom: 10%;
+        min-height: auto;
+        padding-inline: var(--padding-small);
+    }
+
+    .signup__form {
+        width: 100%;
+        max-width: 320px;
+        padding: var(--padding-medium);
+        row-gap: var(--padding-small);
+        min-height: auto;
+        border: none;
+        background-color: transparent;
+    }
+
+    .signup__title {
+        font-size: 18px;
+    }
+
+    .signup__input {
+        height: 44px;
+        padding: 0 var(--padding-small);
+        font-size: 14px;
+    }
+
+    .signup__eye {
+        right: var(--padding-small);
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .signup__error {
+        font-size: 12px;
+    }
+
+    .signup__button {
+        height: 44px;
+        font-size: 14px;
+        margin-top: var(--padding-small);
+        background-color: var(--color-bg) !important;
+    }
+}

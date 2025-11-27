@@ -34,8 +34,6 @@ export default defineConfig({
         @use "@shared/styles/normalize" as *;
         @use "@shared/styles/fonts" as *;
         @use "@shared/styles/variables" as *;
-        @use "@shared/styles/mixins" as *;
-        @use "@shared/styles/media" as *;
         @use "@shared/styles/utils" as *;
         @use "@shared/styles/globals" as *;
         @use "@shared/styles/blocks/button" as *;

@@ -44,7 +44,7 @@
         width: 44px;
         height: 44px;
         border-radius: 50%;
-        background-color: var(--color-light-grey);
+        background-color: var(--color-light-gray);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -71,7 +71,7 @@
         text-align: left;
 
         &::placeholder {
-            color: var(--color-light-grey);
+            color: var(--color-light-gray);
         }
 
         &.is-invalid {
@@ -121,5 +121,69 @@
     font-size: 0.875rem;
     color: #ef4444;
     text-align: center;
+    }
+}
+
+@include media.mobile {
+
+    .account__content {
+        padding-bottom: 10%;
+        min-height: auto;
+        padding-inline: var(--padding-small);
+    }
+
+    .account__form {
+        width: 100%;
+        max-width: 320px;
+        padding: var(--padding-medium);
+        row-gap: var(--padding-small);
+        min-height: auto;
+        border: none;
+        background-color: transparent;
+    }
+
+    .account__avatar {
+        width: 80px;
+        height: 80px;
+        margin-bottom: var(--padding-small);
+    }
+
+    .account__avatar-edit {
+        width: 36px;
+        height: 36px;
+    }
+
+    .account__avatar-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .account__input {
+        height: 44px;
+        padding: 0 var(--padding-small);
+        font-size: 14px;
+    }
+
+    .account__input-icon {
+        width: 20px;
+        height: 20px;
+        right: var(--padding-small);
+    }
+
+    .account__error {
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .account__button {
+        height: 44px;
+        font-size: 14px;
+        margin-top: var(--padding-small);
+        background-color: var(--color-bg) !important;
+    }
+
+    .account__error--avatar {
+        font-size: 12px;
+        margin-top: 4px;
     }
 }

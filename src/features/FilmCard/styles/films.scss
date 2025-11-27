@@ -1,3 +1,6 @@
+@use '@shared/styles/media';
+@use '@shared/styles/mixins';
+
 .films {
     padding-block: var(--padding-large);
     display: grid;
@@ -5,10 +8,20 @@
     justify-content: center;
     gap: var(--padding-large) var(--padding-large);
 
+    @include media.tablet {
+        padding-block: var(--padding-small);
+        gap: var(--padding-small) var(--padding-medium);
+        grid-template-columns: repeat(auto-fit, 120px);
+    }
+
     &__image {
         width: 100%;
         border-radius: var(--border-radius-large);
         overflow: hidden;
+
+        @include media.tablet {
+            border-radius: 25px;
+        }
 
         img {
             width: 100%;
@@ -35,6 +48,13 @@
         &:hover {
             transform: translateY(-3px);
         }
+
+        @include media.tablet {
+            width: 120px;
+            height: 160px;
+            border-radius: 25px;
+        }
+        
     }
 
     &__info {
@@ -44,6 +64,9 @@
         align-items: center;
         color: white;
         row-gap: var(--padding-small);
+        @include media.mobile {
+            row-gap: 2px;
+        }
     }
 
     &__genre {
