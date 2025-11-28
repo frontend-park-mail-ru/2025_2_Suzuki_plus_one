@@ -31,7 +31,8 @@ export async function fetchStarsByFilmId(filmId) {
 }
 
 export async function fetchMedia(mediaId) {
-    return await fetchWithErrorsHandling(`/api/v1/media/watch?media_id=${mediaId}}`, {
+    return await fetchWithErrorsHandling(`/api/v1/media/watch?media_id=${mediaId}`, {
         method: 'GET',
-    });
+        credentials: 'include',
+        });
 }
