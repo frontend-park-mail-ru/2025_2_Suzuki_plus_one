@@ -421,6 +421,7 @@
         flex: 1;
         width: 100%;
         max-width: var(--input-width);
+        box-sizing: border-box;
         justify-content: center;
         @include media.mobile {
             max-width: 100vw;
@@ -433,7 +434,7 @@
       height: var(--input-height);
       width: 100%;
 
-      padding-right: 48px; // место под крестик
+ //     padding-right: 48px; // место под крестик
     box-sizing: border-box;
 
       max-width: var(--input-width);
@@ -451,7 +452,9 @@
     //   &:active + .header__search-close {
     //     display: flex; // крестик виден, когда input в фокусе
     //   }
-  
+    &.active {
+        display: block;
+    }
       @include media.mobile {
         display: none; // скрыт по умолчанию
         left: 0;
@@ -459,14 +462,13 @@
         width: 100%;
         max-width: 100vw;
         margin: 0;
-
         position: fixed;
         top: 0;
         left: 0;
         height: 56px;
         // margin: 0;
-        // padding-right: 48px;
-        // padding: 0 var(--padding-medium);
+        padding-right: 48px;
+        //padding: 0 var(--padding-medium);
         border-radius: 0;
         background-color: var(--color-dark, #1e1e28);
         z-index: 1000;
@@ -484,7 +486,8 @@
         right: 0px;
         align-items: center;
         justify-content: center;
-        background: transparent;
+        background: transparent !important;
+        
         border: none;
         font-size: 48px;
         color: white;
@@ -497,7 +500,7 @@
                 display: flex;
                 top: 50%;
                 transform: translateY(-50%);
-                left: 70vw;
+               left: calc(70vw - 12px); 
             }
             
         }
@@ -513,6 +516,11 @@
     //   }
   
     .header__search-toggle {
+        all: unset;
+        img {
+            width: 42px;
+            height: 42px;
+        }
       display: flex; // лупа по умолчанию видна на мобилке
       cursor: pointer;
       background: transparent;
@@ -524,6 +532,15 @@
       @include media.mobile-above {
         display: none;
       }
+
+      &.active {
+        display: none;
+        .header__input {
+            display: block; // показываем input
+          }
+      
+      }
+
     }
   
     .header__search-dropdown {

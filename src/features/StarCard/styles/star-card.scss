@@ -1,6 +1,12 @@
+@use '@shared/styles/media';
+@use '@shared/styles/mixins';
+
 .stars-section {
     text-align: center;
     margin-block: var(--padding-medium);
+    @include media.mobile {
+        margin-block: var(--padding-small);
+    }
 
     &__title {
         padding-bottom: var(--padding-medium);
@@ -12,6 +18,9 @@
         align-items: flex-start;
         flex-wrap: wrap;
         gap: var(--padding-large);
+        @include media.mobile {
+            gap: var(--padding-small);
+        }
     }
 
     &__item {
@@ -20,6 +29,9 @@
         align-items: center;
         text-align: center;
         max-width: 150px;
+        @include media.mobile {
+            max-width: 80px;
+        }
     }
 
     &__image {
@@ -28,6 +40,10 @@
         height: 150px;
         border-radius: 50%;
         overflow: hidden;
+        @include media.mobile {
+            width: 80px;
+            height: 80px;
+        }
 
         &:hover {
             transform: scale(1.05);

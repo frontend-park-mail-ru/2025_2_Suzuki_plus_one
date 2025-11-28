@@ -1,3 +1,4 @@
+import './styles/starPage.scss';
 import template from './ui/StarPage.hbs';
 import star_photo from '@assets/images/star_photo.png';
 import { initBiographyToggle } from './showMore.js';

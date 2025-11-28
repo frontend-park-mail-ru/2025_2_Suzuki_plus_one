@@ -8,11 +8,17 @@
     align-items: center;
     text-align: center;
     max-height: 600px;
+    @include media.mobile {
+        max-height: 400px;
+    }
 
     &__image {
         width: 100%;
         max-height: 600px;
         object-fit: cover;
+        @include media.mobile {
+            max-height: 400px;
+        }
     }
 
     &__overlay {
@@ -34,6 +40,7 @@
         justify-content: center;
         @include media.mobile {
             row-gap: var(--padding-small);
+            background: rgba(0, 0, 0, 0.65);
         }
     }
 
@@ -76,10 +83,27 @@
         @include media.hover {
             background-color: var(--color-grey-hover) !important;
         }
-
+        
         &-reaction {
             border-radius: 50%;
             background-color: var(--color-dark-grey);
+            width: 48px;
+            height: 48px;
+            svg {
+                width: 44px;
+                height: 44px;
+            }
+
+                @include media.mobile {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    svg {
+                        width: 100% !important;
+                        height: 100% !important;
+                    }
+                }
+            
 
             @include media.hover {
                 background-color: var(--color-grey-hover);
@@ -114,7 +138,7 @@
         row-gap: var(--padding-medium);
 
         @include media.mobile {
-            padding-left: var(--padding-small);
+            padding-inline: var(--padding-medium);
             row-gap: var(--padding-small);
         }
     }

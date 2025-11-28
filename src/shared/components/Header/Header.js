@@ -17,6 +17,7 @@ class Header {
         this.#parent = parent;
         this.#app = appInstance;
         this.#parent.style.setProperty('--search-icon', `url(${searchIcon})`);
+        this.isMobileOpen = false;
     }
 
     render() {
@@ -61,24 +62,31 @@ class Header {
         const toggleBtn = wrapper.querySelector('#searchToggle');
         const closeBtn = wrapper.querySelector('#searchCloseBtn');
         const dropdown = this.#parent.querySelector('#searchDropdown');
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                input.classList.add('active');
-                this.#parent.querySelector('#searchDropdown')?.classList.add('active');
-                input.focus();
-            });
-        }
         
 
-        if (input) {
-            input.addEventListener('blur', () => {
-                if (!input.value.trim()) {
-                    wrapper.classList.remove('active');
-                    input.classList.remove('active');
-                }
-            });
-        }
+        toggleBtn.addEventListener('click', (e) => {
+            input.classList.add('active');
+            dropdown.classList.add('active');
+            toggleBtn.classList.add('active');
+            this.isMobileOpen = true;
+            // ставим focus после рендера и активного класса
+            setTimeout(() => input.focus(), 0);
+            this.#renderDropdown();
+        });
+        // input.addEventListener('click', (e) => e.stopPropagation());
+        // dropdown.addEventListener('click', (e) => e.stopPropagation());
+        // closeBtn.addEventListener('click', (e) => e.stopPropagation());
+            
+        
+
+        // if (input) {
+        //     input.addEventListener('blur', () => {
+        //         if (!input.value.trim()) {
+        //             wrapper.classList.remove('active');
+        //             input.classList.remove('active');
+        //         }
+        //     });
+        // }
 
 
         if (input) {
@@ -109,6 +117,7 @@ class Header {
                     closeBtn.classList.remove('active');
                     input.classList.remove('active');
                     input.value = '';
+                    toggleBtn.classList.remove('active');
                 }
             });
 
@@ -118,6 +127,7 @@ class Header {
                     closeBtn.classList.remove('active');
                     input.classList.remove('active');
                     input.value = '';
+                    toggleBtn.classList.remove('active');
                 }
             });
 
@@ -125,6 +135,7 @@ class Header {
                 this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
                 closeBtn.classList.remove('active');
                 input.classList.remove('active');
+                toggleBtn.classList.remove('active');
                 input.value = '';
             });
     }
@@ -133,6 +144,7 @@ class Header {
         const dropdown = this.#parent.querySelector('#searchDropdown');
         const searchCloseBtn = this.#parent.querySelector('#searchCloseBtn');
         const input = this.#parent.querySelector('#searchInput'); 
+        const toggleBtn = this.#parent.querySelector('#searchToggle');
 
         if (!dropdown) return;
 
@@ -145,7 +157,7 @@ class Header {
 
         const hasQuery = this.#parent.querySelector('#searchInput')?.value.trim().length > 0;
 
-        if (hasResults || (hasQuery && this.#searchResults !== null)) {
+        if (hasResults || (hasQuery && this.#searchResults !== null) || this.isMobileOpen) {
             dropdown.classList.add('active');
             searchCloseBtn.classList.add('active');
             input.classList.add('active');
@@ -153,6 +165,8 @@ class Header {
             dropdown.classList.remove('active');
             searchCloseBtn.classList.remove('active');
             input.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            this.isMobileOpen = false;
         }
     }
     #highlightActiveLink() {

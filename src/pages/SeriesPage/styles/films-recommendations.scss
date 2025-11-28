@@ -1,3 +1,6 @@
+@use '@shared/styles/media';
+@use '@shared/styles/mixins';
+
 .films-recommendations {
     position: relative;
     padding-block: var(--padding-medium);
