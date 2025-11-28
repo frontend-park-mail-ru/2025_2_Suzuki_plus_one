@@ -65,7 +65,7 @@ class Header {
         
 
         toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // предотвращаем всплытие к document
+            e.stopPropagation();
             input.classList.add('active');
             dropdown.classList.add('active');
             toggleBtn.classList.add('active');
@@ -73,21 +73,6 @@ class Header {
             setTimeout(() => input.focus(), 0);
             this.#renderDropdown();
         });
-        
-        // input.addEventListener('click', (e) => e.stopPropagation());
-        // dropdown.addEventListener('click', (e) => e.stopPropagation());
-        // closeBtn.addEventListener('click', (e) => e.stopPropagation());
-            
-        
-
-        // if (input) {
-        //     input.addEventListener('blur', () => {
-        //         if (!input.value.trim()) {
-        //             wrapper.classList.remove('active');
-        //             input.classList.remove('active');
-        //         }
-        //     });
-        // }
 
 
         if (input) {
