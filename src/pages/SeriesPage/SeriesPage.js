@@ -9,6 +9,7 @@ import EpisodeCard from '@features/EpisodeCard/EpisodeCard';
 import { fetchSeriesById, fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 import {addToFavourite, checkMediaIsLiked, deleteFromFavourite} from '@shared/api/favouriteApi.js';
+import seriesPoster from '@assets/images/StrangerThings.png'
 
 class SeriesPage {
     #parent;
@@ -34,7 +35,7 @@ class SeriesPage {
             const genres = film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '';
             const year = film.release_date ? film.release_date.split('-')[0] : '';
             const duration = this.#formatDuration(film.duration_minutes);
-            const poster = film.posters && film.posters.length > 0 ? film.posters[0] : '';
+            const poster = film.posters && film.posters.length > 0 ? film.posters[0] : seriesPoster;
 
             this.#parent.innerHTML = template({
                 id: film.media_id,
@@ -177,19 +178,19 @@ class SeriesPage {
             const episodeCard = new EpisodeCard(episodeElement, this.#app);
 
             const poster =
-                episode.posters && episode.posters.length > 0
-                    ? episode.posters[0]
-                    : star_photo;
+                episode.media.posters && episode.media.posters.length > 0
+                    ? episode.media.posters[0]
+                    : seriesPoster;
 
             
                 episodeCard.render({
-                    id: episode.id,
+                    episode_id: episode.media.media_id,
                     episode_number: episode.episode_number,
                     season_number: episode.season_number,
-                    title: episode.title,
+                    title: episode.media.title,
                     release_date: episode.release_date,
                     poster: poster,
-                    plot_summary: episode.plot_summary,
+                    description: episode.media.description,
                 });
             }
         });

@@ -27,6 +27,7 @@ class Home {
         if (params.id) {
             this.#genreId = params.id;
         }
+        
     }
 
     /**
@@ -37,16 +38,17 @@ class Home {
      */
     async render() {
         this.#parent.innerHTML = template({});
-        await this.loadGenres();
+   //     await this.loadGenres();
         await this.renderMovies();
     }
 
     async afterRender() {
         this.setupPlayButton();
-        this.setupGenreButton();
+        
     }
 
     async loadGenres() {
+        if (this.#allGenres) return;
         const response = await fetchGenres();
         this.#allGenres = response.genres.map(genre => ({
             id: genre.id,
@@ -76,8 +78,9 @@ class Home {
         const dropdown = this.#parent.querySelector('#genreDropdown');
         if (!dropdown) return;
 
-        const response = await fetchGenres();
-        console.log(response);
+        if (!this.#allGenres) {
+            await this.loadGenres();
+        }
         
         dropdown.innerHTML = dropdownTemplate({
             genres: this.#allGenres
@@ -108,11 +111,16 @@ class Home {
         let films = [];
         let genre;
 
+        await this.setupGenreButton();
         if (this.#genreId) {
+            if (!this.#allGenres) {
+                await this.loadGenres();
+            }
+
             genre = this.#allGenres.find(g => g.id == this.#genreId);
             sectionTitle.textContent = genre ? genre.name : "Unknown genre";
             response = await fetchMoviesByGenreId(this.#genreId);    
-            films = response.medias.map(film => ({
+            films = response.movies.map(film => ({
                 id: film.media_id,
                 title: film.title,
    //             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',

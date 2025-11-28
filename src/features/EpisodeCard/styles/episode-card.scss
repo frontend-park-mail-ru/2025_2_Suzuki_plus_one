@@ -68,11 +68,11 @@
         }
     }
 
-    // &__description {
-    //     flex-direction: column;
-    //     display: flex;
-    //     row-gap: var(--padding-small);
-    // }
+    &__description {
+        flex-direction: column;
+        display: flex;
+        row-gap: var(--padding-small);
+    }
 
     // &__title {
     //     display: flex;

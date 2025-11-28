@@ -65,14 +65,15 @@ class Header {
         
 
         toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // предотвращаем всплытие к document
             input.classList.add('active');
             dropdown.classList.add('active');
             toggleBtn.classList.add('active');
             this.isMobileOpen = true;
-            // ставим focus после рендера и активного класса
             setTimeout(() => input.focus(), 0);
             this.#renderDropdown();
         });
+        
         // input.addEventListener('click', (e) => e.stopPropagation());
         // dropdown.addEventListener('click', (e) => e.stopPropagation());
         // closeBtn.addEventListener('click', (e) => e.stopPropagation());
@@ -112,14 +113,16 @@ class Header {
         }
 
         document.addEventListener('click', (e) => {
-                if (!this.#parent.contains(e.target)) {
-                    this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
-                    closeBtn.classList.remove('active');
-                    input.classList.remove('active');
-                    input.value = '';
-                    toggleBtn.classList.remove('active');
-                }
-            });
+            if (!wrapper.contains(e.target)) { // wrapper — блок search
+                dropdown.classList.remove('active');
+                closeBtn.classList.remove('active');
+                input.classList.remove('active');
+                input.value = '';
+                toggleBtn.classList.remove('active');
+                this.isMobileOpen = false;
+            }
+        });
+        
 
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {

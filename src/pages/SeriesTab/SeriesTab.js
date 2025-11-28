@@ -19,12 +19,12 @@ class SeriesTab {
         const seriesContainer = this.#parent.querySelector('#seriesContainer');
         try {
             const response = await fetchSeries();
-            const seriesData = response.series.map(series => ({
+            const seriesData = response.movies.map(series => ({
                 id: series.media_id,
                 title: series.title,
                 genres: series.genres ? series.genres.map(g => g.name).join(', ').toLowerCase() : '',
                 release_date: series.release_date.substr(0, 4),
-                poster: series.posters[0],
+                poster: series.posters? series.posters[0]: poster,
                 seasons: series.seasons,
                 type: "series",
             }));

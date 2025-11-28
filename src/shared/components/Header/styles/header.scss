@@ -453,7 +453,7 @@
     //     display: flex; // крестик виден, когда input в фокусе
     //   }
     &.active {
-        display: block;
+        display: flex;
     }
       @include media.mobile {
         display: none; // скрыт по умолчанию
@@ -473,7 +473,7 @@
         background-color: var(--color-dark, #1e1e28);
         z-index: 1000;
         &.active {
-            display: block;
+            display: flex;
         }
       }
     }
@@ -517,18 +517,20 @@
   
     .header__search-toggle {
         all: unset;
-        img {
-            width: 42px;
-            height: 42px;
-        }
-      display: flex; // лупа по умолчанию видна на мобилке
-      cursor: pointer;
-      background: transparent;
+        background-color: transparent;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    display: flex;             // делаем flex-контейнер
+    align-items: center;       // центрируем по вертикали
+    justify-content: center;
+    cursor: pointer;
 
-      padding: var(--padding-small);
-      align-items: center;
-      justify-content: center;
-  
+    .svg {
+        width: 48px;
+        height: 48px;
+    }
+
       @include media.mobile-above {
         display: none;
       }
@@ -536,7 +538,7 @@
       &.active {
         display: none;
         .header__input {
-            display: block; // показываем input
+            display: flex; // показываем input
           }
       
       }
@@ -588,7 +590,7 @@
 
       &.active {
         .header__input {
-          display: block; // показываем input
+          display: flex; // показываем input
         }
     
         .header__search-toggle {
