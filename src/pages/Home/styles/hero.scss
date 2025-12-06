@@ -7,6 +7,7 @@
     justify-content: center;
 
     &__content {
+        cursor: default;
         margin-bottom: var(--padding-small);
         padding-block: var(--padding-large);
         text-align: center;
