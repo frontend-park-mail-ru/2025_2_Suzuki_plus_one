@@ -12,7 +12,7 @@ class Header {
     #searchResults = null;
     #isRendered = false;
     #lastAuthState = null;
-    
+
     constructor(parent, appInstance) {
         this.#parent = parent;
         this.#app = appInstance;
@@ -34,8 +34,7 @@ class Header {
 
             this.#setupEventsOnce();
             this.#isRendered = true;
-        } 
-        else if (this.#app.isAuthorized && this.#app.user) {
+        } else if (this.#app.isAuthorized && this.#app.user) {
             this.#updateUserInfoInDOM();
         }
 
@@ -62,7 +61,6 @@ class Header {
         const toggleBtn = wrapper.querySelector('#searchToggle');
         const closeBtn = wrapper.querySelector('#searchCloseBtn');
         const dropdown = this.#parent.querySelector('#searchDropdown');
-        
 
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -74,7 +72,6 @@ class Header {
             this.#renderDropdown();
         });
 
-
         if (input) {
             input.addEventListener('input', async (e) => {
                 const query = e.target.value.trim();
@@ -84,7 +81,10 @@ class Header {
                 } else {
                     try {
                         const data = await search(query);
-                        this.#searchResults = data || { actors: [], medias: [] };
+                        this.#searchResults = data || {
+                            actors: [],
+                            medias: [],
+                        };
                     } catch (err) {
                         console.error(err);
                         this.#searchResults = null;
@@ -98,7 +98,8 @@ class Header {
         }
 
         document.addEventListener('click', (e) => {
-            if (!wrapper.contains(e.target)) { // wrapper — блок search
+            if (!wrapper.contains(e.target)) {
+                // wrapper — блок search
                 dropdown.classList.remove('active');
                 closeBtn.classList.remove('active');
                 input.classList.remove('active');
@@ -107,40 +108,40 @@ class Header {
                 this.isMobileOpen = false;
             }
         });
-        
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
-                    closeBtn.classList.remove('active');
-                    input.classList.remove('active');
-                    input.value = '';
-                    toggleBtn.classList.remove('active');
-                }
-            });
-
-            closeBtn?.addEventListener('click', () => {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
                 closeBtn.classList.remove('active');
                 input.classList.remove('active');
-                toggleBtn.classList.remove('active');
                 input.value = '';
-            });
+                toggleBtn.classList.remove('active');
+            }
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            this.#parent.querySelector('#searchDropdown')?.classList.remove('active');
+            closeBtn.classList.remove('active');
+            input.classList.remove('active');
+            toggleBtn.classList.remove('active');
+            input.value = '';
+        });
     }
 
     #renderDropdown() {
         const dropdown = this.#parent.querySelector('#searchDropdown');
         const searchCloseBtn = this.#parent.querySelector('#searchCloseBtn');
-        const input = this.#parent.querySelector('#searchInput'); 
+        const input = this.#parent.querySelector('#searchInput');
         const toggleBtn = this.#parent.querySelector('#searchToggle');
 
         if (!dropdown) return;
 
         dropdown.innerHTML = dropdownTemplate({
-            searchResults: this.#searchResults
+            searchResults: this.#searchResults,
         });
 
-        const hasResults = this.#searchResults && 
+        const hasResults =
+            this.#searchResults &&
             (this.#searchResults.actors?.length > 0 || this.#searchResults.medias?.length > 0);
 
         const hasQuery = this.#parent.querySelector('#searchInput')?.value.trim().length > 0;
@@ -160,8 +161,8 @@ class Header {
     #highlightActiveLink() {
         const currentPath = window.location.pathname;
         const links = this.#parent.querySelectorAll('.header__menu-link');
-    
-        links.forEach(link => {
+
+        links.forEach((link) => {
             const linkPath = link.getAttribute('href');
             if (linkPath === currentPath) {
                 link.classList.add('header__menu-link--active');
@@ -172,33 +173,32 @@ class Header {
     }
 
     #updateUserInfoInDOM() {
-    const avatarEl = this.#parent.querySelector('.header__avatar');
-    const usernameEl = this.#parent.querySelector('.header__username');
-    const userLink = this.#parent.querySelector('.header__user');
+        const avatarEl = this.#parent.querySelector('.header__avatar');
+        const usernameEl = this.#parent.querySelector('.header__username');
+        const userLink = this.#parent.querySelector('.header__user');
 
-    if (!avatarEl || !usernameEl) return;
+        if (!avatarEl || !usernameEl) return;
 
-    if (this.#app.user.avatar_url) {
-        if (avatarEl.tagName === 'IMG') {
-            avatarEl.src = this.#app.user.avatar_url;
-        } else {
-            const img = document.createElement('img');
-            img.src = this.#app.user.avatar_url;
-            img.alt = this.#app.user.username;
-            img.className = 'header__avatar';
-            avatarEl.replaceWith(img);
+        if (this.#app.user.avatar_url) {
+            if (avatarEl.tagName === 'IMG') {
+                avatarEl.src = this.#app.user.avatar_url;
+            } else {
+                const img = document.createElement('img');
+                img.src = this.#app.user.avatar_url;
+                img.alt = this.#app.user.username;
+                img.className = 'header__avatar';
+                avatarEl.replaceWith(img);
+            }
+        }
+
+        if (usernameEl) {
+            usernameEl.textContent = this.#app.user.username;
+        }
+
+        if (userLink) {
+            userLink.dataset.navigate = '/account/settings';
         }
     }
-
-    if (usernameEl) {
-        usernameEl.textContent = this.#app.user.username;
-    }
-
-    if (userLink) {
-        userLink.dataset.navigate = '/account/settings';
-    }
-}
-    
 }
 
 export default Header;

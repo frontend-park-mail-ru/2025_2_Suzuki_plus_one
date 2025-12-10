@@ -2,74 +2,73 @@
 @use '@shared/styles/mixins';
 
 .films {
-    padding-block: var(--padding-large);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 240px);
-    justify-content: center;
-    gap: var(--padding-large) var(--padding-large);
+  padding-block: var(--padding-large);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 240px);
+  justify-content: center;
+  gap: var(--padding-large) var(--padding-large);
+
+  @include media.tablet {
+    padding-block: var(--padding-small);
+    gap: var(--padding-small) var(--padding-medium);
+    grid-template-columns: repeat(auto-fit, 120px);
+  }
+
+  &__image {
+    width: 100%;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
 
     @include media.tablet {
-        padding-block: var(--padding-small);
-        gap: var(--padding-small) var(--padding-medium);
-        grid-template-columns: repeat(auto-fit, 120px);
+      border-radius: 25px;
     }
 
-    &__image {
-        width: 100%;
-        border-radius: var(--border-radius-large);
-        overflow: hidden;
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: inherit;
+    }
+  }
 
-        @include media.tablet {
-            border-radius: 25px;
-        }
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: var(--padding-small);
+  }
 
-        img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: inherit;
-        }
+  &__card {
+    width: 240px;
+    height: 320px;
+    border-radius: var(--border-radius-large);
+    background-color: white;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-3px);
     }
 
-    &__item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        row-gap: var(--padding-small);
+    @include media.tablet {
+      width: 120px;
+      height: 160px;
+      border-radius: 25px;
     }
+  }
 
-    &__card {
-        width: 240px;
-        height: 320px;
-        border-radius: var(--border-radius-large);
-        background-color: white;
-        overflow: hidden;
-
-        &:hover {
-            transform: translateY(-3px);
-        }
-
-        @include media.tablet {
-            width: 120px;
-            height: 160px;
-            border-radius: 25px;
-        }
-        
+  &__info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    color: white;
+    row-gap: var(--padding-small);
+    @include media.mobile {
+      row-gap: 2px;
     }
+  }
 
-    &__info {
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        color: white;
-        row-gap: var(--padding-small);
-        @include media.mobile {
-            row-gap: 2px;
-        }
-    }
-
-    &__genre {
-        color: grey;
-    }
+  &__genre {
+    color: grey;
+  }
 }

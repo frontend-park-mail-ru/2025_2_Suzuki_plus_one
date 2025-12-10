@@ -7,7 +7,10 @@ export async function fetchGenres() {
 }
 
 export async function fetchMoviesByGenreId(genreIds) {
-    return await fetchWithErrorsHandling(`/api/v1/media/recommendations?type=movie&limit=10&genre_ids=${genreIds}`, {
-        method: 'GET',
-    });
+    return await fetchWithErrorsHandling(
+        `/api/v1/media/recommendations?type=movie&limit=10&genre_ids=${genreIds}`,
+        {
+            method: 'GET',
+        },
+    );
 }

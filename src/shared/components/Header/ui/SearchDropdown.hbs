@@ -1,39 +1,47 @@
 {{#if searchResults}}
-    {{#if searchResults.actors.length}}
-        <div class="header__search-section">
-            <div class="header__search-section-title">People</div>
-            {{#each searchResults.actors}}
-                <div class="header__search-item actor" data-navigate="/actor/{{id}}">
-                    <img src="{{#if image_urls.[0]}}{{image_urls.[0]}}{{else}}https://via.placeholder.com/48{{/if}}" alt="{{name}}" />
-                    <div class="header__search-item-info">
-                        <div class="header__search-item-title">{{name}}</div>
-                    </div>
-                </div>
-            {{/each}}
+  {{#if searchResults.actors.length}}
+    <div class='header__search-section'>
+      <div class='header__search-section-title'>People</div>
+      {{#each searchResults.actors}}
+        <div class='header__search-item actor' data-navigate='/actor/{{id}}'>
+          {{#if image_urls.[0]}}
+            <img src='{{image_urls.[0]}}' alt='{{name}}' />
+          {{else}}
+            <img src='https://via.placeholder.com/48' alt='{{name}}' />
+          {{/if}}
+          <div class='header__search-item-info'>
+            <div class='header__search-item-title'>{{name}}</div>
+          </div>
         </div>
-    {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
 
-    {{#if searchResults.medias.length}}
-        <div class="header__search-section">
-            <div class="header__search-section-title">Titles</div>
-            {{#each searchResults.medias}}
-                <div class="header__search-item" data-navigate="/film/{{media_id}}">
-                    <img src="{{#if posters.[0]}}{{posters.[0]}}{{else}}https://via.placeholder.com/40x60{{/if}}" alt="{{title}}" />
-                    <div class="header__search-item-info">
-                        <div class="header__search-item-title">{{title}}</div>
-                        <div class="header__search-item-subtitle">
-                            {{#if rating}}★ {{rating}}{{/if}}
-                            {{#if duration_minutes}} | {{duration_minutes}} min{{/if}}  
-                        </div>
-                    </div>
-                </div>
-            {{/each}}
+  {{#if searchResults.medias.length}}
+    <div class='header__search-section'>
+      <div class='header__search-section-title'>Titles</div>
+      {{#each searchResults.medias}}
+        <div class='header__search-item' data-navigate='/film/{{media_id}}'>
+          {{#if posters.[0]}}
+            <img src='{{posters.[0]}}' alt='{{title}}' />
+          {{else}}
+            <img src='https://via.placeholder.com/40x60' alt='{{title}}' />
+          {{/if}}
+          <div class='header__search-item-info'>
+            <div class='header__search-item-title'>{{title}}</div>
+            <div class='header__search-item-subtitle'>
+              {{#if rating}}★ {{rating}}{{/if}}
+              {{#if duration_minutes}} | {{duration_minutes}} min{{/if}}
+            </div>
+          </div>
         </div>
-    {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
 
-    {{#unless searchResults.actors.length}}
-        {{#unless searchResults.medias.length}}
-                <div class="header__search-section-title">No results found</div>
-        {{/unless}}
+  {{#unless searchResults.actors.length}}
+    {{#unless searchResults.medias.length}}
+      <div class='header__search-section-title'>No results found</div>
     {{/unless}}
+  {{/unless}}
 {{/if}}

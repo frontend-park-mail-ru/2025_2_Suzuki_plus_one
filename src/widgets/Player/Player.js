@@ -4,7 +4,7 @@ import { initPlayerControls } from './js/player-controls.js';
 import video from '@assets/videos/trailer.mp4';
 import poster from '@assets/images/StrangerThings.png';
 import { fetchTrailer } from '@shared/api/trailerApi.js';
-import {fetchMedia} from '@shared/api/moviesApi.js';
+import { fetchMedia } from '@shared/api/moviesApi.js';
 import RewindLeft from '@shared/assets/images/icons/circular-arrow-left.svg?raw';
 import RewindRight from '@shared/assets/images/icons/circular-arrow-right.svg?raw';
 
@@ -29,41 +29,38 @@ class Player {
         // });
         var film, videoUrl;
 
-        if (this.type=="trailer") {
+        if (this.type == 'trailer') {
             film = await fetchTrailer(this.#filmId);
-            videoUrl = film.trailers && film.trailers.length > 0 
-                ? film.trailers[0] 
-                : null;
-                if (!videoUrl) {
-                    this.#parent.innerHTML = '<p style="text-align:center; color:red;">Trailer is not available</p>';
-                    return;
-                }
-        }
-        else if(this.type=="media") {
-            try {
-                film = await fetchMedia(this.#filmId);
-                videoUrl = film.url? film.url : null;
-                if (!videoUrl) {
-                this.#parent.innerHTML = '<p style="text-align:center; color:red;">Episode is not available</p>';
-                return;
-                } 
-            } catch {
-                this.#parent.innerHTML = '<p style="text-align:center; color:red;">Episode is not available</p>';
+            videoUrl = film.trailers && film.trailers.length > 0 ? film.trailers[0] : null;
+            if (!videoUrl) {
+                this.#parent.innerHTML =
+                    '<p style="text-align:center; color:red;">Trailer is not available</p>';
                 return;
             }
-            
+        } else if (this.type == 'media') {
+            try {
+                film = await fetchMedia(this.#filmId);
+                videoUrl = film.url ? film.url : null;
+                if (!videoUrl) {
+                    this.#parent.innerHTML =
+                        '<p style="text-align:center; color:red;">Episode is not available</p>';
+                    return;
+                }
+            } catch {
+                this.#parent.innerHTML =
+                    '<p style="text-align:center; color:red;">Episode is not available</p>';
+                return;
+            }
         }
 
-            const posterUrl = film.posters && film.posters.length > 0 
-                ? film.posters[0] 
-                : poster;    
+        const posterUrl = film.posters && film.posters.length > 0 ? film.posters[0] : poster;
 
-            this.#parent.innerHTML = template({
-                video: videoUrl,
-                poster: posterUrl,
-                rewindLeftIcon: RewindLeft,
-                rewindRightIcon: RewindRight,
-            });
+        this.#parent.innerHTML = template({
+            video: videoUrl,
+            poster: posterUrl,
+            rewindLeftIcon: RewindLeft,
+            rewindRightIcon: RewindRight,
+        });
 
         // this.#parent.innerHTML = template({
         //      video,

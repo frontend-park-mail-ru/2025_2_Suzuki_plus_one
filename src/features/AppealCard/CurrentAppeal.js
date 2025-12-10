@@ -4,7 +4,7 @@ import {
     AddMessageToAppeal,
     markAppealAsResolved,
     fetchAppealById,
-    getMessageOfAppeal
+    getMessageOfAppeal,
 } from '@shared/api/appealApi.js';
 
 class CurrentAppeal {
@@ -24,18 +24,18 @@ class CurrentAppeal {
 
             const messagesData = await getMessageOfAppeal(this.#appealId);
 
-            const formattedMessages = messagesData.messages.map(msg => ({
-                sender: msg.is_response ? "support" : "user",
+            const formattedMessages = messagesData.messages.map((msg) => ({
+                sender: msg.is_response ? 'support' : 'user',
                 message: msg.message,
                 timestamp: msg.timestamp,
-                displayTime: this.#formatTime(msg.timestamp)
+                displayTime: this.#formatTime(msg.timestamp),
             }));
 
             const finalFormatted = {
                 ...appealInfo,
                 createdDate: this.#formatDate(appealInfo.created_at),
                 displayStatus: this.#getDisplayStatus(appealInfo.status),
-                messages: formattedMessages
+                messages: formattedMessages,
             };
 
             this.#parent.innerHTML = template(finalFormatted);
@@ -130,7 +130,7 @@ class CurrentAppeal {
     }
 
     #setupCloseButton() {
-        const supportActions = this.#parent.querySelector('#supportActions'); 
+        const supportActions = this.#parent.querySelector('#supportActions');
         const closeBtn = this.#parent.querySelector('#close-button');
         const statusEl = this.#parent.querySelector('#appeal-status');
 
@@ -148,7 +148,6 @@ class CurrentAppeal {
                 statusEl.textContent = 'resolved';
 
                 supportActions.style.display = 'none';
-                
             } catch (err) {
                 console.log(err.message || 'Unknown error');
             }

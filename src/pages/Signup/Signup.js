@@ -1,8 +1,4 @@
-import {
-    validateEmail,
-    validatePassword,
-    validateUsername,
-} from '@shared/utils/validation';
+import { validateEmail, validatePassword, validateUsername } from '@shared/utils/validation';
 
 import './styles/signup.scss';
 import template from './ui/Signup.hbs';
@@ -55,10 +51,10 @@ class Signup {
 
         const setError = (field, message) => {
             const errorEl = this.#parent.querySelector(`#${field}Error`);
-                if (errorEl) {
-                    errorEl.textContent = message || '';
-                    errorEl.style.display = message ? 'block' : 'none';
-                }
+            if (errorEl) {
+                errorEl.textContent = message || '';
+                errorEl.style.display = message ? 'block' : 'none';
+            }
         };
 
         form.addEventListener('submit', async (e) => {
@@ -74,16 +70,13 @@ class Signup {
                 email: validateEmail(fields.email),
                 password: validatePassword(fields.password),
                 confirm:
-                    fields.password !==
-                    form.querySelector('input[name="confirm_password"]').value
+                    fields.password !== form.querySelector('input[name="confirm_password"]').value
                         ? 'Passwords do not match'
                         : null,
             };
 
             Object.keys(errorDivs).forEach((field) => setError(field, ''));
-            Object.entries(validations).forEach(([field, error]) =>
-                setError(field, error)
-            );
+            Object.entries(validations).forEach(([field, error]) => setError(field, error));
             if (Object.values(validations).some(Boolean)) return;
 
             try {

@@ -70,7 +70,6 @@ const API_ENDPOINTS = [
     '/api/v1/actor',
     '/account',
     '/',
-
 ];
 
 self.addEventListener('install', (event) => {
@@ -79,7 +78,7 @@ self.addEventListener('install', (event) => {
         caches.open(CACHE_NAME).then((cache) => {
             console.log('SW: Caching static assets');
             return cache.addAll(STATIC_ASSETS);
-        })
+        }),
     );
 });
 
@@ -92,9 +91,9 @@ self.addEventListener('activate', (event) => {
                 Promise.all(
                     cacheNames
                         .filter((name) => name !== CACHE_NAME)
-                        .map((name) => caches.delete(name))
-                )
-            )
+                        .map((name) => caches.delete(name)),
+                ),
+            ),
     );
 });
 
@@ -112,9 +111,9 @@ self.addEventListener('fetch', (event) => {
                         response ||
                         new Response('Offline — no cached data', {
                             status: 503,
-                        })
+                        }),
                 );
-            })
+            }),
         );
         return;
     }
@@ -146,6 +145,6 @@ self.addEventListener('fetch', (event) => {
                         status: 404,
                     });
                 });
-        })
+        }),
     );
 });

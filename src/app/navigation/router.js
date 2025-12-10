@@ -32,10 +32,9 @@ const routes = {
 
     '*': NotFound,
 
-    '/newAppeal' : NewAppeal,
+    '/newAppeal': NewAppeal,
     '/appealStats': AppealStats,
     '/currentAppeal/:id': CurrentAppeal,
-
 };
 
 export class Router {
@@ -92,8 +91,8 @@ export class Router {
         }
 
         const standaloneRoutes = ['/newAppeal', '/currentAppeal'];
-        const isStandalone = standaloneRoutes.some(route =>
-            pathname === route || pathname.startsWith(route + '/')
+        const isStandalone = standaloneRoutes.some(
+            (route) => pathname === route || pathname.startsWith(route + '/'),
         );
 
         this.root.innerHTML = '';
