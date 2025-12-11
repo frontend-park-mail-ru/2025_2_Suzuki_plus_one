@@ -89,12 +89,12 @@ setupSubscribeButton() {
         subscribeButton.textContent = 'Redirecting...';
 
         try {
-            const redirectUrl = await createNewPayment(); 
+            const redirectUrl = await createNewPayment();
+            console.log(redirectUrl);
             window.location.href = redirectUrl;
         } catch (error) {
             console.error('Payment creation failed:', error);
             this.#showToast('Failed to start subscription. Try again later.', 'error');
-            
             subscribeButton.disabled = false;
             subscribeButton.textContent = originalText;
         }
