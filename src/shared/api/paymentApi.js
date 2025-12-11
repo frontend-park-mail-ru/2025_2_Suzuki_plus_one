@@ -1,21 +1,39 @@
-import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
-
-
 export async function createNewPayment(data = {}) {
-    const response = await fetchWithErrorsHandling('/api/v1/payment/new', {
-        method: 'POST',
-        body: JSON.stringify(data),
+    const token = getAccessToken();
+    const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
+    const response = await fetch('/api/v1/payment/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...authHeaders,
+        },
+        body: JSON.stringify(data),
+        credentials: 'include',
+        redirect: 'manual',
     });
 
-    if (response.redirected && response.url) {
-        return response.url;
-    }
-
     const location = response.headers.get('Location') || response.headers.get('location');
+
     if (location) {
-        return new URL(location, window.location.origin).href;
+        const redirectUrl = new URL(location, window.location.origin).href;
+        window.location.href = redirectUrl;
+        return;
     }
 
-    throw new Error('Redirect URL not found in payment response');
+
+    if (response.ok) {
+        const json = await response.json();
+        if (json.redirect_url) {
+            window.location.href = json.redirect_url;
+            return;
+        }
+    }
+
+    let errorMessage = 'Redirect URL not found';
+    try {
+        const errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+    } catch {}
+    throw new Error(errorMessage);
 }
