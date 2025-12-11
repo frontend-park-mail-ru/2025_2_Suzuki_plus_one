@@ -49,10 +49,9 @@ export async function search(query, type = 'any', limit = 10, offset = 0) {
                     abortController = null;
                 }
             }
-        }, 300); 
+        }, 300);
     });
 }
-
 
 // const MOCK_DATA = [
 //     {

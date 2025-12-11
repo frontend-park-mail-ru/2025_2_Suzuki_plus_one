@@ -6,11 +6,7 @@ import { defineConfig } from 'eslint/config';
 export default defineConfig([
     {
         files: ['**/*.{js,mjs,cjs}'],
-        ignores: [
-            'public/js/templates.precompiled.js',
-            'dist/',
-            'node_modules/',
-        ],
+        ignores: ['public/js/templates.precompiled.js', 'dist/', 'node_modules/'],
         plugins: { js },
         extends: ['js/recommended', pluginPrettierRecommended],
         languageOptions: {

@@ -3,7 +3,7 @@ import './styles/section.scss';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import template from './ui/Home.hbs';
 import { fetchMovies } from '@shared/api/moviesApi';
-import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi'
+import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi';
 import dropdownTemplate from './ui/GenreDropdown.hbs';
 import preview from '@assets/images/film_card.png';
 
@@ -27,7 +27,6 @@ class Home {
         if (params.id) {
             this.#genreId = params.id;
         }
-        
     }
 
     /**
@@ -38,19 +37,18 @@ class Home {
      */
     async render() {
         this.#parent.innerHTML = template({});
-   //     await this.loadGenres();
+        //     await this.loadGenres();
         await this.renderMovies();
     }
 
     async afterRender() {
         this.setupPlayButton();
-        
     }
 
     async loadGenres() {
         if (this.#allGenres) return;
         const response = await fetchGenres();
-        this.#allGenres = response.genres.map(genre => ({
+        this.#allGenres = response.genres.map((genre) => ({
             id: genre.id,
             name: genre.name,
         }));
@@ -81,22 +79,22 @@ class Home {
         if (!this.#allGenres) {
             await this.loadGenres();
         }
-        
+
         dropdown.innerHTML = dropdownTemplate({
-            genres: this.#allGenres
+            genres: this.#allGenres,
         });
 
         genreButton.addEventListener('click', (e) => {
             e.stopPropagation();
             dropdown.classList.toggle('active');
         });
-    
+
         document.addEventListener('click', (e) => {
             if (!dropdown.contains(e.target) && e.target !== genreButton) {
                 dropdown.classList.remove('active');
             }
         });
-    
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 dropdown.classList.remove('active');
@@ -117,30 +115,32 @@ class Home {
                 await this.loadGenres();
             }
 
-            genre = this.#allGenres.find(g => g.id == this.#genreId);
-            sectionTitle.textContent = genre ? genre.name : "Unknown genre";
-            response = await fetchMoviesByGenreId(this.#genreId);    
-            films = response.movies.map(film => ({
+            genre = this.#allGenres.find((g) => g.id == this.#genreId);
+            sectionTitle.textContent = genre ? genre.name : 'Unknown genre';
+            response = await fetchMoviesByGenreId(this.#genreId);
+            films = response.movies.map((film) => ({
                 id: film.media_id,
                 title: film.title,
-   //             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-                release_date: film.release_date.substr(0, 4),
-               poster: film.posters[0],
-            }));
-        }
-        else {
-            response = await fetchMovies();
-            films = response.movies.map(film => ({
-                id: film.media_id,
-                title: film.title,
-                genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+                //             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
                 release_date: film.release_date.substr(0, 4),
                 poster: film.posters[0],
-                type: "film",
+            }));
+        } else {
+            response = await fetchMovies();
+            films = response.movies.map((film) => ({
+                id: film.media_id,
+                title: film.title,
+                genres: film.genres
+                    ? film.genres
+                          .map((g) => g.name)
+                          .join(', ')
+                          .toLowerCase()
+                    : '',
+                release_date: film.release_date.substr(0, 4),
+                poster: film.posters[0],
+                type: 'film',
             }));
         }
-        
-        
 
         // const filmsData = [
         //     {
@@ -158,8 +158,6 @@ class Home {
             filmCard.render(film);
         });
     }
-
-
 }
 
 export default Home;

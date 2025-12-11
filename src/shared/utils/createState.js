@@ -6,10 +6,10 @@ export function createState(initial) {
             obj[prop] = value;
 
             if (watchers[prop]) {
-                watchers[prop].forEach(fn => fn(value));
+                watchers[prop].forEach((fn) => fn(value));
             }
             return true;
-        }
+        },
     });
 
     proxy.watch = (prop, fn) => {

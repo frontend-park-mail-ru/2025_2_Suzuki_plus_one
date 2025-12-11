@@ -8,8 +8,12 @@ import StarCard from '@features/StarCard/StarCard.js';
 import EpisodeCard from '@features/EpisodeCard/EpisodeCard';
 import { fetchSeriesById, fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import {addToFavourite, checkMediaIsLiked, deleteFromFavourite} from '@shared/api/favouriteApi.js';
-import seriesPoster from '@assets/images/StrangerThings.png'
+import {
+    addToFavourite,
+    checkMediaIsLiked,
+    deleteFromFavourite,
+} from '@shared/api/favouriteApi.js';
+import seriesPoster from '@assets/images/StrangerThings.png';
 
 class SeriesPage {
     #parent;
@@ -32,7 +36,12 @@ class SeriesPage {
     async render() {
         try {
             const film = await fetchSeriesById(this.#seriesId);
-            const genres = film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '';
+            const genres = film.genres
+                ? film.genres
+                      .map((g) => g.name)
+                      .join(', ')
+                      .toLowerCase()
+                : '';
             const year = film.release_date ? film.release_date.split('-')[0] : '';
             const duration = this.#formatDuration(film.duration_minutes);
             const poster = film.posters && film.posters.length > 0 ? film.posters[0] : seriesPoster;
@@ -60,9 +69,9 @@ class SeriesPage {
             this.renderSeasons();
             this.renderEpisodesBySeason();
             this.setupSeasonSwitcher();
-
         } catch (err) {
-            this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
+            this.#parent.innerHTML =
+                '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
         }
     }
@@ -80,12 +89,8 @@ class SeriesPage {
 
     setupScrollButtons() {
         const list = this.#parent.querySelector('#recommendations-section');
-        const leftBtn = this.#parent.querySelector(
-            '.films-recommendations__button--left'
-        );
-        const rightBtn = this.#parent.querySelector(
-            '.films-recommendations__button--right'
-        );
+        const leftBtn = this.#parent.querySelector('.films-recommendations__button--left');
+        const rightBtn = this.#parent.querySelector('.films-recommendations__button--right');
 
         if (!list || !leftBtn || !rightBtn) return;
 
@@ -108,9 +113,7 @@ class SeriesPage {
         const updateButtons = () => {
             leftBtn.style.opacity = list.scrollLeft <= 0 ? '0.5' : '1';
             rightBtn.style.opacity =
-                list.scrollLeft >= list.scrollWidth - list.clientWidth - 10
-                    ? '0.5'
-                    : '1';
+                list.scrollLeft >= list.scrollWidth - list.clientWidth - 10 ? '0.5' : '1';
         };
 
         list.addEventListener('scroll', updateButtons);
@@ -120,9 +123,9 @@ class SeriesPage {
     renderSeasons() {
         const container = this.#parent.querySelector('.series__seasons');
         if (!container) return;
-    
+
         container.innerHTML = `<h3 class="series__seasons-title">Seasons</h3>`;
-    
+
         for (let i = 1; i <= this.#allSeasons; i++) {
             const btn = document.createElement('a');
             btn.className = `series__seasons-item${i === this.#currentSeason ? ' series__seasons-item--active' : ''}`;
@@ -132,17 +135,19 @@ class SeriesPage {
     }
 
     setupSeasonSwitcher() {
-        const buttons = this.#parent.querySelectorAll('.series__seasons-item, .series__seasons-item--active');
+        const buttons = this.#parent.querySelectorAll(
+            '.series__seasons-item, .series__seasons-item--active',
+        );
         if (!buttons || buttons.length === 0) return;
-    
-        buttons.forEach(btn => {
+
+        buttons.forEach((btn) => {
             btn.addEventListener('click', () => {
                 const seasonNumber = Number(btn.textContent.trim());
                 if (!seasonNumber || seasonNumber === this.#currentSeason) return;
-    
+
                 this.#currentSeason = seasonNumber;
 
-                buttons.forEach(b => b.classList.remove('series__seasons-item--active'));
+                buttons.forEach((b) => b.classList.remove('series__seasons-item--active'));
                 btn.classList.add('series__seasons-item--active');
 
                 this.renderEpisodesBySeason();
@@ -155,13 +160,13 @@ class SeriesPage {
         this.#episodesData = data.episodes || [];
 
         this.#allSeasons = this.#episodesData.length
-        ? Math.max(...this.#episodesData.map(ep => ep.season_number))
-        : 0;
+            ? Math.max(...this.#episodesData.map((ep) => ep.season_number))
+            : 0;
     }
 
     async renderEpisodesBySeason() {
         const episodesContainer = this.#parent.querySelector('#episodesContainer');
-    
+
         episodesContainer.innerHTML = '';
 
         if (!this.#episodesData || this.#episodesData.length === 0) {
@@ -171,18 +176,16 @@ class SeriesPage {
 
         this.#episodesData.forEach((episode) => {
             if (this.#currentSeason == episode.season_number) {
+                const episodeElement = document.createElement('div');
+                episodesContainer.appendChild(episodeElement);
 
-            const episodeElement = document.createElement('div');
-            episodesContainer.appendChild(episodeElement);
+                const episodeCard = new EpisodeCard(episodeElement, this.#app);
 
-            const episodeCard = new EpisodeCard(episodeElement, this.#app);
+                const poster =
+                    episode.media.posters && episode.media.posters.length > 0
+                        ? episode.media.posters[0]
+                        : seriesPoster;
 
-            const poster =
-                episode.media.posters && episode.media.posters.length > 0
-                    ? episode.media.posters[0]
-                    : seriesPoster;
-
-            
                 episodeCard.render({
                     episode_id: episode.media.media_id,
                     episode_number: episode.episode_number,
@@ -216,9 +219,7 @@ class SeriesPage {
             const starCard = new StarCard(starElement, this.#app);
 
             const photo =
-                actor.image_urls && actor.image_urls.length > 0
-                    ? actor.image_urls[0]
-                    : star_photo;
+                actor.image_urls && actor.image_urls.length > 0 ? actor.image_urls[0] : star_photo;
 
             starCard.render({
                 id: actor.id,
@@ -256,7 +257,7 @@ class SeriesPage {
                 this.#showAuthToast();
                 return;
             }
-            
+
             const isLiked = favouriteBtn.classList.contains('liked');
 
             try {
@@ -271,7 +272,6 @@ class SeriesPage {
                 console.error(err);
             }
         });
-
     }
 
     #setupPlayButton() {
@@ -286,7 +286,6 @@ class SeriesPage {
                 const mediaUrl = media.url;
 
                 this.#app.navigate(`/player/${this.#seriesId}`, { mediaUrl });
-
             } catch (err) {
                 console.error(err);
             }
@@ -310,7 +309,9 @@ class SeriesPage {
 
         setTimeout(() => {
             toast.classList.remove('show');
-            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            toast.addEventListener('transitionend', () => toast.remove(), {
+                once: true,
+            });
         }, 3000);
     }
 }

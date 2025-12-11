@@ -22,13 +22,18 @@ class Favourite {
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         const response = await fethcMyFavourite();
-        const films = response.medias.map(film => ({
+        const films = response.medias.map((film) => ({
             id: film.media_id,
             title: film.title,
-            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+            genres: film.genres
+                ? film.genres
+                      .map((g) => g.name)
+                      .join(', ')
+                      .toLowerCase()
+                : '',
             release_date: film.release_date.substr(0, 4),
             poster: film.posters[0],
-            type: film.media_type=="movie"? "film": "series",
+            type: film.media_type == 'movie' ? 'film' : 'series',
         }));
 
         films.forEach((film) => {

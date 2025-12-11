@@ -24,26 +24,22 @@ class StarPage {
         try {
             const actor = await fetchStar(this.#starId);
 
-            const photo =
-                actor.image_urls?.length > 0
-                    ? actor.image_urls[0]
-                    : star_photo;
+            const photo = actor.image_urls?.length > 0 ? actor.image_urls[0] : star_photo;
 
             this.#parent.innerHTML = template({
                 name: actor.name,
                 bio: actor.bio,
                 photo: photo,
-                birth_date: actor.birth_date?.split("T")[0],
+                birth_date: actor.birth_date?.split('T')[0],
             });
 
             this.afterRender();
 
             this.renderFilmCards();
         } catch (err) {
-            console.error("Actor page error:", err);
+            console.error('Actor page error:', err);
             this.#parent.innerHTML = `<h2 style="color:red;text-align:center">Actor not found</h2>`;
         }
-
     }
 
     afterRender() {
@@ -53,13 +49,18 @@ class StarPage {
     async renderFilmCards() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         const response = await fetchStarMovies(this.#starId);
-        const films = response.medias.map(film => ({
+        const films = response.medias.map((film) => ({
             id: film.media_id,
             title: film.title,
-            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+            genres: film.genres
+                ? film.genres
+                      .map((g) => g.name)
+                      .join(', ')
+                      .toLowerCase()
+                : '',
             release_date: film.release_date.substr(0, 4),
             poster: film.posters[0],
-            type: "film",
+            type: 'film',
         }));
 
         films.forEach((film) => {

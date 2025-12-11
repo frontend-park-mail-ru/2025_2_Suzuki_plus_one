@@ -9,7 +9,11 @@ import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import {addToFavourite, checkMediaIsLiked, deleteFromFavourite} from '@shared/api/favouriteApi.js';
+import {
+    addToFavourite,
+    checkMediaIsLiked,
+    deleteFromFavourite,
+} from '@shared/api/favouriteApi.js';
 
 class FilmPage {
     #parent;
@@ -26,7 +30,12 @@ class FilmPage {
     async render() {
         try {
             const film = await fetchFilm(this.#filmId);
-            const genres = film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '';
+            const genres = film.genres
+                ? film.genres
+                      .map((g) => g.name)
+                      .join(', ')
+                      .toLowerCase()
+                : '';
             const year = film.release_date ? film.release_date.split('-')[0] : '';
             const duration = this.#formatDuration(film.duration_minutes);
             const poster = film.posters && film.posters.length > 0 ? film.posters[0] : '';
@@ -50,7 +59,8 @@ class FilmPage {
             this.renderStarCards();
             this.#setupFavouriteButton();
         } catch (err) {
-            this.#parent.innerHTML = '<h2 style="text-align:center; color:red;">Film not found</h2>';
+            this.#parent.innerHTML =
+                '<h2 style="text-align:center; color:red;">Film not found</h2>';
             console.error('Failed to load film:', err);
         }
     }
@@ -68,12 +78,8 @@ class FilmPage {
 
     setupScrollButtons() {
         const list = this.#parent.querySelector('#recommendations-section');
-        const leftBtn = this.#parent.querySelector(
-            '.films-recommendations__button--left'
-        );
-        const rightBtn = this.#parent.querySelector(
-            '.films-recommendations__button--right'
-        );
+        const leftBtn = this.#parent.querySelector('.films-recommendations__button--left');
+        const rightBtn = this.#parent.querySelector('.films-recommendations__button--right');
 
         if (!list || !leftBtn || !rightBtn) return;
 
@@ -96,9 +102,7 @@ class FilmPage {
         const updateButtons = () => {
             leftBtn.style.opacity = list.scrollLeft <= 0 ? '0.5' : '1';
             rightBtn.style.opacity =
-                list.scrollLeft >= list.scrollWidth - list.clientWidth - 10
-                    ? '0.5'
-                    : '1';
+                list.scrollLeft >= list.scrollWidth - list.clientWidth - 10 ? '0.5' : '1';
         };
 
         list.addEventListener('scroll', updateButtons);
@@ -125,9 +129,7 @@ class FilmPage {
             const starCard = new StarCard(starElement, this.#app);
 
             const photo =
-                actor.image_urls && actor.image_urls.length > 0
-                    ? actor.image_urls[0]
-                    : star_photo;
+                actor.image_urls && actor.image_urls.length > 0 ? actor.image_urls[0] : star_photo;
 
             starCard.render({
                 id: actor.id,
@@ -161,14 +163,14 @@ class FilmPage {
         favouriteBtn.addEventListener('click', async (e) => {
             e.preventDefault();
 
-        if (!this.#app.isAuthorized) {
-            this.#showToast('Log in to add to favourites', 'auth');
-            return;
-        }
-            
+            if (!this.#app.isAuthorized) {
+                this.#showToast('Log in to add to favourites', 'auth');
+                return;
+            }
+
             const isLiked = favouriteBtn.classList.contains('liked');
 
-        try {
+            try {
                 if (isLiked) {
                     await deleteFromFavourite(this.#filmId);
                     favouriteBtn.classList.remove('liked');
@@ -183,7 +185,6 @@ class FilmPage {
                 this.#showToast('Something went wrong', 'error');
             }
         });
-        
     }
 
     #setupPlayButton() {
@@ -198,7 +199,6 @@ class FilmPage {
                 const mediaUrl = media.url;
 
                 this.#app.navigate(`/player/${this.#filmId}`, { mediaUrl });
-
             } catch (err) {
                 console.error(err);
             }
@@ -206,22 +206,24 @@ class FilmPage {
     }
 
     #showToast(message, type = 'info') {
-            const existing = document.querySelector('.action-toast');
-            if (existing) existing.remove();
+        const existing = document.querySelector('.action-toast');
+        if (existing) existing.remove();
 
-            const toast = document.createElement('div');
-            toast.className = `action-toast action-toast--${type}`;
-            toast.textContent = message;
+        const toast = document.createElement('div');
+        toast.className = `action-toast action-toast--${type}`;
+        toast.textContent = message;
 
-            document.body.appendChild(toast);
+        document.body.appendChild(toast);
 
-            requestAnimationFrame(() => toast.classList.add('show'));
+        requestAnimationFrame(() => toast.classList.add('show'));
 
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-            }, 2700);
-        }
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove(), {
+                once: true,
+            });
+        }, 2700);
+    }
 }
 
 export default FilmPage;

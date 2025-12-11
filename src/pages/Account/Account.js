@@ -10,7 +10,13 @@ import pencil_icon from '@assets/images/icons/pencil-white.svg';
 import camera_icon from '@assets/images/icons/camera-white.svg';
 import Tabs from '@shared/components/Tabs/Tabs.js';
 import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
-import { validateBirthdate, validatePassword, validateEmail, validateUsername, validatePhone } from '@shared/utils/validation.js';
+import {
+    validateBirthdate,
+    validatePassword,
+    validateEmail,
+    validateUsername,
+    validatePhone,
+} from '@shared/utils/validation.js';
 import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
 import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
@@ -32,7 +38,6 @@ class Account {
             this.render();
         });
 
-        
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
@@ -53,9 +58,24 @@ class Account {
         const tabsContainer = this.#parent.querySelector('#accountTabs');
 
         const tabsConfig = [
-            { label: 'Settings', href: '/account/settings', page: 'settings', active: this.activeTab === 'settings' },
-            { label: 'Security', href: '/account/security', page: 'security', active: this.activeTab === 'security' },
-            { label: 'Support', href: '/account/support', page: 'support', active: this.activeTab === 'support' },
+            {
+                label: 'Settings',
+                href: '/account/settings',
+                page: 'settings',
+                active: this.activeTab === 'settings',
+            },
+            {
+                label: 'Security',
+                href: '/account/security',
+                page: 'security',
+                active: this.activeTab === 'security',
+            },
+            {
+                label: 'Support',
+                href: '/account/support',
+                page: 'support',
+                active: this.activeTab === 'support',
+            },
         ];
 
         this.#tabs = new Tabs(tabsContainer, (page, href) => this.#handleTabChange(page, href));
@@ -73,7 +93,7 @@ class Account {
     #renderActiveTab() {
         const container = this.#parent.querySelector('#tabContent');
         const template = this.tabTemplates[this.activeTab];
-        
+
         const context = {
             camera_icon,
             pencil_icon,
@@ -82,14 +102,13 @@ class Account {
 
         container.innerHTML = template(context);
 
-        if (this.activeTab === 'settings'){
+        if (this.activeTab === 'settings') {
             this.#setupSettingsForm();
         } else if (this.activeTab === 'security') {
             this.#setupSecurityForm();
         } else if (this.activeTab === 'support') {
             this.#setupSupport();
         }
-
     }
 
     #setupSecurityForm() {
@@ -113,7 +132,7 @@ class Account {
         };
 
         const clearErrors = () => {
-            Object.values(errorDivs).forEach(el => {
+            Object.values(errorDivs).forEach((el) => {
                 if (el) {
                     el.textContent = '';
                     el.style.display = 'none';
@@ -179,11 +198,11 @@ class Account {
             `;
         }
 
-        const openNewAppealButton = document.getElementById("openNewAppeal");
+        const openNewAppealButton = document.getElementById('openNewAppeal');
         const iframePopup = document.getElementById('iframePopup');
         const closeBtn = document.getElementById('closeIframeBtn');
 
-        openNewAppealButton.addEventListener('click', function() {
+        openNewAppealButton.addEventListener('click', function () {
             iframePopup.style.display = 'block';
             closeBtn.style.display = 'block';
         });
@@ -193,11 +212,10 @@ class Account {
             closeBtn.style.display = 'none';
         });
 
-
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const isClickInsideIframe = iframePopup.contains(event.target);
             const isClickOnOpenButton = event.target === openNewAppealButton;
-    
+
             if (!isClickInsideIframe && !isClickOnOpenButton) {
                 iframePopup.style.display = 'none';
                 closeBtn.style.display = 'none';
@@ -205,24 +223,22 @@ class Account {
         });
     }
 
-
     #renderAppeals(appeals, container) {
-        container.innerHTML = "";
+        container.innerHTML = '';
 
         if (!appeals || appeals.length === 0) {
             container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
-            return;            
+            return;
         }
-    
-        appeals.forEach(appeal => {
-            const itemContainer = document.createElement("div");
+
+        appeals.forEach((appeal) => {
+            const itemContainer = document.createElement('div');
             container.appendChild(itemContainer);
-    
+
             const item = new SupportItem(itemContainer, this.#app);
             item.render(appeal);
         });
     }
-    
 
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
@@ -281,7 +297,7 @@ class Account {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             this.#clearErrors();
-            
+
             const data = {
                 username: form.querySelector('#username').value.trim(),
                 email: form.querySelector('#email').value.trim(),
@@ -304,12 +320,12 @@ class Account {
                 errors.birthdate = birthdateError;
             }
 
-        if (Object.keys(errors).length > 0) {
-            Object.entries(errors).forEach(([field, msg]) => {
-                this.#showError(field, msg);
-            });
-            return;
-        }
+            if (Object.keys(errors).length > 0) {
+                Object.entries(errors).forEach(([field, msg]) => {
+                    this.#showError(field, msg);
+                });
+                return;
+            }
 
             try {
                 await updateUserProfile(data);
@@ -325,7 +341,7 @@ class Account {
 
     #showError(field, message) {
         const errorEl = this.#parent.querySelector(
-            `.account__error--${field}, .security__error--${field}`
+            `.account__error--${field}, .security__error--${field}`,
         );
         if (errorEl) {
             errorEl.textContent = message;
@@ -334,7 +350,7 @@ class Account {
     }
 
     #clearErrors() {
-        this.#parent.querySelectorAll('.account__error').forEach(el => {
+        this.#parent.querySelectorAll('.account__error').forEach((el) => {
             el.textContent = '';
             el.hidden = true;
         });
@@ -345,7 +361,9 @@ class Account {
         if (!successEl) return;
         successEl.textContent = 'Profile saved successfully!';
         successEl.hidden = false;
-        setTimeout(() => { successEl.hidden = true; }, 3000);
+        setTimeout(() => {
+            successEl.hidden = true;
+        }, 3000);
     }
 }
 

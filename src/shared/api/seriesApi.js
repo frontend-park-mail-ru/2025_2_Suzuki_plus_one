@@ -1,5 +1,5 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
-import preview from '@assets/images/StrangerThings.png'
+import preview from '@assets/images/StrangerThings.png';
 
 export async function fetchSeries() {
     // return {
@@ -22,7 +22,7 @@ export async function fetchSeries() {
     });
 }
 
-export async function  fetchSeriesById(seriesId) {
+export async function fetchSeriesById(seriesId) {
     // return {
     //     "media_id": 123,
     //     "title": "Stranger Things",
@@ -41,7 +41,6 @@ export async function  fetchSeriesById(seriesId) {
         method: 'GET',
     });
 }
-
 
 export async function fetchEpisodesBySeriesId(seriesId) {
     // return {

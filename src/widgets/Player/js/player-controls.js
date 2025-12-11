@@ -51,7 +51,7 @@ export function initPlayerControls() {
 
     document.addEventListener('fullscreenchange', () => {
         if (document.fullscreenElement) {
-            showControls(); 
+            showControls();
         } else {
             clearTimeout(hideTimeout);
             container.classList.remove('hide-controls');
@@ -92,7 +92,9 @@ export function initPlayerControls() {
         } catch (err) {
             console.warn('Play interrupted:', err);
         } finally {
-            setTimeout(() => { isToggling = false; }, 100);
+            setTimeout(() => {
+                isToggling = false;
+            }, 100);
         }
     }
 
@@ -113,9 +115,10 @@ export function initPlayerControls() {
         const volume = volumeScale.value / 100;
         videoPlayer.volume = volume;
 
-        muteButton.className = volume === 0
-            ? 'video-hud__mute video-hud__mute-true'
-            : 'video-hud__mute video-hud__mute-false';
+        muteButton.className =
+            volume === 0
+                ? 'video-hud__mute video-hud__mute-true'
+                : 'video-hud__mute video-hud__mute-false';
     }
 
     function videoMute() {
@@ -135,7 +138,10 @@ export function initPlayerControls() {
     }
 
     function rewind(seconds) {
-        videoPlayer.currentTime = Math.max(0, Math.min(videoPlayer.duration, videoPlayer.currentTime + seconds));
+        videoPlayer.currentTime = Math.max(
+            0,
+            Math.min(videoPlayer.duration, videoPlayer.currentTime + seconds),
+        );
     }
 
     function toggleFullscreen() {
@@ -144,22 +150,24 @@ export function initPlayerControls() {
         if (!document.fullscreenElement) {
             const elementToFullscreen = isMobile ? document.documentElement : videoContainer;
 
-            elementToFullscreen.requestFullscreen({ navigationUI: "hide" }).then(() => {
-                fullscreenButton.className = 'video-hud__action video-hud__fullscreen-true';
+            elementToFullscreen
+                .requestFullscreen({ navigationUI: 'hide' })
+                .then(() => {
+                    fullscreenButton.className = 'video-hud__action video-hud__fullscreen-true';
 
-                if (isMobile) {
-                    setTimeout(() => {
-                        videoContainer.classList.add('mobile-fs-rotated');
-                    }, 100);
+                    if (isMobile) {
+                        setTimeout(() => {
+                            videoContainer.classList.add('mobile-fs-rotated');
+                        }, 100);
 
-                    if (screen.orientation?.lock) {
-                        screen.orientation.lock('landscape-primary').catch(() => {});
+                        if (screen.orientation?.lock) {
+                            screen.orientation.lock('landscape-primary').catch(() => {});
+                        }
                     }
-                }
-            }).catch(err => {
-                console.warn('Fullscreen denied:', err);
-            });
-
+                })
+                .catch((err) => {
+                    console.warn('Fullscreen denied:', err);
+                });
         } else {
             document.exitFullscreen().then(() => {
                 fullscreenButton.className = 'video-hud__action video-hud__fullscreen-false';
@@ -171,7 +179,6 @@ export function initPlayerControls() {
             });
         }
     }
-
 
     function goBack() {
         if (document.fullscreenElement) {
@@ -213,26 +220,25 @@ export function initPlayerControls() {
     if (backButton) backButton.addEventListener('click', goBack);
 
     document.addEventListener('keydown', (e) => {
-    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
-        return;
-    }
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+            return;
+        }
 
-    switch (e.key) {
-        case 'Escape':
-            goBack();
-            break;
+        switch (e.key) {
+            case 'Escape':
+                goBack();
+                break;
 
-        case 'ArrowLeft':
-            e.preventDefault();
-            rewind(-10);
-            break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                rewind(-10);
+                break;
 
-        case 'ArrowRight':
-            e.preventDefault();
-            rewind(10);
-            break;
-    }
-
+            case 'ArrowRight':
+                e.preventDefault();
+                rewind(10);
+                break;
+        }
     });
 
     document.addEventListener('fullscreenchange', () => {

@@ -49,7 +49,7 @@ class NewAppeal {
                 const data = {
                     tag,
                     name,
-                    message
+                    message,
                 };
 
                 try {

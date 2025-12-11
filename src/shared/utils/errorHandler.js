@@ -41,7 +41,7 @@ export async function fetchWithErrorsHandling(url, options = {}) {
             ...authHeaders,
             ...options.headers,
             ...(isFormData || options.headers?.['Content-Type']
-                ? {} 
+                ? {}
                 : { 'Content-Type': 'application/json' }),
         },
         credentials: 'include',
