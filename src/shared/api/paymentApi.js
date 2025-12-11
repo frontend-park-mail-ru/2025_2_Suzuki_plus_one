@@ -10,13 +10,15 @@ export async function createNewPayment(data = {}) {
         },
         body: JSON.stringify(data),
         credentials: 'include',
+        redirect: 'manual',
     });
 
     const location = response.headers.get('Location') || response.headers.get('location');
 
     if (location) {
-        const redirectUrl = new URL(location, window.location.origin).href;
-        window.location.href = redirectUrl;
+        // const redirectUrl = new URL(location, window.location.origin).href;
+        console.log(location)
+        window.location.href = location;
         return;
     }
 
