@@ -1,59 +1,59 @@
 <header class='header container'>
-  <div class='header__inner'>
-    <a class='header__logo logo' href='/films' data-navigate>
-    </a>
-    <div class='header__search-wrapper' id='searchWrapper'>
-      <div class='header__search-container'>
-        <input
-          class='header__input'
-          type='text'
-          placeholder='Search films, series, actors...'
-          id='searchInput'
-        />
-        <button
-          class='header__search-close'
-          type='button'
-          aria-label='Close search'
-          id='searchCloseBtn'
-        >×</button>
-      </div>
+    <div class='header__inner'>
+        <a class='header__logo logo' href='/films' data-navigate>
+        </a>
+        <div class="header__search-wrapper" id="searchWrapper">
+            <div class="header__search-container">
+             <input 
+                        class='header__input' 
+                        type='text' 
+                        placeholder='Search films, series, actors...' 
+                        id="searchInput" 
+                        />
+                             <button class="header__search-close" type="button" aria-label="Close search" id="searchCloseBtn">×</button>
+            </div>
 
-      <button class='header__search-toggle' id='searchToggle' type='button'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          height='48px'
-          viewBox='0 -960 960 960'
-          width='48px'
-          fill='#1111'
-        ><path
-            d='M796-121 533-384q-30 26-69.96 40.5Q423.08-329 378-329q-108.16 0-183.08-75Q120-479 120-585t75-181q75-75 181.5-75t181 75Q632-691 632-584.85 632-542 618-502q-14 40-42 75l264 262-44 44ZM377-389q81.25 0 138.13-57.5Q572-504 572-585t-56.87-138.5Q458.25-781 377-781q-82.08 0-139.54 57.5Q180-666 180-585t57.46 138.5Q294.92-389 377-389Z'
-          /></svg>
-      </button>
+            <button class="header__search-toggle" id="searchToggle" type="button">
+                 <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#1111"><path d="M796-121 533-384q-30 26-69.96 40.5Q423.08-329 378-329q-108.16 0-183.08-75Q120-479 120-585t75-181q75-75 181.5-75t181 75Q632-691 632-584.85 632-542 618-502q-14 40-42 75l264 262-44 44ZM377-389q81.25 0 138.13-57.5Q572-504 572-585t-56.87-138.5Q458.25-781 377-781q-82.08 0-139.54 57.5Q180-666 180-585t57.46 138.5Q294.92-389 377-389Z"/></svg>
+             </button>
 
-      <div class='header__search-dropdown' id='searchDropdown'></div>
+            
 
-    </div>
-
-    <div class='header__auth'>
-      {{#if isAuthorized}}
-        <div class='header__auth'>
-          <a href='/account/settings' data-navigate='/account/settings' class='header__user'>
-            {{#if user.avatar_url}}
-              <img src='{{user.avatar_url}}' alt='{{user.username}}' class='header__avatar' />
-            {{else}}
-              <div class='header__avatar header__avatar--placeholder'></div>
-            {{/if}}
-            <span
-              class='header__username'
-              data-navigate='/account/settings'
-            >{{user.username}}</span>
-          </a>
+          <div class="header__search-dropdown" id="searchDropdown"></div>
+                   
         </div>
-        <button class='header__auth-button button' type='button' id='logOutBtn'>Log out</button>
-      {{else}}
-        <button class='header__auth-button button' type='button' data-navigate='/signup'>Sign up</button>
-        <button class='header__auth-button button' type='button' data-navigate='/login'>Log in</button>
-      {{/if}}
+    
+
+        <div class='header__auth'>
+            {{#if isAuthorized}}
+                <div class="header__auth">
+                    <a href="/account/settings" data-navigate="/account/settings" class="header__user">
+                    {{#if user.avatar_url}}
+                    <img src="{{user.avatar_url}}" alt="{{user.username}}" class="header__avatar" />
+                    {{else}}
+                    <div class="header__avatar header__avatar--placeholder"></div>
+                    {{/if}}
+                    <span class="header__username" data-navigate="/account/settings">{{user.username}}</span>
+                    </a>
+                </div>
+                <button
+                    class='header__auth-button button'
+                    type='button'
+                    id='logOutBtn'
+                >Log out</button>
+            {{else}}
+                <button
+                    class='header__auth-button button'
+                    type='button'
+                    data-navigate='/signup'
+                >Sign up</button>
+                <button
+                    class='header__auth-button button'
+                    type='button'
+                    data-navigate='/login'
+                >Log in</button>
+            {{/if}}
+        </div>
     </div>
     <nav class='header__menu'>
         <ul class='header__menu-list'>
@@ -88,8 +88,8 @@
                     <span class='header__menu-link header__menu-link--disabled'>
                         <h4 class='header__menu-title' title="Log in to view favourite">Favourite</h4>
                     </span> --}}
-        {{/if}}
-      </li>
-    </ul>
-  </nav>
+                {{/if}}
+            </li>
+        </ul>
+    </nav>
 </header>
