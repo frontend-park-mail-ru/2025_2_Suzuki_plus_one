@@ -78,26 +78,22 @@ setupSubscribeButton() {
     const subscribeButton = this.#parent.querySelector('.hero__subscribe');
     if (!subscribeButton) return;
 
-    subscribeButton.addEventListener('click', async () => {
+    subscribeButton.addEventListener('click', () => {
         if (!this.#app.isAuthorized) {
             this.#showToast('Log in to subscribe', 'auth');
             return;
         }
 
         subscribeButton.disabled = true;
-        const originalText = subscribeButton.textContent;
         subscribeButton.textContent = 'Redirecting...';
 
-        try {
-            const redirectUrl = await createNewPayment();
-            console.log(redirectUrl);
-            window.location.href = redirectUrl;
-        } catch (error) {
-            console.error('Payment creation failed:', error);
-            this.#showToast('Failed to start subscription. Try again later.', 'error');
-            subscribeButton.disabled = false;
-            subscribeButton.textContent = originalText;
-        }
+        createNewPayment()
+            .catch(error => {
+                console.error('Payment failed:', error);
+                this.#showToast('Failed to start subscription.', 'error');
+                subscribeButton.disabled = false;
+                subscribeButton.textContent = 'Subscribe';
+            });
     });
 }
 
