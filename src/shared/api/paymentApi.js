@@ -10,7 +10,6 @@ export async function createNewPayment(data = {}) {
         },
         body: JSON.stringify(data),
         credentials: 'include',
-        redirect: 'follow',
     });
 
     const location = response.headers.get('Location') || response.headers.get('location');
