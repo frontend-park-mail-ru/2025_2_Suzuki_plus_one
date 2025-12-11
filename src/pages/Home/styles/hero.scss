@@ -52,4 +52,30 @@
             background-color: var(--color-light-grey);
         }
     }
+
+    &__subscribe.button {
+        border-radius: var(--border-radius-large);
+        min-width: 200px;
+        padding-inline: 24px;
+        min-height: var(--button-height);
+        background-color: #E50914;
+        color: white;
+        font-weight: 600;
+        @include mixins.fluid-text(18, 16);
+        float: left;
+
+
+        background-color: #E50914 !important;
+        border: none !important;
+
+        @include media.mobile {
+            min-width: 200px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        @include media.hover {
+            background-color: #b20710 !important;
+        }
+    }
 }

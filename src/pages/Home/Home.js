@@ -6,6 +6,7 @@ import { fetchMovies } from '@shared/api/moviesApi';
 import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi';
 import dropdownTemplate from './ui/GenreDropdown.hbs';
 import preview from '@assets/images/film_card.png';
+import {createNewPayment} from '@shared/api/paymentApi.js';
 
 /** Class representing the Home page, displays a list of movies. */
 class Home {
@@ -43,6 +44,7 @@ class Home {
 
     async afterRender() {
         this.setupPlayButton();
+        this.setupSubscribeButton();
     }
 
     async loadGenres() {
@@ -71,6 +73,19 @@ class Home {
         }
     }
 
+    setupSubscribeButton() {
+        const subscribeButton = this.#parent.querySelector('.hero__subscribe');
+        if (subscribeButton) {
+            subscribeButton.addEventListener('click', async () => {
+                try {
+                    await createNewPayment();
+                } catch (error) {
+                    console.error('Payment creation failed:', error);
+                }
+            });
+        }
+    }
+    
     async setupGenreButton() {
         const genreButton = this.#parent.querySelector('#genre_choose');
         const dropdown = this.#parent.querySelector('#genreDropdown');
