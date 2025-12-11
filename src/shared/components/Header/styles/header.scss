@@ -195,13 +195,14 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    &-title {
-      color: var(--color-grey-text);
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      padding: 0 8px;
+        &-title {
+            color: white;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding: 0 8px;
+        }
     }
   }
 

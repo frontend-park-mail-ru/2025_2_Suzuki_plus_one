@@ -55,25 +55,36 @@
         <button class='header__auth-button button' type='button' data-navigate='/login'>Log in</button>
       {{/if}}
     </div>
-  </div>
-  <nav class='header__menu'>
-    <ul class='header__menu-list'>
-      <li class='header__menu-item'>
-        <a class='header__menu-link' href='/films' data-navigate>
-          <h4 class='header__menu-title'>Films</h4>
-        </a>
-      </li>
-      <li class='header__menu-item'>
-        <a class='header__menu-link' href='/series' data-navigate>
-          <h4 class='header__menu-title'>Series</h4>
-        </a>
-      </li>
-      <li class='header__menu-item'>
-        {{#if isAuthorized}}
-          <a class='header__menu-link' href='/favourite' data-navigate>
-            <h4 class='header__menu-title'>Favourite</h4>
-          </a>
-          {{!-- {{else}}
+    <nav class='header__menu'>
+        <ul class='header__menu-list'>
+            <li class='header__menu-item'>
+                <a
+                    class='header__menu-link'
+                    href='/films'
+                    data-navigate
+                >
+                    <h4 class='header__menu-title'>Films</h4>
+                </a>
+            </li>
+            <li class='header__menu-item'>
+                <a
+                    class='header__menu-link'
+                    href='/series'
+                    data-navigate
+                >
+                    <h4 class='header__menu-title'>Series</h4>
+                </a>
+            </li>
+            <li class='header__menu-item'>
+                {{#if isAuthorized}}
+                    <a
+                        class='header__menu-link'
+                        href='/favourite'
+                        data-navigate
+                    >
+                        <h4 class='header__menu-title'>★ Favourite</h4>
+                    </a>
+                {{!-- {{else}}
                     <span class='header__menu-link header__menu-link--disabled'>
                         <h4 class='header__menu-title' title="Log in to view favourite">Favourite</h4>
                     </span> --}}

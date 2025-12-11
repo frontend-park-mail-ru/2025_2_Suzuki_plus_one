@@ -109,12 +109,58 @@
         cursor: not-allowed;
         background-color: var(--color-grey-light);
 
-        svg {
-          opacity: 0.6;
+        @include media.hover {
+            background-color: var(--color-grey-hover) !important;
+        }
+        
+        &-reaction {
+            border-radius: 50%;
+            background-color: var(--color-dark-grey);
+            width: 48px;
+            height: 48px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            
+            svg {
+                width: 44px;
+                height: 44px;
+            }
 
-          path[stroke] {
-            stroke: var(--color-grey-text);
-          }
+                @include media.mobile {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    svg {
+                        width: 100% !important;
+                        height: 100% !important;
+                    }
+                }
+            
+
+            @include media.hover {
+                background-color: var(--color-grey-hover);
+            }
+
+            &[aria-disabled="true"] {
+                opacity: 0.5;
+                cursor: not-allowed;
+                background-color: var(--color-grey-light);
+
+                svg {
+                    opacity: 0.6;
+                    
+                    path[stroke] {
+                        stroke: var(--color-grey-text);
+                    }
+                }
+            }
+        }
+        &-reaction.liked {
+            svg path:nth-child(3) {
+            fill: #F5F5F5;
         }
       }
     }
