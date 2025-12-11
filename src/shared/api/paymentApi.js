@@ -1,27 +1,21 @@
+import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
+
+
 export async function createNewPayment(data = {}) {
-    const response = await fetch('/api/v1/payment/new', {
+    const response = await fetchWithErrorsHandling('/api/v1/payment/new', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(data),
-        credentials: 'include',
-        redirect: 'manual',
+
     });
 
-    if (response.type === 'opaqueredirect' || response.status === 302 || response.status === 303) {
-        const location = response.headers.get('Location') || response.headers.get('location');
-        if (location) {
-            return new URL(location, window.location.origin).href;
-        }
+    if (response.redirected && response.url) {
+        return response.url;
     }
 
-    if (response.ok) {
-        const json = await response.json();
-        if (json.redirect_url || json.payment_url || json.url) {
-            return json.redirect_url || json.payment_url || json.url;
-        }
+    const location = response.headers.get('Location') || response.headers.get('location');
+    if (location) {
+        return new URL(location, window.location.origin).href;
     }
 
-    throw new Error('Failed to get payment redirect URL');
+    throw new Error('Redirect URL not found in payment response');
 }
