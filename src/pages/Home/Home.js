@@ -73,18 +73,24 @@ class Home {
         }
     }
 
-    setupSubscribeButton() {
-        const subscribeButton = this.#parent.querySelector('.hero__subscribe');
-        if (subscribeButton) {
-            subscribeButton.addEventListener('click', async () => {
-                try {
-                    await createNewPayment();
-                } catch (error) {
-                    console.error('Payment creation failed:', error);
-                }
-            });
-        }
+setupSubscribeButton() {
+    const subscribeButton = this.#parent.querySelector('.hero__subscribe');
+    if (subscribeButton) {
+        subscribeButton.addEventListener('click', async () => {
+            subscribeButton.disabled = true;
+            subscribeButton.textContent = 'Redirecting...';
+            try {
+                const redirectUrl = await createNewPayment();
+                window.location.href = redirectUrl;
+            } catch (error) {
+                console.error('Payment creation failed:', error);
+                alert('Failed to start payment. Please try again later.');
+                subscribeButton.disabled = false;
+                subscribeButton.textContent = 'Subscribe';
+            }
+        });
     }
+}
     
     async setupGenreButton() {
         const genreButton = this.#parent.querySelector('#genre_choose');
