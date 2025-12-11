@@ -73,23 +73,57 @@ class Home {
         }
     }
 
+
 setupSubscribeButton() {
     const subscribeButton = this.#parent.querySelector('.hero__subscribe');
-    if (subscribeButton) {
-        subscribeButton.addEventListener('click', async () => {
-            subscribeButton.disabled = true;
-            subscribeButton.textContent = 'Redirecting...';
-            try {
-                const redirectUrl = await createNewPayment();
-                window.location.href = redirectUrl;
-            } catch (error) {
-                console.error('Payment creation failed:', error);
-                subscribeButton.disabled = false;
-                subscribeButton.textContent = 'Subscribe';
-            }
-        });
-    }
+    if (!subscribeButton) return;
+
+    subscribeButton.addEventListener('click', async () => {
+        if (!this.#app.isAuthorized) {
+            this.#showToast('Log in to subscribe', 'auth');
+            return;
+        }
+
+        subscribeButton.disabled = true;
+        const originalText = subscribeButton.textContent;
+        subscribeButton.textContent = 'Redirecting...';
+
+        try {
+            const redirectUrl = await createNewPayment(); 
+            window.location.href = redirectUrl;
+        } catch (error) {
+            console.error('Payment creation failed:', error);
+            this.#showToast('Failed to start subscription. Try again later.', 'error');
+            
+            subscribeButton.disabled = false;
+            subscribeButton.textContent = originalText;
+        }
+    });
 }
+
+
+#showToast(message, type = 'auth') {
+    const existingToast = document.querySelector('.action-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `action-toast action-toast--${type}`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    toast.offsetHeight;
+
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, 3500);
+}
+
     
     async setupGenreButton() {
         const genreButton = this.#parent.querySelector('#genre_choose');
