@@ -1,8 +1,38 @@
-export function createNewPayment() {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/api/v1/payment/new';
-    form.style.display = 'none';
-    document.body.appendChild(form);
-    form.submit();
+import { getAccessToken } from './auth.js';
+
+export async function createNewPayment(data = {}) {
+    const token = getAccessToken();
+
+    if (!token) {
+        throw new Error('No access token');
+    }
+
+    const response = await fetch('/api/v1/payment/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        credentials: 'include',
+        redirect: 'manual',
+    });
+
+    const location = response.headers.get('Location') || response.headers.get('location');
+
+    if (location) {
+        window.location.href = location;
+        return;
+    }
+
+    let errorMessage = 'Redirect URL not found';
+    let errorData = null;
+
+    try {
+        errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+    } catch {
+    }
+
+    throw new Error(errorMessage);
 }
