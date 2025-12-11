@@ -1,4 +1,4 @@
-import { getAccessToken } from './auth.js';
+import { getAccessToken } from '@shared/utils/auth.js';
 
 export async function createNewPayment(data = {}) {
     const token = getAccessToken();
