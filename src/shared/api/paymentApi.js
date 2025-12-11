@@ -8,9 +8,9 @@ export async function createNewPayment(data = {}) {
 
     });
 
-    // if (response.redirected && response.url) {
-    //     return response.url;
-    // }
+    if (response.redirected && response.url) {
+        return response.url;
+    }
 
     const location = response.headers.get('Location') || response.headers.get('location');
     if (location) {
