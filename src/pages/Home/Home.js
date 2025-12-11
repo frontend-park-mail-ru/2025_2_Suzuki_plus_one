@@ -84,7 +84,6 @@ setupSubscribeButton() {
                 window.location.href = redirectUrl;
             } catch (error) {
                 console.error('Payment creation failed:', error);
-                alert('Failed to start payment. Please try again later.');
                 subscribeButton.disabled = false;
                 subscribeButton.textContent = 'Subscribe';
             }
