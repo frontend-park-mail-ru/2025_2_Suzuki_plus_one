@@ -1,26 +1,21 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
 
 
-export function createNewPayment(data = {}) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/api/v1/payment/new';
-    form.target = '_blank';
-    form.style.display = 'none';
+export async function createNewPayment(data = {}) {
+    const response = await fetchWithErrorsHandling('/api/v1/payment/new', {
+        method: 'POST',
+        body: JSON.stringify(data),
 
-
-    Object.keys(data).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = data[key];
-        form.appendChild(input);
     });
 
-    document.body.appendChild(form);
-    form.submit();
+    if (response.redirected && response.url) {
+        return response.url;
+    }
 
-    form.remove();
+    const location = response.headers.get('Location') || response.headers.get('location');
+    if (location) {
+        return new URL(location, window.location.origin).href;
+    }
 
-    return new Promise(() => {});
+    throw new Error('Redirect URL not found in payment response');
 }
