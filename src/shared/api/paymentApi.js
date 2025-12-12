@@ -15,7 +15,7 @@ export async function createNewPayment(data = {}) {
         },
         body: JSON.stringify(data),
         credentials: 'include',
-        // redirect: 'manual',
+        redirect: 'manual',
     });
 
     console.log("resp", response)
