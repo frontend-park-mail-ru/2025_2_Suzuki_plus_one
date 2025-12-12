@@ -34,6 +34,8 @@ class Favourite {
             release_date: film.release_date.substr(0, 4),
             poster: film.posters[0],
             type: film.media_type == 'movie' ? 'film' : 'series',
+            likes: film.user_rating.likes,
+            dislikes: film.user_rating.dislikes,
         }));
 
         films.forEach((film) => {

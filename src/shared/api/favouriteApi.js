@@ -1,15 +1,12 @@
 import { fetchWithErrorsHandling } from '@shared/utils/errorHandler';
 
-export async function addToFavourite(filmId) {
-    return await fetchWithErrorsHandling(`/api/v1/media/${filmId}/like`, {
+export async function addToFavourite(media_id) {
+    return await fetchWithErrorsHandling(`/api/v1/media/${media_id}/like`, {
         method: 'PUT',
     });
 }
 
 export async function checkMediaIsLiked(media_id) {
-    //     return ({
-    //     "liked": false
-    // })
     return await fetchWithErrorsHandling(`/api/v1/media/${media_id}/like`, {
         method: 'GET',
     });
