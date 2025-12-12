@@ -19,15 +19,28 @@ export async function createNewPayment(data = {}) {
     });
 
     console.log("resp", response)
-    
-    const location = response.headers.get('Location') || response.headers.get('location');
-    
-    console.log("locations: ", location)
-    
-    if (location) {
-        window.location.href = location;
-        return;
+    if (response.status === 200) {
+        try {
+            const json = await response.json();
+            const redirectUrl = json?.redirectUrl || json?.redirect_url;
+            if (redirectUrl) {
+                window.location.href = redirectUrl;
+                return;
+            }
+        } catch (e) {
+            // ignore parse errors and continue to error handling below
+            console.error("Error parsing JSON response:", e);
+        }
     }
+
+    // const location = response.headers.get('Location') || response.headers.get('location');
+    
+    // console.log("locations: ", location)
+    
+    // if (location) {
+    //     window.location.href = location;
+    //     return;
+    // }
 
     let errorMessage = 'Redirect URL not found';
     let errorData = null;
