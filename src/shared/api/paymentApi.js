@@ -9,6 +9,7 @@ export async function createNewPayment(data = {}) {
 
     const {response} = await(await fetch('/api/v1/payment/new', {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
