@@ -7,7 +7,7 @@ export async function createNewPayment(data = {}) {
     //     throw new Error('No access token');
     // }
 
-    const response = await fetch('/api/v1/payment/new', {
+    const {response} = await(await fetch('/api/v1/payment/new', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -16,7 +16,8 @@ export async function createNewPayment(data = {}) {
         body: JSON.stringify(data),
         credentials: 'include',
         // redirect: 'follow',
-    });
+    })).json();
+    window.location.href = response;
 
     // const location = response.headers.get('Location') || response.headers.get('location');
 
