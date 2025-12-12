@@ -7,18 +7,21 @@ export async function createNewPayment(data = {}) {
     //     throw new Error('No access token');
     // }
 
-    const {response} = await(await fetch('/api/v1/payment/new', {
+    const resp = await fetch('/api/v1/payment/new', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         credentials: 'include',
-        redirect: 'manual',
-    })).json();
-    window.location.href = response;
+        // redirect: 'follow' по умолчанию
+    });
+
+    if (resp.redirected && resp.url.includes('yoomoney.ru') || resp.url.includes('payment.yookassa.ru')) {
+        window.location.href = resp.url;
+        return;
+    }
 
     // const location = response.headers.get('Location') || response.headers.get('location');
 
