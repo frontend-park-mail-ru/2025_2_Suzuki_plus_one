@@ -19,13 +19,17 @@ export async function createNewPayment(data = {}) {
     });
 
     console.log("resp", response)
+    const json = await response.json();
+    console.log("json", json)
+
     if (response.status === 200) {
         try {
-            const json = await response.json();
             const redirectUrl = json?.redirectUrl || json?.redirect_url;
             if (redirectUrl) {
                 window.location.href = redirectUrl;
                 return;
+            } else {
+                throw new Error('Redirect URL not found');
             }
         } catch (e) {
             // ignore parse errors and continue to error handling below
