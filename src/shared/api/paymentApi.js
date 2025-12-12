@@ -18,22 +18,22 @@ export async function createNewPayment(data = {}) {
         redirect: 'follow',
     });
 
-    // const location = response.headers.get('Location') || response.headers.get('location');
+    const location = response.headers.get('Location') || response.headers.get('location');
 
-    // if (location) {
-    //     window.location.href = location;
-    //     return;
-    // }
+    if (location) {
+        window.location.href = location;
+        return;
+    }
 
-    // let errorMessage = 'Redirect URL not found';
-    // let errorData = null;
+    let errorMessage = 'Redirect URL not found';
+    let errorData = null;
 
-    // try {
-    //     errorData = await response.json();
-    //     errorMessage = errorData.message || errorMessage;
-    // } catch {    
-    //     throw new Error(errorMessage);
-    // }
+    try {
+        errorData = await response.json();
+        errorMessage = errorData.message || errorMessage;
+    } catch {    
+        throw new Error(errorMessage);
+    }
 
 
 }
