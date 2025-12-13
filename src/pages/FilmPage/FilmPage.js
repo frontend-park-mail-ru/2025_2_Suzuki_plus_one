@@ -170,6 +170,11 @@ async #updateReactionState() {
     const likeBtn = this.#parent.querySelector('#btn-like');
     const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
+    const likeCountEl = this.#parent.querySelector('.film-banner__reaction-group:nth-child(3) .film-banner__reaction-count') ||
+                        this.#parent.querySelectorAll('.film-banner__reaction-count')[0];
+    const dislikeCountEl = this.#parent.querySelector('.film-banner__reaction-group:nth-child(4) .film-banner__reaction-count') ||
+                          this.#parent.querySelectorAll('.film-banner__reaction-count')[1];
+
     if (!likeBtn || !dislikeBtn) return;
 
     const mediaId = this.#filmId;
@@ -184,8 +189,6 @@ async #updateReactionState() {
             const current = await checkMediaReaction(mediaId);
             const isCurrentlyLike = current.liked;
             const isCurrentlyDislike = current.is_dislike;
-
-            let newType = null;
 
             if (targetType === 'like') {
                 if (isCurrentlyLike) {
@@ -208,6 +211,20 @@ async #updateReactionState() {
             }
 
             await this.#updateReactionState();
+
+            if (likeCountEl && dislikeCountEl) {
+                try {
+                    const film = await fetchFilm(mediaId);
+                    const likes = film.user_rating?.likes ?? 0;
+                    const dislikes = film.user_rating?.dislikes ?? 0;
+
+                    likeCountEl.textContent = likes;
+                    dislikeCountEl.textContent = dislikes;
+                } catch (fetchErr) {
+                    console.error('Failed to refresh like/dislike counters:', fetchErr);
+                }
+            }
+
         } catch (err) {
             console.error('Reaction failed:', err);
             this.#showToast('Something went wrong', 'error');
@@ -217,7 +234,6 @@ async #updateReactionState() {
     likeBtn.addEventListener('click', () => handleClick('like'));
     dislikeBtn.addEventListener('click', () => handleClick('dislike'));
 }
-
     #setupPlayButton() {
         const playButton = this.#parent.querySelector('.film-banner__button-play');
         if (!playButton) return;
