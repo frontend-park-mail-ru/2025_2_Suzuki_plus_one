@@ -85,6 +85,39 @@
         }
         
         &-reaction {
+            &.active {
+                background-color: var(--color-dark-grey);
+
+                svg path[stroke] {
+                    stroke: white;
+                }
+
+                &--like {
+                    background-color: #22c55e;
+                    border: 2px solid #22c55e;
+
+                    svg path[stroke] {
+                        stroke: white;
+                    }
+                }
+
+                &--dislike {
+                    background-color: #ef4444;
+                    border: 2px solid #ef4444;
+
+                    svg path[stroke] {
+                        stroke: white;
+                    }
+                }
+            }
+
+            &#btn-like.active {
+                @extend .active--like;
+            }
+
+            &#btn-dislike.active {
+                @extend .active--dislike;
+            }
             border-radius: 50%;
             background-color: var(--color-dark-grey);
             width: 48px;

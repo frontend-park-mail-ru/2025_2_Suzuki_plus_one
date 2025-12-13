@@ -54,10 +54,10 @@ class FilmPage {
                 plot_summary: film.plot_summary || film.description || '',
             });
 
-            await this.#updateFavouriteState();
+            await this.#updateReactionState();
 
             this.renderStarCards();
-            this.#setupFavouriteButton();
+            this.#setupReactionButtons();
         } catch (err) {
             this.#parent.innerHTML =
                 '<h2 style="text-align:center; color:red;">Film not found</h2>';
@@ -140,51 +140,56 @@ class FilmPage {
         });
     }
 
-    async #updateFavouriteState() {
+    async #updateReactionState() {
         try {
-            const { liked } = await checkMediaIsLiked(this.#filmId);
-            const btn = this.#parent.querySelector('#btn_to_favourite');
-            if (btn) {
-                if (liked) {
-                    btn.classList.add('liked');
-                } else {
-                    btn.classList.remove('liked');
-                }
-            }
+            const response = await checkMediaReaction(this.#filmId);
+            const { type } = response;
+
+            const likeBtn = this.#parent.querySelector('#btn-like');
+            const dislikeBtn = this.#parent.querySelector('#btn-dislike');
+
+            if (!likeBtn || !dislikeBtn) return;
+
+            likeBtn.classList.toggle('active', type === 'like');
+            dislikeBtn.classList.toggle('active', type === 'dislike');
         } catch (err) {
-            console.error(err);
+            console.error('Failed to check reaction:', err);
         }
     }
 
-    #setupFavouriteButton() {
-        const favouriteBtn = this.#parent.querySelector('#btn_to_favourite');
-        if (!favouriteBtn) return;
+    #setupReactionButtons() {
+        const likeBtn = this.#parent.querySelector('#btn-like');
+        const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
-        favouriteBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
+        if (!likeBtn || !dislikeBtn) return;
 
+        const handleReaction = async (newType) => {
             if (!this.#app.isAuthorized) {
-                this.#showToast('Log in to add to favourites', 'auth');
+                this.#showToast('Log in to rate', 'auth');
                 return;
             }
 
-            const isLiked = favouriteBtn.classList.contains('liked');
-
             try {
-                if (isLiked) {
-                    await deleteFromFavourite(this.#filmId);
-                    favouriteBtn.classList.remove('liked');
-                    this.#showToast('Removed from favourites successfully', 'success');
+                const current = await checkMediaReaction(this.#filmId);
+                const currentType = current.type || null;
+
+                if (currentType === newType) {
+                    await removeMediaReaction(this.#filmId);
+                    this.#showToast('Rating removed', 'success');
                 } else {
-                    await addToFavourite(this.#filmId);
-                    favouriteBtn.classList.add('liked');
-                    this.#showToast('Added to favourites successfully', 'success');
+                    await setMediaReaction(this.#filmId, newType);
+                    this.#showToast(newType === 'like' ? 'Liked!' : 'Disliked!', 'success');
                 }
+
+                await this.#updateReactionState();
             } catch (err) {
-                console.error('Favourite toggle failed:', err);
+                console.error('Reaction failed:', err);
                 this.#showToast('Something went wrong', 'error');
             }
-        });
+        };
+
+        likeBtn.addEventListener('click', () => handleReaction('like'));
+        dislikeBtn.addEventListener('click', () => handleReaction('dislike'));
     }
 
     #setupPlayButton() {
