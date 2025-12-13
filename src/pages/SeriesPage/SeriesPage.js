@@ -58,6 +58,8 @@ class SeriesPage {
                 duration: duration,
                 age_rating: film.age_rating ? `${film.age_rating}+` : '—',
                 plot_summary: film.plot_summary || film.description || '',
+                total_likes: film.user_rating?.likes ?? 0,
+                total_dislikes: film.user_rating?.dislikes ?? 0,
                 thumb_up_icon: thumbUpIcon,
                 thumb_down_icon: thumbDownIcon,
             });
