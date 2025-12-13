@@ -304,7 +304,7 @@ async #updateReactionState() {
 
             if (likeCountEl && dislikeCountEl) {
                 try {
-                    const film = await fetchFilm(mediaId);
+                    const film = await fetchSeriesById(mediaId);
                     const likes = film.user_rating?.likes ?? 0;
                     const dislikes = film.user_rating?.dislikes ?? 0;
 
