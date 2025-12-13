@@ -190,7 +190,7 @@ async #updateReactionState() {
             if (targetType === 'like') {
                 if (isCurrentlyLike) {
                     await removeMediaReaction(mediaId);
-                    this.#showToast('Removed from favourites', 'success');
+                    this.#showToast('Removed from liked', 'success');
                 } else {
                     if (isCurrentlyDislike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'like');
@@ -199,7 +199,7 @@ async #updateReactionState() {
             } else if (targetType === 'dislike') {
                 if (isCurrentlyDislike) {
                     await removeMediaReaction(mediaId);
-                    this.#showToast('Rating removed', 'success');
+                    this.#showToast('Removed from disliked', 'success');
                 } else {
                     if (isCurrentlyLike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'dislike');
