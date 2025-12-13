@@ -9,11 +9,7 @@ import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import {
-    addToFavourite,
-    checkMediaIsLiked,
-    deleteFromFavourite,
-} from '@shared/api/favouriteApi.js';
+import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
 
 class FilmPage {
     #parent;

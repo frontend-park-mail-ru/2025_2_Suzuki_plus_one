@@ -8,11 +8,8 @@ import StarCard from '@features/StarCard/StarCard.js';
 import EpisodeCard from '@features/EpisodeCard/EpisodeCard';
 import { fetchSeriesById, fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import {
-    addToFavourite,
-    checkMediaIsLiked,
-    deleteFromFavourite,
-} from '@shared/api/favouriteApi.js';
+import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
+
 import seriesPoster from '@assets/images/StrangerThings.png';
 
 class SeriesPage {
@@ -60,10 +57,10 @@ class SeriesPage {
                 plot_summary: film.plot_summary || film.description || '',
             });
 
-            await this.#updateFavouriteState();
+            await this.#updateReactionState();
 
             this.renderStarCards();
-            this.#setupFavouriteButton();
+            this.#setupReactionButtons();
 
             await this.getEpisodesData();
             this.renderSeasons();
@@ -229,51 +226,75 @@ class SeriesPage {
             });
         });
     }
+async #updateReactionState() {
+    try {
+        const response = await checkMediaReaction(this.#seriesId);
+        const { type } = response;
 
-    async #updateFavouriteState() {
-        try {
-            const { liked } = await checkMediaIsLiked(this.#seriesId);
-            const btn = this.#parent.querySelector('#btn_to_favourite');
-            if (btn) {
-                if (liked) {
-                    btn.classList.add('liked');
-                } else {
-                    btn.classList.remove('liked');
-                }
-            }
-        } catch (err) {
-            console.error(err);
+        const likeBtn = this.#parent.querySelector('#btn-like');
+        const dislikeBtn = this.#parent.querySelector('#btn-dislike');
+
+        if (!likeBtn || !dislikeBtn) return;
+
+        likeBtn.classList.toggle('active', type === 'like');
+        dislikeBtn.classList.toggle('active', type === 'dislike');
+    } catch (err) {
+        console.error('Failed to check reaction:', err);
+    }
+}
+
+#setupReactionButtons() {
+    const likeBtn = this.#parent.querySelector('#btn-like');
+    const dislikeBtn = this.#parent.querySelector('#btn-dislike');
+
+    if (!likeBtn || !dislikeBtn) return;
+
+    const handleReaction = async (newType) => {
+        if (!this.#app.isAuthorized) {
+            this.#showToast('Log in to rate', 'auth');
+            return;
         }
-    }
 
-    #setupFavouriteButton() {
-        const favouriteBtn = this.#parent.querySelector('#btn_to_favourite');
-        if (!favouriteBtn) return;
+        try {
+            const current = await checkMediaReaction(this.#seriesId);
+            const currentType = current.type || null;
 
-        favouriteBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            if (!this.#app.isAuthorized) {
-                this.#showAuthToast();
-                return;
+            if (currentType === newType) {
+                await removeMediaReaction(this.#seriesId);
+                this.#showToast('Rating removed', 'success');
+            } else {
+                await setMediaReaction(this.#seriesId, newType);
+                this.#showToast(newType === 'like' ? 'Liked!' : 'Disliked!', 'success');
             }
 
-            const isLiked = favouriteBtn.classList.contains('liked');
+            await this.#updateReactionState();
+        } catch (err) {
+            console.error('Reaction failed:', err);
+            this.#showToast('Something went wrong', 'error');
+        }
+    };
 
-            try {
-                if (isLiked) {
-                    await deleteFromFavourite(this.#seriesId);
-                    favouriteBtn.classList.remove('liked');
-                } else {
-                    await addToFavourite(this.#seriesId);
-                    favouriteBtn.classList.add('liked');
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        });
-    }
+    likeBtn.addEventListener('click', () => handleReaction('like'));
+    dislikeBtn.addEventListener('click', () => handleReaction('dislike'));
+}
 
+#showToast(message, type = 'info') {
+    const existing = document.querySelector('.action-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `action-toast action-toast--${type}`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    requestAnimationFrame(() => toast.classList.add('show'));
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, 2700);
+}
     #setupPlayButton() {
         const playButton = this.#parent.querySelector('.film-banner__button-play');
         if (!playButton) return;
