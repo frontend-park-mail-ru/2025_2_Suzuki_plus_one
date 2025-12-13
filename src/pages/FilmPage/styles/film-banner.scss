@@ -283,79 +283,94 @@
         backdrop-filter: blur(12px);
     }
 }
-.film-banner__button-reaction {
-    border-radius: 50%;
-    background-color: var(--color-dark-grey);
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-
-    .reaction-icon {
-        width: 28px;
-        height: 28px;
-        object-fit: contain;
-        transition: filter 0.3s ease;
-    }
-
-
-    &.active {
-        transform: scale(1.08);
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-
-        &#btn-like {
-            background-color: #22c55e !important;
-        }
-
-        &#btn-dislike {
-            background-color: #ef4444 !important;
-        }
-    }
-}
-
-
 .film-banner {
     &__actions {
         display: flex;
         gap: var(--padding-medium);
         flex-wrap: wrap;
-        align-items: center;
+        align-items: center;        
+        justify-content: center;    
+
+        @include media.mobile {
+            gap: var(--padding-small);
+        }
     }
 
     &__reaction-group {
+        position: relative;         
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px; 
-    }
-
-    &__reaction-count {
-        color: white;
-        font-size: 14px;
-        font-weight: 600;
-        opacity: 0.9;
-        min-width: 24px;
-        text-align: center;
-
-        .film-banner__button-reaction.active + & {
-            opacity: 1;
-            font-weight: 700;
-        }
+        justify-content: center;    
+        height: 68px;               
     }
 
     &__button-reaction {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: var(--color-dark-grey);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        .reaction-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            filter: brightness(0) invert(1); 
+        }
 
         &.active {
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 
-            + .film-banner__reaction-count {
-                color: white;
+            &#btn-like {
+                background-color: #22c55e !important;
+            }
+
+            &#btn-dislike {
+                background-color: #ef4444 !important;
             }
         }
+
+        @include media.hover {
+            &:not(.active):hover {
+                background-color: var(--color-grey-hover);
+            }
+        }
+    }
+
+    &__reaction-count {
+        position: absolute;
+        bottom: -20px;                    
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 13px;
+        font-weight: 700;
+        color: white;
+        min-width: 32px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        border-radius: 11px;
+        padding: 0 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        pointer-events: none;             
+    }
+
+    &__reaction-group:has(.film-banner__button-reaction.active) &__reaction-count {
+        background: rgba(0, 0, 0, 0.8);
+        border-color: rgba(255, 255, 255, 0.3);
+        font-weight: 800;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     }
 }
