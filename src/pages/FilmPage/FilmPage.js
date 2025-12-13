@@ -234,6 +234,7 @@ async #updateReactionState() {
     likeBtn.addEventListener('click', () => handleClick('like'));
     dislikeBtn.addEventListener('click', () => handleClick('dislike'));
 }
+
     #setupPlayButton() {
         const playButton = this.#parent.querySelector('.film-banner__button-play');
         if (!playButton) return;
