@@ -262,10 +262,8 @@ async #updateReactionState() {
     const likeBtn = this.#parent.querySelector('#btn-like');
     const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
-    const likeCountEl = this.#parent.querySelector('.film-banner__reaction-group:nth-child(3) .film-banner__reaction-count') ||
-                        this.#parent.querySelectorAll('.film-banner__reaction-count')[0];
-    const dislikeCountEl = this.#parent.querySelector('.film-banner__reaction-group:nth-child(4) .film-banner__reaction-count') ||
-                          this.#parent.querySelectorAll('.film-banner__reaction-count')[1];
+    const likeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[0];
+    const dislikeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[1];
 
     if (!likeBtn || !dislikeBtn) return;
 
