@@ -162,3 +162,41 @@
 //         pointer-events: all;
 //     }
 // }
+
+.film-banner__button-reaction {
+    border-radius: 50%;
+    background-color: var(--color-dark-grey);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+
+    svg {
+        width: 44px;
+        height: 44px;
+    }
+
+    @include media.hover {
+        background-color: var(--color-grey-hover);
+    }
+
+    &.active {
+        transform: scale(1.08);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+
+        &#btn-like {
+            background-color: #22c55e !important; 
+        }
+
+        &#btn-dislike {
+            background-color: #ef4444 !important;  
+        }
+
+        svg path[stroke] {
+            stroke: white !important;
+        }
+    }
+}

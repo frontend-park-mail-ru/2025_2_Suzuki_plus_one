@@ -229,15 +229,23 @@ class SeriesPage {
 async #updateReactionState() {
     try {
         const response = await checkMediaReaction(this.#seriesId);
-        const { type } = response;
+        // response: { liked: boolean, is_dislike: boolean }
 
         const likeBtn = this.#parent.querySelector('#btn-like');
         const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
         if (!likeBtn || !dislikeBtn) return;
 
-        likeBtn.classList.toggle('active', type === 'like');
-        dislikeBtn.classList.toggle('active', type === 'dislike');
+        if (response.liked) {
+            likeBtn.classList.add('active');
+            dislikeBtn.classList.remove('active');
+        } else if (response.is_dislike) {
+            dislikeBtn.classList.add('active');
+            likeBtn.classList.remove('active');
+        } else {
+            likeBtn.classList.remove('active');
+            dislikeBtn.classList.remove('active');
+        }
     } catch (err) {
         console.error('Failed to check reaction:', err);
     }
@@ -249,22 +257,39 @@ async #updateReactionState() {
 
     if (!likeBtn || !dislikeBtn) return;
 
-    const handleReaction = async (newType) => {
+    const mediaId = this.#seriesId;
+
+    const handleClick = async (targetType) => {
         if (!this.#app.isAuthorized) {
             this.#showToast('Log in to rate', 'auth');
             return;
         }
 
         try {
-            const current = await checkMediaReaction(this.#seriesId);
-            const currentType = current.type || null;
+            const current = await checkMediaReaction(mediaId);
+            const isCurrentlyLike = current.liked;
+            const isCurrentlyDislike = current.is_dislike;
 
-            if (currentType === newType) {
-                await removeMediaReaction(this.#seriesId);
-                this.#showToast('Rating removed', 'success');
-            } else {
-                await setMediaReaction(this.#seriesId, newType);
-                this.#showToast(newType === 'like' ? 'Liked!' : 'Disliked!', 'success');
+            let newType = null;
+
+            if (targetType === 'like') {
+                if (isCurrentlyLike) {
+                    await removeMediaReaction(mediaId);
+                    this.#showToast('Removed from favourites', 'success');
+                } else {
+                    if (isCurrentlyDislike) await removeMediaReaction(mediaId);
+                    await setMediaReaction(mediaId, 'like');
+                    this.#showToast('Liked!', 'success');
+                }
+            } else if (targetType === 'dislike') {
+                if (isCurrentlyDislike) {
+                    await removeMediaReaction(mediaId);
+                    this.#showToast('Rating removed', 'success');
+                } else {
+                    if (isCurrentlyLike) await removeMediaReaction(mediaId);
+                    await setMediaReaction(mediaId, 'dislike');
+                    this.#showToast('Disliked', 'success');
+                }
             }
 
             await this.#updateReactionState();
@@ -274,10 +299,9 @@ async #updateReactionState() {
         }
     };
 
-    likeBtn.addEventListener('click', () => handleReaction('like'));
-    dislikeBtn.addEventListener('click', () => handleReaction('dislike'));
+    likeBtn.addEventListener('click', () => handleClick('like'));
+    dislikeBtn.addEventListener('click', () => handleClick('dislike'));
 }
-
 #showToast(message, type = 'info') {
     const existing = document.querySelector('.action-toast');
     if (existing) existing.remove();
