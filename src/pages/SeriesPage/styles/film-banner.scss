@@ -5,10 +5,6 @@
         flex-wrap: wrap;
         align-items: center;       
         justify-content: center;    
-
-        @include media.mobile {
-            gap: var(--padding-small);
-        }
     }
 
     &__reaction-group {
@@ -50,12 +46,6 @@
 
             &#btn-dislike {
                 background-color: #ef4444 !important;
-            }
-        }
-
-        @include media.hover {
-            &:not(.active):hover {
-                background-color: var(--color-grey-hover);
             }
         }
     }
