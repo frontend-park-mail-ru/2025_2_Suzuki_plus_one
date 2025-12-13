@@ -31,18 +31,17 @@
           <button data-navigate='/player/trailer/{{id}}' class='film-banner__button button'>
             Trailer
           </button>
-
-            <div class='film-banner__reaction-group'>
               <button class='film-banner__button-reaction' id='btn-like'>
                 <img src='{{thumb_up_icon}}' alt='Like' class='reaction-icon' />
               </button>
+            <div class='film-banner__reaction-group'>
               <span class='film-banner__reaction-count'>{{total_likes}}</span>
             </div>
-
-            <div class='film-banner__reaction-group'>
+            
               <button class='film-banner__button-reaction' id='btn-dislike'>
                 <img src='{{thumb_down_icon}}' alt='Dislike' class='reaction-icon' />
               </button>
+            <div class='film-banner__reaction-group'>
               <span class='film-banner__reaction-count'>{{total_dislikes}}</span>
             </div>
         </div>
