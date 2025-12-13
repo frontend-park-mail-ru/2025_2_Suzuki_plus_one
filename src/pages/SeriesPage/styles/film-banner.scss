@@ -205,11 +205,6 @@
         gap: var(--padding-medium);
         flex-wrap: wrap;
         align-items: center;
-
-        @include media.mobile {
-            gap: var(--padding-small);
-            justify-content: center;
-        }
     }
 
     &__reaction-group {
