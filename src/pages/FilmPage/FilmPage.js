@@ -10,6 +10,8 @@ import preview from '@assets/images/film_card.png';
 import { fetchFilm } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
+import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
+import thumbDownIcon from '@shared/assets/images/icons/thumb_down.svg';
 
 class FilmPage {
     #parent;
@@ -48,6 +50,9 @@ class FilmPage {
                 duration: duration,
                 age_rating: film.age_rating ? `${film.age_rating}+` : '—',
                 plot_summary: film.plot_summary || film.description || '',
+                thumb_up_icon: thumbUpIcon,
+                thumb_down_icon: thumbDownIcon,
+                
             });
 
             await this.#updateReactionState();
@@ -182,22 +187,18 @@ async #updateReactionState() {
 
             if (targetType === 'like') {
                 if (isCurrentlyLike) {
-                    // Уже лайкнуто → снимаем
                     await removeMediaReaction(mediaId);
                     this.#showToast('Removed from favourites', 'success');
                 } else {
-                    // Ставим лайк (даже если был дизлайк — сначала удаляем, потом ставим)
                     if (isCurrentlyDislike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'like');
                     this.#showToast('Liked!', 'success');
                 }
             } else if (targetType === 'dislike') {
                 if (isCurrentlyDislike) {
-                    // Уже дизлайкнуто → снимаем
                     await removeMediaReaction(mediaId);
                     this.#showToast('Rating removed', 'success');
                 } else {
-                    // Ставим дизлайк
                     if (isCurrentlyLike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'dislike');
                     this.#showToast('Disliked', 'success');

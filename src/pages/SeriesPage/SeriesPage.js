@@ -12,6 +12,9 @@ import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@share
 
 import seriesPoster from '@assets/images/StrangerThings.png';
 
+import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
+import thumbDownIcon from '@shared/assets/images/icons/thumb_down.svg';
+
 class SeriesPage {
     #parent;
     #app;
@@ -55,6 +58,8 @@ class SeriesPage {
                 duration: duration,
                 age_rating: film.age_rating ? `${film.age_rating}+` : '—',
                 plot_summary: film.plot_summary || film.description || '',
+                thumb_up_icon: thumbUpIcon,
+                thumb_down_icon: thumbDownIcon,
             });
 
             await this.#updateReactionState();
