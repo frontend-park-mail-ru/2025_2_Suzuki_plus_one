@@ -10,6 +10,7 @@ import preview from '@assets/images/film_card.png';
 import { fetchFilm, fetchMedia } from '@shared/api/moviesApi.js'; 
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
+import { getUserInfo } from '@shared/api/userApi.js';
 import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
 import thumbDownIcon from '@shared/assets/images/icons/thumb_down.svg';
 
@@ -239,7 +240,18 @@ async #updateReactionState() {
         playButton.addEventListener('click', async (e) => {
             e.preventDefault();
 
+            if (!this.#app.isAuthorized) {
+                this.#showToast('Log in to watch', 'auth');
+                return;
+            }
+
             try {
+                const userInfo = await getUserInfo();
+                if (userInfo.subscription_status !== 'active') {
+                    this.#showToast('Please subscribe to watch content', 'error');
+                    return;
+                }
+
                 const media = await fetchMedia(this.#filmId);
                 const mediaUrl = media.url;
 

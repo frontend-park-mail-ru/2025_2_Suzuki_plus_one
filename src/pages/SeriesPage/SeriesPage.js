@@ -7,7 +7,7 @@ import star_photo from '@assets/images/star_photo.png';
 import StarCard from '@features/StarCard/StarCard.js';
 import EpisodeCard from '@features/EpisodeCard/EpisodeCard';
 import { fetchSeriesById, fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
-import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
+import { fetchStarsByFilmId, fetchMedia } from '@shared/api/moviesApi.js';
 import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
 import { getUserInfo } from '@shared/api/userApi.js';
 import seriesPoster from '@assets/images/StrangerThings.png';
@@ -286,7 +286,6 @@ async #updateReactionState() {
                     await removeMediaReaction(mediaId);
                     this.#showToast('Removed from liked', 'success');
                 } else {
-                    if (isCurrentlyDislike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'like');
                     this.#showToast('Liked!', 'success');
                 }
@@ -295,7 +294,6 @@ async #updateReactionState() {
                     await removeMediaReaction(mediaId);
                     this.#showToast('Removed from disliked', 'success');
                 } else {
-                    if (isCurrentlyLike) await removeMediaReaction(mediaId);
                     await setMediaReaction(mediaId, 'dislike');
                     this.#showToast('Disliked', 'success');
                 }
@@ -349,6 +347,11 @@ async #updateReactionState() {
 
         playButton.addEventListener('click', async (e) => {
             e.preventDefault();
+
+            if (!this.#app.isAuthorized) {
+                this.#showToast('Log in to watch', 'auth');
+                return;
+            }
 
             try {
                 const userInfo = await getUserInfo();
