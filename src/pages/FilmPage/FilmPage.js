@@ -239,9 +239,9 @@ async #updateReactionState() {
 
         playButton.addEventListener('click', async (e) => {
             e.preventDefault();
-            e.stopPropagation();
 
             if (!this.#app.isAuthorized) {
+                e.stopPropagation();
                 this.#showToast('Log in to watch', 'auth');
                 return;
             }

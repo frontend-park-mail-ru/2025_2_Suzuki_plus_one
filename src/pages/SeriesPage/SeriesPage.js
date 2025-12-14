@@ -34,6 +34,9 @@ class SeriesPage {
     }
 
     async render() {
+        await this.getEpisodesData();
+        const firstEpisode = this.#episodesData[0];
+        const episodeId = firstEpisode.media.media_id;
         try {
             const film = await fetchSeriesById(this.#seriesId);
             const genres = film.genres
@@ -62,6 +65,7 @@ class SeriesPage {
                 total_dislikes: film.user_rating?.dislikes ?? 0,
                 thumb_up_icon: thumbUpIcon,
                 thumb_down_icon: thumbDownIcon,
+                firstEpisode_id: episodeId
             });
 
             await this.#updateReactionState();
@@ -69,7 +73,6 @@ class SeriesPage {
             this.renderStarCards();
             this.#setupReactionButtons();
 
-            await this.getEpisodesData();
             this.renderSeasons();
             this.renderEpisodesBySeason();
             this.setupSeasonSwitcher();
@@ -347,9 +350,9 @@ async #updateReactionState() {
 
         playButton.addEventListener('click', async (e) => {
             e.preventDefault();
-            e.stopPropagation();
             
             if (!this.#app.isAuthorized) {
+                e.stopPropagation();
                 this.#showToast('Log in to watch', 'auth');
                 return;
             }
@@ -377,7 +380,6 @@ async #updateReactionState() {
                 const media = await fetchMedia(episodeId);
                 const mediaUrl = media.url;
 
-                this.#app.navigate(`/player/media/${episodeId}`, { mediaUrl });
             } catch (err) {
                 console.error('Failed to play first episode:', err);
                 this.#showToast('Something went wrong', 'error');
