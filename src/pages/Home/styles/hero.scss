@@ -77,6 +77,15 @@
         @include media.hover {
             background-color: #b20710 !important;
         }
+
+        &.subscribed {
+            background-color: #22c55e !important;
+            cursor: not-allowed;
+
+            @include media.hover {
+                background-color: #22c55e !important;
+            }
+        }
     }
 }
 

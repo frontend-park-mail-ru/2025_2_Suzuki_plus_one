@@ -7,6 +7,7 @@ import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi';
 import dropdownTemplate from './ui/GenreDropdown.hbs';
 import preview from '@assets/images/film_card.png';
 import {createNewPayment} from '@shared/api/paymentApi.js';
+import { getUserInfo } from '@shared/api/userApi.js';
 
 /** Class representing the Home page, displays a list of movies. */
 class Home {
@@ -44,7 +45,7 @@ class Home {
 
     async afterRender() {
         this.setupPlayButton();
-        this.setupSubscribeButton();
+        await this.setupSubscribeButton();
     }
 
     async loadGenres() {
@@ -74,9 +75,24 @@ class Home {
     }
 
 
-setupSubscribeButton() {
+async setupSubscribeButton() {
     const subscribeButton = this.#parent.querySelector('.hero__subscribe');
     if (!subscribeButton) return;
+
+    if (this.#app.isAuthorized) {
+        try {
+            const userInfo = await getUserInfo();
+            if (userInfo.subscription_status === 'active') {
+                subscribeButton.textContent = 'Subscribed';
+                subscribeButton.disabled = true;
+                subscribeButton.classList.add('subscribed');
+                return;
+            }
+        } catch (error) {
+            console.error('Failed to check subscription:', error);
+            this.#showToast('Failed to check subscription status', 'error');
+        }
+    }
 
     subscribeButton.addEventListener('click', async () => {
         if (!this.#app.isAuthorized) {
@@ -93,7 +109,7 @@ setupSubscribeButton() {
             console.error('Payment failed:', error);
             this.#showToast('Failed to start subscription. Try again later.', 'error');
             subscribeButton.disabled = false;
-            subscribeButton.textContent = 'Subscribe';
+            subscribeButton.textContent = 'Get subscription';
         }
     });
 }
