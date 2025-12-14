@@ -9,7 +9,7 @@ import EpisodeCard from '@features/EpisodeCard/EpisodeCard';
 import { fetchSeriesById, fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
-
+import { getUserInfo } from '@shared/api/userApi.js';
 import seriesPoster from '@assets/images/StrangerThings.png';
 
 import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
@@ -73,6 +73,7 @@ class SeriesPage {
             this.renderSeasons();
             this.renderEpisodesBySeason();
             this.setupSeasonSwitcher();
+            this.#setupPlayButton();
         } catch (err) {
             this.#parent.innerHTML =
                 '<h2 style="text-align:center; color:red;">Film not found</h2>';
@@ -350,12 +351,32 @@ async #updateReactionState() {
             e.preventDefault();
 
             try {
-                const media = await fetchMedia(this.#seriesId);
+                const userInfo = await getUserInfo();
+                if (userInfo.subscription_status !== 'active') {
+                    this.#showToast('Please subscribe to watch content', 'error');
+                    return;
+                }
+
+                if (!this.#episodesData || this.#episodesData.length === 0) {
+                    this.#showToast('No episodes found', 'error');
+                    return;
+                }
+
+                this.#episodesData.sort((a, b) => {
+                    if (a.season_number !== b.season_number) return a.season_number - b.season_number;
+                    return a.episode_number - b.episode_number;
+                });
+
+                const firstEpisode = this.#episodesData[0];
+                const episodeId = firstEpisode.media.media_id;
+
+                const media = await fetchMedia(episodeId);
                 const mediaUrl = media.url;
 
-                this.#app.navigate(`/player/${this.#seriesId}`, { mediaUrl });
+                this.#app.navigate(`/player/${episodeId}`, { mediaUrl });
             } catch (err) {
-                console.error(err);
+                console.error('Failed to play first episode:', err);
+                this.#showToast('Something went wrong', 'error');
             }
         });
     }

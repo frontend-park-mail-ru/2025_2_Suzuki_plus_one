@@ -61,6 +61,7 @@ class FilmPage {
 
             this.renderStarCards();
             this.#setupReactionButtons();
+            this.#setupPlayButton();
         } catch (err) {
             this.#parent.innerHTML =
                 '<h2 style="text-align:center; color:red;">Film not found</h2>';
