@@ -240,7 +240,7 @@ async #updateReactionState() {
         playButton.addEventListener('click', async (e) => {
             e.preventDefault();
             e.stopPropagation();
-
+            
             if (!this.#app.isAuthorized) {
                 this.#showToast('Log in to watch', 'auth');
                 return;
@@ -252,7 +252,8 @@ async #updateReactionState() {
                     this.#showToast('Please subscribe to watch content', 'error');
                     return;
                 }
-                this.#app.navigate(`/player/media/${this.#filmId}`);
+
+                history.pushState({}, '', `/player/${this.#filmId}`);
             } catch (err) {
                 console.error('Failed to play film:', err);
                 this.#showToast('Something went wrong', 'error');
