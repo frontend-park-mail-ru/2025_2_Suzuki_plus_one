@@ -7,7 +7,7 @@ import star_photo from '@assets/images/star_photo.png';
 import StarCard from '@features/StarCard/StarCard.js';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
-import { fetchFilm } from '@shared/api/moviesApi.js';
+import { fetchFilm, fetchMedia } from '@shared/api/moviesApi.js'; 
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
 import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
 import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
@@ -247,7 +247,8 @@ async #updateReactionState() {
 
                 this.#app.navigate(`/player/${this.#filmId}`, { mediaUrl });
             } catch (err) {
-                console.error(err);
+                console.error('Failed to play film:', err);
+                this.#showToast('Something went wrong', 'error');
             }
         });
     }
