@@ -252,10 +252,7 @@ async #updateReactionState() {
                     return;
                 }
 
-                const media = await fetchMedia(this.#filmId);
-                const mediaUrl = media.url;
-
-                this.#app.navigate(`/player/${this.#filmId}`, { mediaUrl });
+                history.pushState({}, '', `/player/${this.#filmId}`);
             } catch (err) {
                 console.error('Failed to play film:', err);
                 this.#showToast('Something went wrong', 'error');
