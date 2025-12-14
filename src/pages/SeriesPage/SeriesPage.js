@@ -376,7 +376,7 @@ async #updateReactionState() {
                 const media = await fetchMedia(episodeId);
                 const mediaUrl = media.url;
 
-                this.#app.navigate(`/player/${episodeId}`, { mediaUrl });
+                this.#app.navigate(`/player/media/${episodeId}`, { mediaUrl });
             } catch (err) {
                 console.error('Failed to play first episode:', err);
                 this.#showToast('Something went wrong', 'error');
