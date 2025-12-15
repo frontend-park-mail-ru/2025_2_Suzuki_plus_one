@@ -236,7 +236,7 @@ class SeriesPage {
     }
 async #updateReactionState() {
     try {
-        const response = await checkMediaReaction(this.#filmId);
+        const response = await checkMediaReaction(this.#seriesId);
 
         const likeBtn = this.#parent.querySelector('#btn-like');
         const dislikeBtn = this.#parent.querySelector('#btn-dislike');
