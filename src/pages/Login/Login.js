@@ -57,7 +57,7 @@ class Login {
                     }
                 } catch (err) {
                     // passwordErrorDiv.textContent = err.message || 'Unexpected error';
-                    passwordErrorDiv.textContent = 'Wrong user or password';
+                    passwordErrorDiv.textContent = 'Wrong email or password';
                     passwordErrorDiv.hidden = false;
                 }
             });
