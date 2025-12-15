@@ -236,15 +236,14 @@ class SeriesPage {
     }
 async #updateReactionState() {
     try {
-        const response = await checkMediaReaction(this.#seriesId);
-        // response: { liked: boolean, is_dislike: boolean }
+        const response = await checkMediaReaction(this.#filmId);
 
         const likeBtn = this.#parent.querySelector('#btn-like');
         const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
         if (!likeBtn || !dislikeBtn) return;
 
-        if (response.liked) {
+        if (response.liked && !response.is_dislike) {
             likeBtn.classList.add('active');
             dislikeBtn.classList.remove('active');
         } else if (response.is_dislike) {
