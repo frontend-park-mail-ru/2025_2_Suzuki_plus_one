@@ -153,7 +153,7 @@ async #updateReactionState() {
 
         if (!likeBtn || !dislikeBtn) return;
 
-        if (response.liked) {
+        if (response.liked && !response.is_dislike) {
             likeBtn.classList.add('active');
             dislikeBtn.classList.remove('active');
         } else if (response.is_dislike) {
