@@ -22,26 +22,30 @@
           <p class='film-banner__age-limit'>{{age_rating}}</p>
         </div>
         <div class='film-banner__actions'>
-          <button data-navigate='/player/media/{{id}}' class='film-banner__button-play button' disabled>
+          <button
+            data-navigate='/player/media/{{id}}'
+            class='film-banner__button-play button'
+            disabled
+          >
             ▶ Play
           </button>
           <button data-navigate='/player/trailer/{{id}}' class='film-banner__button button'>
             Trailer
           </button>
 
-              <button class='film-banner__button-reaction' id='btn-like'>
-                <img src='{{thumb_up_icon}}' alt='Like' class='reaction-icon' />
-              </button>
-            <div class='film-banner__reaction-group'>
-              <span class='film-banner__reaction-count'>{{total_likes}}</span>
-            </div>
+          <button class='film-banner__button-reaction' id='btn-like'>
+            <img src='{{thumb_up_icon}}' alt='Like' class='reaction-icon' />
+          </button>
+          <div class='film-banner__reaction-group'>
+            <span class='film-banner__reaction-count'>{{total_likes}}</span>
+          </div>
 
-              <button class='film-banner__button-reaction' id='btn-dislike'>
-                <img src='{{thumb_down_icon}}' alt='Dislike' class='reaction-icon' />
-              </button>
-            <div class='film-banner__reaction-group'>
-              <span class='film-banner__reaction-count'>{{total_dislikes}}</span>
-            </div>
+          <button class='film-banner__button-reaction' id='btn-dislike'>
+            <img src='{{thumb_down_icon}}' alt='Dislike' class='reaction-icon' />
+          </button>
+          <div class='film-banner__reaction-group'>
+            <span class='film-banner__reaction-count'>{{total_dislikes}}</span>
+          </div>
         </div>
       </div>
     </div>
