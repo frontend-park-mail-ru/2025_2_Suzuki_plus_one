@@ -1,4 +1,26 @@
-trailingComma: 'es5'
-tabWidth: 4
-semi: true
-singleQuote: true
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "singleAttributePerLine": false,
+  "proseWrap": "preserve",
+  "htmlWhitespaceSensitivity": "css",
+
+  "overrides": [
+    {
+      "files": ["*.js", "*.cjs", "*.mjs", "*.jsx", "*.ts", "*.tsx", "*.html"],
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}

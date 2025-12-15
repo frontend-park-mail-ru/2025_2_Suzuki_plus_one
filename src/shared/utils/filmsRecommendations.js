@@ -2,7 +2,7 @@ export function initFilmRecommendations() {
     const list = document.querySelector('.films-recommendations__list');
     const btnLeft = document.querySelector('.films-recommendations__button--left');
     const btnRight = document.querySelector('.films-recommendations__button--right');
-    
+
     if (!list || !btnLeft || !btnRight) {
         console.warn('Film recommendations elements not found');
         return;

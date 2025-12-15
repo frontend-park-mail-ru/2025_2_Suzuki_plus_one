@@ -1,8 +1,15 @@
 import Header from '@shared/components/Header/Header.js';
 import Footer from '@shared/components/Footer/Footer.js';
-import {getAccessToken, isTokenValid, clearAccessToken, refreshAccessToken, setAccessToken} from '@shared/utils/auth.js';
+import {
+    getAccessToken,
+    isTokenValid,
+    clearAccessToken,
+    refreshAccessToken,
+    setAccessToken,
+} from '@shared/utils/auth.js';
 import { signOut } from '@shared/api/signOut.js';
-import {getUserInfo} from '@shared/api/userApi.js'
+import { getUserInfo } from '@shared/api/userApi.js';
+import default_avatar from '@assets/images/default_avatar.png';
 /** Class representing the main application.
  * Handles page rendering, user authentication state, and header/footer setup.
  */
@@ -29,28 +36,34 @@ class App {
     }
 
     async restoreSession() {
+        // if (isTokenValid()) {
+        //     this.isAuthorized = true;
+        //     await this.updateUserInfo();
+        //     window.dispatchEvent(new PopStateEvent('popstate'));
+        //     return;
+        // }
+
         try {
             const token = await refreshAccessToken();
             this.isAuthorized = true;
-            this.updateUserInfo();
+            await this.updateUserInfo();
         } catch {
             this.isAuthorized = false;
             this.user = null;
-            clearAccessToken();
         }
 
         window.dispatchEvent(new PopStateEvent('popstate'));
     }
 
     checkAuthOnLoad() {
-            if (isTokenValid()) {
-                this.isAuthorized = true;
-            } else {
-                this.isAuthorized = false;
-                this.user = null;
-                clearAccessToken();
-            }
+        if (isTokenValid()) {
+            this.isAuthorized = true;
+        } else {
+            this.isAuthorized = false;
+            this.user = null;
+            clearAccessToken();
         }
+    }
 
     /**
      * Sets up the header and footer components and appends them to the container.
@@ -61,7 +74,10 @@ class App {
         this.#container.appendChild(headerContainer);
 
         this.header = new Header(headerContainer, this);
-        this.header.render();
+
+        //       if (window == top) {
+        //     this.header.render();
+        //      }
 
         this.#container.appendChild(this.#main_content);
 
@@ -85,7 +101,7 @@ class App {
      * @returns {void}
      */
     loginUser(token) {
-        setAccessToken(token); 
+        setAccessToken(token);
         this.isAuthorized = true;
         this.updateUserInfo();
         window.history.pushState({}, '', '/');
@@ -112,6 +128,9 @@ class App {
             const userInfo = await getUserInfo();
             this.user = userInfo;
             this.isAuthorized = true;
+
+            this.user.avatar_url = userInfo.avatar_url || default_avatar;
+
             this.header.render();
         } catch (err) {
             console.error('Failed to fetch user info:', err);

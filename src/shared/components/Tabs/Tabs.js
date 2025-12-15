@@ -1,5 +1,5 @@
 import template from './ui/Tabs.hbs';
-import './styles/tabs.scss'
+import './styles/tabs.scss';
 
 class Tabs {
     #parent;
@@ -18,7 +18,7 @@ class Tabs {
     #setupEventListeners() {
         const tabLinks = this.#parent.querySelectorAll('.tabs__tab');
 
-        tabLinks.forEach(tab => {
+        tabLinks.forEach((tab) => {
             tab.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (this.#onTabChange) {
@@ -33,7 +33,7 @@ class Tabs {
     setActiveTab(activePage) {
         const tabs = this.#parent.querySelectorAll('.tabs__tab');
 
-        tabs.forEach(tab => {
+        tabs.forEach((tab) => {
             const isActive = tab.dataset.page === activePage;
             tab.classList.toggle('tabs__tab--active', isActive);
         });

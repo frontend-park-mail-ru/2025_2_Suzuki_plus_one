@@ -56,8 +56,8 @@ class Login {
                         this.#appInstance.loginUser(result.access_token);
                     }
                 } catch (err) {
-                    passwordErrorDiv.textContent =
-                        err.details || 'Unexpected error';
+                    // passwordErrorDiv.textContent = err.message || 'Unexpected error';
+                    passwordErrorDiv.textContent = 'Wrong email or password';
                     passwordErrorDiv.hidden = false;
                 }
             });

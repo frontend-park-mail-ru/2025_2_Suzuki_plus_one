@@ -1,11 +1,24 @@
 import './styles/account.scss';
 import './styles/security.scss';
+import './styles/support.scss';
+import supportTemplate from './ui/Support.hbs';
+import SupportItem from './SupportItem.js';
+
 import settingsTemplate from './ui/Settings.hbs';
 import securityTemplate from './ui/Security.hbs';
 import pencil_icon from '@assets/images/icons/pencil-white.svg';
 import camera_icon from '@assets/images/icons/camera-white.svg';
 import Tabs from '@shared/components/Tabs/Tabs.js';
-import { updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
+import { updateUserPassword, updateUserProfile, uploadUserAvatar } from '@shared/api/userApi.js';
+import {
+    validateBirthdate,
+    validatePassword,
+    validateEmail,
+    validateUsername,
+    validatePhone,
+} from '@shared/utils/validation.js';
+import { setupPasswordToggle } from '@shared/ui/passwordToggle.js';
+import { fetchMyAppeals } from '@shared/api/appealApi.js';
 
 class Account {
     #parent;
@@ -20,11 +33,15 @@ class Account {
 
         this.activeTab = params.tab || 'settings';
 
-        this.user = this.#app.user;
+        this.#app.updateUserInfo().then(() => {
+            this.user = this.#app.user;
+            this.render();
+        });
 
         this.tabTemplates = {
             settings: settingsTemplate,
             security: securityTemplate,
+            support: supportTemplate,
         };
     }
 
@@ -41,8 +58,24 @@ class Account {
         const tabsContainer = this.#parent.querySelector('#accountTabs');
 
         const tabsConfig = [
-            { label: 'Settings', href: '/account/settings', page: 'settings', active: this.activeTab === 'settings' },
-            { label: 'Security', href: '/account/security', page: 'security', active: this.activeTab === 'security' },
+            {
+                label: 'Settings',
+                href: '/account/settings',
+                page: 'settings',
+                active: this.activeTab === 'settings',
+            },
+            {
+                label: 'Security',
+                href: '/account/security',
+                page: 'security',
+                active: this.activeTab === 'security',
+            },
+            {
+                label: 'Support',
+                href: '/account/support',
+                page: 'support',
+                active: this.activeTab === 'support',
+            },
         ];
 
         this.#tabs = new Tabs(tabsContainer, (page, href) => this.#handleTabChange(page, href));
@@ -60,7 +93,7 @@ class Account {
     #renderActiveTab() {
         const container = this.#parent.querySelector('#tabContent');
         const template = this.tabTemplates[this.activeTab];
-        
+
         const context = {
             camera_icon,
             pencil_icon,
@@ -69,17 +102,151 @@ class Account {
 
         container.innerHTML = template(context);
 
-        if (this.activeTab === 'settings'){
+        if (this.activeTab === 'settings') {
             this.#setupSettingsForm();
+        } else if (this.activeTab === 'security') {
+            this.#setupSecurityForm();
+        } else if (this.activeTab === 'support') {
+            this.#setupSupport();
         }
     }
+
+    #setupSecurityForm() {
+        const form = this.#parent.querySelector('.security__form');
+        if (!form) return;
+
+        setupPasswordToggle(form);
+
+        const errorDivs = {
+            old: this.#parent.querySelector('#oldError'),
+            new: this.#parent.querySelector('#newError'),
+            repeat: this.#parent.querySelector('#repeatError'),
+        };
+
+        const setError = (field, message) => {
+            const errorEl = this.#parent.querySelector(`#${field}Error`);
+            if (errorEl) {
+                errorEl.textContent = message || '';
+                errorEl.style.display = message ? 'block' : 'none';
+            }
+        };
+
+        const clearErrors = () => {
+            Object.values(errorDivs).forEach((el) => {
+                if (el) {
+                    el.textContent = '';
+                    el.style.display = 'none';
+                }
+            });
+        };
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearErrors();
+
+            const oldPassword = form.querySelector('#old_password').value;
+            const newPassword = form.querySelector('#new_password').value;
+            const repeatPassword = form.querySelector('#repeat_password').value;
+
+            const validations = {
+                old: !oldPassword ? 'Old password is required' : null,
+                new: validatePassword(newPassword),
+                repeat: newPassword !== repeatPassword ? 'Passwords do not match' : null,
+            };
+
+            let hasError = false;
+            Object.entries(validations).forEach(([field, error]) => {
+                if (error) {
+                    setError(field, error);
+                    hasError = true;
+                }
+            });
+
+            if (hasError) return;
+
+            try {
+                await updateUserPassword({
+                    current_password: oldPassword,
+                    new_password: newPassword,
+                });
+
+                form.reset();
+                this.#showSuccess('Password changed successfully!');
+            } catch (err) {
+                if (err.status === 401 || err.message?.toLowerCase().includes('current')) {
+                    setError('old', 'Incorrect old password');
+                } else {
+                    setError('repeat', err.message || 'Failed to change password');
+                }
+            }
+        });
+    }
+
+    async #setupSupport() {
+        const listContainer = this.#parent.querySelector('.support-tab__list');
+        if (!listContainer) return;
+
+        try {
+            const { appeals } = await fetchMyAppeals();
+            console.log(appeals);
+            this.#renderAppeals(appeals, listContainer);
+        } catch (err) {
+            listContainer.innerHTML = `
+                <div class="support-tab__error">
+                    Failed to load appeals: ${err.message || 'Unknown error'}
+                </div>
+            `;
+        }
+
+        const openNewAppealButton = document.getElementById('openNewAppeal');
+        const iframePopup = document.getElementById('iframePopup');
+        const closeBtn = document.getElementById('closeIframeBtn');
+
+        openNewAppealButton.addEventListener('click', function () {
+            iframePopup.style.display = 'block';
+            closeBtn.style.display = 'block';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            iframePopup.style.display = 'none';
+            closeBtn.style.display = 'none';
+        });
+
+        document.addEventListener('click', function (event) {
+            const isClickInsideIframe = iframePopup.contains(event.target);
+            const isClickOnOpenButton = event.target === openNewAppealButton;
+
+            if (!isClickInsideIframe && !isClickOnOpenButton) {
+                iframePopup.style.display = 'none';
+                closeBtn.style.display = 'none';
+            }
+        });
+    }
+
+    #renderAppeals(appeals, container) {
+        container.innerHTML = '';
+
+        if (!appeals || appeals.length === 0) {
+            container.innerHTML = '<p class="support-tab__no-appeals">No appeals found.</p>';
+            return;
+        }
+
+        appeals.forEach((appeal) => {
+            const itemContainer = document.createElement('div');
+            container.appendChild(itemContainer);
+
+            const item = new SupportItem(itemContainer, this.#app);
+            item.render(appeal);
+        });
+    }
+
     #setupSettingsForm() {
         const form = this.#parent.querySelector('.account__form');
         if (!form) return;
 
         const avatarInput = document.createElement('input');
         avatarInput.type = 'file';
-        avatarInput.accept = 'image/*';
+        avatarInput.accept = 'image/png,image/jpeg,image/jpg';
         avatarInput.style.display = 'none';
         form.appendChild(avatarInput);
 
@@ -92,32 +259,80 @@ class Account {
             const file = avatarInput.files[0];
             if (!file) return;
 
+            const validTypes = ['image/png', 'image/jpeg'];
+            const fileType = file.type;
+
+            if (!validTypes.includes(fileType)) {
+                this.#showError('avatar', 'Please select a PNG or JPEG/JPG image');
+                avatarInput.value = '';
+                return;
+            }
+
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                this.#showError('avatar', 'Image must be less than 10 MB');
+                avatarInput.value = '';
+                return;
+            }
+
             try {
                 const result = await uploadUserAvatar(file);
-                this.user.avatar_url = result.avatar_url;
-                this.#app.user = this.user;
+                this.#app.user.avatar_url = result.url;
+                this.user = this.#app.user;
                 this.#app.header.render();
                 this.#renderActiveTab();
             } catch (err) {
                 this.#showError('avatar', err.message);
             }
         });
+        const birthInput = form.querySelector('#birthdate');
+
+        birthInput.addEventListener('input', (e) => {
+            let val = e.target.value.replace(/\D/g, '');
+            if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4);
+            if (val.length > 7) val = val.slice(0, 7) + '-' + val.slice(7, 9);
+            e.target.value = val.slice(0, 10);
+        });
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            this.#clearErrors()
+            this.#clearErrors();
+
             const data = {
                 username: form.querySelector('#username').value.trim(),
                 email: form.querySelector('#email').value.trim(),
                 date_of_birth: form.querySelector('#birthdate').value,
                 phone_number: form.querySelector('#phone').value.trim(),
             };
+            const errors = {};
+
+            const emailError = validateEmail(data.email);
+            if (emailError) errors.email = emailError;
+
+            const usernameError = validateUsername(data.username);
+            if (usernameError) errors.username = usernameError;
+
+            const phoneError = validatePhone(data.phone_number);
+            if (phoneError) errors.phone = phoneError;
+
+            const birthdateError = validateBirthdate(data.date_of_birth);
+            if (birthdateError) {
+                errors.birthdate = birthdateError;
+            }
+
+            if (Object.keys(errors).length > 0) {
+                Object.entries(errors).forEach(([field, msg]) => {
+                    this.#showError(field, msg);
+                });
+                return;
+            }
 
             try {
                 await updateUserProfile(data);
                 Object.assign(this.user, data);
                 this.#app.user = this.user;
                 this.#app.header.render();
+                this.#showSuccess();
             } catch (err) {
                 this.#showError('form', err.message);
             }
@@ -125,7 +340,9 @@ class Account {
     }
 
     #showError(field, message) {
-        const errorEl = this.#parent.querySelector(`.account__error--${field}`);
+        const errorEl = this.#parent.querySelector(
+            `.account__error--${field}, .security__error--${field}`,
+        );
         if (errorEl) {
             errorEl.textContent = message;
             errorEl.hidden = false;
@@ -133,10 +350,20 @@ class Account {
     }
 
     #clearErrors() {
-        this.#parent.querySelectorAll('.account__error').forEach(el => {
+        this.#parent.querySelectorAll('.account__error').forEach((el) => {
             el.textContent = '';
             el.hidden = true;
         });
+    }
+
+    #showSuccess() {
+        const successEl = this.#parent.querySelector('.account__success');
+        if (!successEl) return;
+        successEl.textContent = 'Profile saved successfully!';
+        successEl.hidden = false;
+        setTimeout(() => {
+            successEl.hidden = true;
+        }, 3000);
     }
 }
 

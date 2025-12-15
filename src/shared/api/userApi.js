@@ -22,16 +22,19 @@ export async function uploadUserAvatar(file) {
 
     return fetchWithErrorsHandling('/api/v1/user/me/update/avatar', {
         method: 'POST',
+        // headers: {
+        //     'Content-Type': 'multipart/form-data',
+        // },
         body: formData,
     });
 }
 
-export async function updateUserPassword(data) {
+export async function updateUserPassword({ current_password, new_password }) {
     return fetchWithErrorsHandling('/api/v1/user/me/update/password', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+            current_password,
+            new_password,
+        }),
     });
 }

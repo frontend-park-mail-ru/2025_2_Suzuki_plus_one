@@ -1,0 +1,93 @@
+<main class='film-banner__content'>
+  <section class='film-banner'>
+    <img class='film-banner__image' src='{{poster}}' alt='{{title}}' />
+    <div class='film-banner__overlay'>
+      <div class='film-banner__description'>
+        <h1 class='film-banner__title'>{{title}}</h1>
+        <h4 class='film-banner__text'>
+          {{description}}
+        </h4>
+        <div class='film-banner__info'>
+          <p class='film-banner__genre'>{{genres}}</p>
+          <p class='film-banner__delimiter'>|</p>
+          <p class='film-banner__country'>{{country}}</p>
+        </div>
+
+        <div class='film-banner__info'>
+          <p>IMDB:
+            <span class='film-banner__rating'>{{rating}}</span></p>
+          <p class='film-banner__delimiter'>|</p>
+          <p class='film-banner__year'>{{release_date}}</p>
+          <p class='film-banner__delimiter'>|</p>
+          <p class='film-banner__age-limit'>{{age_rating}}</p>
+        </div>
+        <div class='film-banner__actions'>
+          <button
+            data-navigate='/player/media/{{id}}'
+            class='film-banner__button-play button'
+            disabled
+          >
+            ▶ Play
+          </button>
+          <button data-navigate='/player/trailer/{{id}}' class='film-banner__button button'>
+            Trailer
+          </button>
+
+          <button class='film-banner__button-reaction' id='btn-like'>
+            <img src='{{thumb_up_icon}}' alt='Like' class='reaction-icon' />
+          </button>
+          <div class='film-banner__reaction-group'>
+            <span class='film-banner__reaction-count'>{{total_likes}}</span>
+          </div>
+
+          <button class='film-banner__button-reaction' id='btn-dislike'>
+            <img src='{{thumb_down_icon}}' alt='Dislike' class='reaction-icon' />
+          </button>
+          <div class='film-banner__reaction-group'>
+            <span class='film-banner__reaction-count'>{{total_dislikes}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class='series__container'>
+    <div class='series__seasons'>
+      <h3 class='series__seasons-title'>Seasons</h3>
+    </div>
+    <div class='series__episodes-container'>
+      <h3 class='series__episodes-title'>Episodes</h3>
+
+      <div class='series__episodes-list' id='episodesContainer'>
+      </div>
+
+    </div>
+  </section>
+
+  <section class='description container'>
+    <div class='description__content'>
+      <div class='description__block'>
+        <h3 class='description__title'>Directed by</h3>
+        <h4 class='description__text'>Christopher Nolan</h4>
+      </div>
+
+      <div class='description__block'>
+        <h3 class='description__title'>Written by</h3>
+        <h4 class='description__text'>Christopher Nolan, Jonathan Nolan</h4>
+      </div>
+
+      <div class='description__block'>
+        <h3 class='description__title'>Plot</h3>
+        <h4 class='description__text'>
+          {{plot_summary}}
+        </h4>
+      </div>
+    </div>
+  </section>
+
+  <section class='stars-section container'>
+    <h3 class='stars-section__title'>Starring</h3>
+    <div class='stars-section__list' id='stars-section'>
+    </div>
+  </section>
+</main>

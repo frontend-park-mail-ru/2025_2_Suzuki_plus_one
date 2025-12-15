@@ -1,3 +1,5 @@
+import { fetchWithErrorsHandling } from '@shared/utils/errorHandler.js';
+
 let accessToken = null;
 
 export const setAccessToken = (token) => {

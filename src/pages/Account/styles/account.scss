@@ -2,117 +2,187 @@
 @use '@shared/styles/mixins';
 
 .account {
-    &__content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 72vh;
-        background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
-        padding-bottom: var(--padding-medium);
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 72vh;
+    background: linear-gradient(to bottom, var(--color-bg), var(--color-blue));
+    padding-bottom: var(--padding-medium);
+  }
+
+  &__form {
+    width: 440px;
+    padding: var(--padding-large);
+    background-color: var(--color-bg);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--padding-medium);
+  }
+
+  &__avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--padding-medium);
+  }
+
+  &__avatar-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__avatar-edit {
+    @include mixins.reset-button;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--color-light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include media.hover {
+      background-color: var(--color-grey-hover);
+    }
+  }
+
+  &__avatar-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__input-wrapper {
+    position: relative;
+  }
+
+  &__input {
+    width: 100%;
+    height: 54px;
+    padding: 0 var(--padding-medium);
+    border-radius: var(--border-radius);
+    text-align: left;
+
+    &::placeholder {
+      color: var(--color-light-gray);
     }
 
-    &__form {
-        width: 440px;
-        padding: var(--padding-large);
-        background-color: var(--color-bg);
-        border-radius: var(--border-radius);
-        display: flex;
-        flex-direction: column;
-        row-gap: var(--padding-medium);
+    &.is-invalid {
+      border-color: var(--color-red);
     }
 
-    &__avatar {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        margin: 0 auto var(--padding-medium);
-    }
+    &[type='date'] {
+      text-align: left;
 
-    &__avatar-image {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    &__avatar-edit {
-        @include mixins.reset-button;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background-color: var(--color-light-gray);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        @include media.hover {
-            background-color: var(--color-grey-hover);
-        }
-    }
-
-    &__avatar-icon {
-        width: 24px;
-        height: 24px;
-    }
-
-    &__input-wrapper {
-        position: relative;
-    }
-
-    &__input {
-        width: 100%;
-        height: 54px;
-        padding: 0 var(--padding-medium);
-        border-radius: var(--border-radius);
+      &::-webkit-datetime-edit {
         text-align: left;
+      }
 
-        &::placeholder {
-            color: var(--color-light-gray);
-        }
-
-        &.is-invalid {
-            border-color: var(--color-red);
-        }
-
-        &[type="date"] {
-            text-align: left;
-
-            &::-webkit-datetime-edit {
-                text-align: left;
-            }
-
-            &::-moz-datetime-edit {
-                text-align: left;
-            }
-        }
-    }
-
-    &__input-icon {
-        position: absolute;
-        top: 50%;
-        right: var(--padding-medium);
-        transform: translateY(-50%);
-        width: 24px;
-        height: 24px;
-    }
-
-    &__error {
+      &::-moz-datetime-edit {
         text-align: left;
-        color: var(--color-red);
-        font-size: 14px;
-        margin-top: var(--padding-small);
-
-        &[hidden] {
-            display: none;
-        }
+      }
     }
+  }
 
-    &__button {
-        width: 100%;
-        height: 54px;
+  &__input-icon {
+    position: absolute;
+    top: 50%;
+    right: var(--padding-medium);
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+  }
+
+  &__error {
+    text-align: left;
+    color: var(--color-red);
+    font-size: 14px;
+    margin-top: var(--padding-small);
+
+    &[hidden] {
+      display: none;
     }
+  }
+
+  &__button {
+    width: 100%;
+    height: 54px;
+  }
+
+  &__error--avatar {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #ef4444;
+    text-align: center;
+  }
+}
+
+@include media.mobile {
+  .account__content {
+    padding-bottom: 10%;
+    min-height: auto;
+    padding-inline: var(--padding-small);
+  }
+
+  .account__form {
+    width: 100%;
+    max-width: 320px;
+    padding: var(--padding-medium);
+    row-gap: var(--padding-small);
+    min-height: auto;
+    border: none;
+    background-color: transparent;
+  }
+
+  .account__avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--padding-small);
+  }
+
+  .account__avatar-edit {
+    width: 36px;
+    height: 36px;
+  }
+
+  .account__avatar-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .account__input {
+    height: 44px;
+    padding: 0 var(--padding-small);
+    font-size: 14px;
+  }
+
+  .account__input-icon {
+    width: 20px;
+    height: 20px;
+    right: var(--padding-small);
+  }
+
+  .account__error {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .account__button {
+    height: 44px;
+    font-size: 14px;
+    margin-top: var(--padding-small);
+    background-color: var(--color-bg) !important;
+  }
+
+  .account__error--avatar {
+    font-size: 12px;
+    margin-top: 4px;
+  }
 }

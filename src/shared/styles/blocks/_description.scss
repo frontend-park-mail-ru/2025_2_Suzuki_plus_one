@@ -1,55 +1,59 @@
-.description {
-    padding-block: var(--padding-medium);
+// .description {
+//     padding-block: var(--padding-medium);
 
-    &__content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--padding-medium);
-    }
+//     &__content {
+//         display: flex;
+//         flex-direction: column;
+//         gap: var(--padding-medium);
+//     }
 
-    &__actor {
-        display: flex;
-        align-items: center;
-        gap: var(--padding-medium);
-        margin-bottom: var(--padding-medium);
-    }
+//     &__actor {
+//         display: flex;
+//         align-items: center;
+//         gap: var(--padding-medium);
+//         margin-bottom: var(--padding-medium);
+//     }
 
-    &__actor-photo {
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+//     &__actor-photo {
+//         width: 250px;
+//         height: 250px;
+//         border-radius: 50%;
+//         object-fit: cover;
+//                 @include media.mobile {
+//             padding-inline: var(--padding-small);
+//             row-gap: var(--padding-small);
+//         }
+//     }
 
-    &__block {
-        display: flex;
-        flex-direction: column;
-        gap: var(--padding-small);
-    }
+//     &__block {
+//         display: flex;
+//         flex-direction: column;
+//         gap: var(--padding-small);
+//     }
 
-    &__text--hidden {
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+//     &__text--hidden {
+//         display: -webkit-box;
+//         -webkit-line-clamp: 4;
+//         -webkit-box-orient: vertical;
+//         overflow: hidden;
+//         text-overflow: ellipsis;
+//     }
 
-    &__text--expanded {
-        display: block;
-        -webkit-line-clamp: unset;
-    }
+//     &__text--expanded {
+//         display: block;
+//         -webkit-line-clamp: unset;
+//     }
 
-    &__button {
-        margin-top: var(--padding-small);
-        display: flex;
-        padding-inline: 0;
-        background: none;
-        border: none;
-        color: var(--color-light-grey);
+//     &__button {
+//         margin-top: var(--padding-small);
+//         display: flex;
+//         padding-inline: 0;
+//         background: none;
+//         border: none;
+//         color: var(--color-light-grey);
 
-        &:hover {
-            color: var(--color-text);
-        }
-    }
-}
+//         &:hover {
+//             color: var(--color-text);
+//         }
+//     }
+// }

@@ -2,26 +2,39 @@ import Home from '@pages/Home/Home.js';
 import Login from '@pages/Login/Login.js';
 import Signup from '@pages/Signup/Signup.js';
 import FilmPage from '@pages/FilmPage/FilmPage.js';
+import SeriesTab from '@pages/SeriesTab/SeriesTab.js';
+import SeriesPage from '@pages/SeriesPage/SeriesPage.js';
 import StarPage from '@pages/StarPage/StarPage.js';
 import Player from '@widgets/Player/Player.js';
 import Account from '@pages/Account/Account.js';
 import NotFound from '@pages/NotFound/NotFound.js';
+import Favourite from '@pages/Favourite/Favourite.js';
+import NewAppeal from '@features/AppealCard/NewAppeal.js';
+import CurrentAppeal from '@features/AppealCard/CurrentAppeal.js';
+import AppealStats from '@features/AppealCard/AppealStats.js';
 
 const routes = {
     '/': Home,
     '/login': Login,
     '/signup': Signup,
+    '/favourite': Favourite,
 
     '/account/:tab': Account,
 
     '/film/:id': FilmPage,
+    '/series/:id': SeriesPage,
+    '/series': SeriesTab,
     '/actor/:id': StarPage,
-    '/player/:filmId': Player,
+    '/player/:type/:id': Player,
 
-    '/series': '/',
     '/films': '/',
+    '/films/genre/:id': Home,
 
     '*': NotFound,
+
+    '/newAppeal': NewAppeal,
+    '/appealStats': AppealStats,
+    '/currentAppeal/:id': CurrentAppeal,
 };
 
 export class Router {
@@ -73,17 +86,32 @@ export class Router {
 
         const { Page, params } = match;
 
+        if (window.location.pathname !== pathname) {
+            window.history.pushState({ path: pathname }, '', pathname);
+        }
+
+        const standaloneRoutes = ['/newAppeal', '/currentAppeal'];
+        const isStandalone = standaloneRoutes.some(
+            (route) => pathname === route || pathname.startsWith(route + '/'),
+        );
+
         this.root.innerHTML = '';
         const pageContainer = document.createElement('div');
-        this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+        // this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+
+        if (isStandalone) {
+            this.root.appendChild(pageContainer);
+        } else {
+            this.root.appendChild(this.#app.renderWithContainer(pageContainer));
+        }
 
         const pageInstance = new Page(pageContainer, this.#app, params);
         pageInstance.render();
         if (pageInstance.afterRender) pageInstance.afterRender();
 
-        if (window.location.pathname !== pathname) {
-            window.history.pushState({ path: pathname }, '', pathname);
-        }
+        // if (window.location.pathname !== pathname) {
+        //     window.history.pushState({ path: pathname }, '', pathname);
+        // }
     }
 
     init() {
