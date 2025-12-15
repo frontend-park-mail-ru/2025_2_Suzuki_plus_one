@@ -17,7 +17,7 @@ export async function fetchSeries() {
     //     ]
     // }
 
-    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=series&limit=1', {
+    return fetchWithErrorsHandling('/api/v1/media/recommendations?type=series&limit=10', {
         method: 'GET',
     });
 }

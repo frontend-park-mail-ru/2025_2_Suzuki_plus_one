@@ -280,7 +280,7 @@ async #updateReactionState() {
             const isCurrentlyLike = current.liked;
             const isCurrentlyDislike = current.is_dislike;
 
-            if (targetType === 'like') {
+            if (targetType === 'like' ) {
                 if (isCurrentlyLike) {
                     await removeMediaReaction(mediaId);
                     this.#showToast('Removed from liked', 'success');
