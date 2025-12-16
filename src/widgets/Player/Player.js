@@ -6,11 +6,17 @@ import { fetchTrailer } from '@shared/api/trailerApi.js';
 import { fetchMedia } from '@shared/api/moviesApi.js';
 import RewindLeft from '@shared/assets/images/icons/circular-arrow-left.svg?raw';
 import RewindRight from '@shared/assets/images/icons/circular-arrow-right.svg?raw';
+import { fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
+import EpisodePrevIcon from '@shared/assets/images/icons/prev.svg';
+import EpisodeNextIcon from '@shared/assets/images/icons/next.svg';
 
 class Player {
     #parent;
     #app;
     #filmId;
+    #episodesList = [];
+    #currentEpisodeIndex = -1;
+    #isSeriesEpisode = false;
 
     constructor(parent, appInstance, params = {}) {
         console.log('Player params:', params);
@@ -46,6 +52,27 @@ class Player {
                         '<p style="text-align:center; color:red;">Media is not available</p>';
                     return;
                 }
+                this.#isSeriesEpisode = film.media_type === 'episode';
+
+                if (this.#isSeriesEpisode && film.series_id) {
+                    try {
+                        const episodesResponse = await fetchEpisodesBySeriesId(film.series_id);
+                        this.#episodesList = episodesResponse.episodes || [];
+
+                        this.#episodesList.sort((a, b) => {
+                            if (a.season_number !== b.season_number)
+                                return a.season_number - b.season_number;
+                            return a.episode_number - b.episode_number;
+                        });
+
+                        this.#currentEpisodeIndex = this.#episodesList.findIndex(
+                            (ep) => ep.media.media_id === this.#filmId,
+                        );
+                    } catch (err) {
+                        console.warn('Failed to load episodes list for navigation:', err);
+                        this.#isSeriesEpisode = false;
+                    }
+                }
             } catch {
                 this.#parent.innerHTML =
                     '<p style="text-align:center; color:red;">Media is not available</p>';
@@ -60,6 +87,14 @@ class Player {
             poster: posterUrl,
             rewindLeftIcon: RewindLeft,
             rewindRightIcon: RewindRight,
+            episodePrevIcon: EpisodePrevIcon,
+            episodeNextIcon: EpisodeNextIcon,
+            showNavButtons: this.#isSeriesEpisode,
+            hasPrev: this.#isSeriesEpisode && this.#currentEpisodeIndex > 0,
+            hasNext:
+                this.#isSeriesEpisode &&
+                this.#currentEpisodeIndex < this.#episodesList.length - 1 &&
+                this.#currentEpisodeIndex !== -1,
         });
 
         // this.#parent.innerHTML = template({
@@ -71,7 +106,50 @@ class Player {
 
         requestAnimationFrame(() => {
             initPlayerControls();
+            this.#setupNavigationButtons();
         });
+    }
+
+    #setupNavigationButtons() {
+        if (!this.#isSeriesEpisode) return;
+
+        const prevEpisodeBtn = this.#parent.querySelector('#episode-prev');
+        const nextEpisodeBtn = this.#parent.querySelector('#episode-next');
+
+        if (prevEpisodeBtn) {
+            prevEpisodeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.#currentEpisodeIndex > 0) {
+                    const prevId = this.#episodesList[this.#currentEpisodeIndex - 1].media.media_id;
+                    if (this.#app.router) {
+                        this.#app.router.navigate(`/player/media/${prevId}`);
+                    } else {
+                        history.pushState({}, '', `/player/media/${prevId}`);
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                }
+            });
+        }
+
+        if (nextEpisodeBtn) {
+            nextEpisodeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (
+                    this.#currentEpisodeIndex < this.#episodesList.length - 1 &&
+                    this.#currentEpisodeIndex !== -1
+                ) {
+                    const nextId = this.#episodesList[this.#currentEpisodeIndex + 1].media.media_id;
+                    if (this.#app.router) {
+                        this.#app.router.navigate(`/player/media/${nextId}`);
+                    } else {
+                        history.pushState({}, '', `/player/media/${nextId}`);
+                        window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                }
+            });
+        }
     }
 }
 

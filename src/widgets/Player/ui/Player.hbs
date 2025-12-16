@@ -85,43 +85,15 @@
         </div>
 
         <div class='video-hud__controls-right'>
-          <button
-            class='video-hud__episode'
-            id='video-hud__prev-episode'
-            title='Previous episode'
-            disabled
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='white'
-              stroke-width='2'
+        {{#if showEpisodeNav}}
+            <button
+              class='video-hud__episode-nav video-hud__episode-prev{{#unless hasPrevEpisode}} disabled{{/unless}}'
+              id='episode-prev'
+              title='Previous episode'
             >
-              <path d='M15 18l-6-6 6-6M10 18V6' />
-            </svg>
-          </button>
-
-          <button
-            class='video-hud__episode'
-            id='video-hud__next-episode'
-            title='Next episode'
-            disabled
-          >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='white'
-              stroke-width='2'
-            >
-              <path d='M9 18l6-6-6-6M14 18V6' />
-            </svg>
-          </button>
+              {{{episodePrevIcon}}}
+            </button>
+          {{/if}}
           <div class='video-hud__mute video-hud__mute-false' id='video-hud__mute'>
             <svg
               class='volume-high'
