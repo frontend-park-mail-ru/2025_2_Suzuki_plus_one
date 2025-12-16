@@ -14,6 +14,7 @@ class Player {
     #filmId;
 
     constructor(parent, appInstance, params = {}) {
+        console.log('Player params:', params);
         this.#parent = parent;
         this.#app = appInstance;
         this.type = params.type;
@@ -29,7 +30,7 @@ class Player {
         // });
         var film, videoUrl;
 
-        if (this.type == 'trailer') {
+        if (this.type === 'trailer') {
             film = await fetchTrailer(this.#filmId);
             videoUrl = film.trailers && film.trailers.length > 0 ? film.trailers[0] : null;
             if (!videoUrl) {
@@ -37,18 +38,18 @@ class Player {
                     '<p style="text-align:center; color:red;">Trailer is not available</p>';
                 return;
             }
-        } else if (this.type == 'media') {
+        } else if (this.type === 'media') {
             try {
                 film = await fetchMedia(this.#filmId);
                 videoUrl = film.url ? film.url : null;
                 if (!videoUrl) {
                     this.#parent.innerHTML =
-                        '<p style="text-align:center; color:red;">Episode is not available</p>';
+                        '<p style="text-align:center; color:red;">Media is not available</p>';
                     return;
                 }
             } catch {
                 this.#parent.innerHTML =
-                    '<p style="text-align:center; color:red;">Episode is not available</p>';
+                    '<p style="text-align:center; color:red;">Media is not available</p>';
                 return;
             }
         }

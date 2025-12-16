@@ -249,6 +249,7 @@ async #updateReactionState() {
             try {
                 const userInfo = await getUserInfo();
                 if (userInfo.subscription_status !== 'active') {
+                    e.stopPropagation();
                     this.#showToast('Please subscribe to watch content', 'error');
                     return;
                 }
