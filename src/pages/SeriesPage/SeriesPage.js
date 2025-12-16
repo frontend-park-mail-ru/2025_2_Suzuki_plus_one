@@ -377,11 +377,13 @@ class SeriesPage {
 
                 const firstEpisode = this.#episodesData[0];
                 const episodeId = firstEpisode.media.media_id;
+                console.log(`эпизоде айди ${episodeId}`);
 
                 const media = await fetchMedia(episodeId);
                 const mediaUrl = media.url;
 
-                history.pushState({}, '', `/player/media/${episodeId}`);
+                // history.pushState({}, '', `/player/media/${episodeId}`);
+                this.#app.router.navigate(`/player/media/${episodeId}`);
             } catch (err) {
                 console.error('Failed to play first episode:', err);
                 this.#showToast('Something went wrong', 'error');

@@ -1,7 +1,6 @@
 import './styles/player.scss';
 import template from './ui/Player.hbs';
 import { initPlayerControls } from './js/player-controls.js';
-import video from '@assets/videos/trailer.mp4';
 import poster from '@assets/images/StrangerThings.png';
 import { fetchTrailer } from '@shared/api/trailerApi.js';
 import { fetchMedia } from '@shared/api/moviesApi.js';

@@ -244,7 +244,7 @@ class FilmPage {
             e.preventDefault();
 
             if (!this.#app.isAuthorized) {
-                e.stopPropagation();
+                // e.stopPropagation();
                 this.#showToast('Log in to watch', 'auth');
                 return;
             }
@@ -252,12 +252,12 @@ class FilmPage {
             try {
                 const userInfo = await getUserInfo();
                 if (userInfo.subscription_status !== 'active') {
-                    e.stopPropagation();
                     this.#showToast('Please subscribe to watch content', 'error');
                     return;
                 }
 
-                history.pushState({}, '', `/player/media/${this.#filmId}`);
+                // history.pushState({}, '', `/player/media/${mediaId}`);
+                this.#app.router.navigate(`/player/media/${this.#filmId}`);
             } catch (err) {
                 console.error('Failed to play film:', err);
                 this.#showToast('Something went wrong', 'error');

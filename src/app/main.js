@@ -28,6 +28,7 @@ function initApp() {
     const app = new App();
     const router = new Router(app);
     router.init();
+    app.router = router;
 }
 
 /**

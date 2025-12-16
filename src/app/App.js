@@ -22,6 +22,7 @@ class App {
      * Creates an instance of the App.
      * Initializes the main container, main content, and user authorization state.
      */
+    router = null;
     constructor() {
         this.#container = document.createElement('div');
         this.#container.className = 'app-container';
@@ -32,7 +33,7 @@ class App {
         this.user = null;
         this.setUp();
         this.restoreSession();
-        // this.checkAuthOnLoad();
+        // this.check AuthOnLoad();
     }
 
     async restoreSession() {
