@@ -7,8 +7,8 @@ import { fetchMedia } from '@shared/api/moviesApi.js';
 import RewindLeft from '@shared/assets/images/icons/circular-arrow-left.svg?raw';
 import RewindRight from '@shared/assets/images/icons/circular-arrow-right.svg?raw';
 import { fetchEpisodesBySeriesId } from '@shared/api/seriesApi.js';
-import EpisodePrevIcon from '@shared/assets/images/icons/prev.svg';
-import EpisodeNextIcon from '@shared/assets/images/icons/next.svg';
+import EpisodePrevIcon from '@shared/assets/images/icons/prev.svg?raw';
+import EpisodeNextIcon from '@shared/assets/images/icons/next.svg?raw';
 
 class Player {
     #parent;
