@@ -43,7 +43,7 @@ class Player {
                     '<p style="text-align:center; color:red;">Trailer is not available</p>';
                 return;
             }
-        } else if (this.type === 'media') {
+        } else{
             try {
                 film = await fetchMedia(this.#filmId);
                 videoUrl = film.url ? film.url : null;
