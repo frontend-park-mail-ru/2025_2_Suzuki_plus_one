@@ -52,6 +52,7 @@ class Player {
                         '<p style="text-align:center; color:red;">Media is not available</p>';
                     return;
                 }
+                console.log(film)
                 this.#isSeriesEpisode = film.media_type === 'episode';
 
                 if (this.#isSeriesEpisode && film.series_id) {
