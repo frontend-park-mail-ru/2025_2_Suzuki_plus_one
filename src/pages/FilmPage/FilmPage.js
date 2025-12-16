@@ -7,9 +7,13 @@ import star_photo from '@assets/images/star_photo.png';
 import StarCard from '@features/StarCard/StarCard.js';
 import FilmCard from '@features/FilmCard/FilmCard.js';
 import preview from '@assets/images/film_card.png';
-import { fetchFilm, fetchMedia } from '@shared/api/moviesApi.js'; 
+import { fetchFilm, fetchMedia } from '@shared/api/moviesApi.js';
 import { fetchStarsByFilmId } from '@shared/api/moviesApi.js';
-import { setMediaReaction, removeMediaReaction,checkMediaReaction } from '@shared/api/favouriteApi.js';
+import {
+    setMediaReaction,
+    removeMediaReaction,
+    checkMediaReaction,
+} from '@shared/api/favouriteApi.js';
 import { getUserInfo } from '@shared/api/userApi.js';
 import thumbUpIcon from '@shared/assets/images/icons/thumb_up.svg';
 import thumbDownIcon from '@shared/assets/images/icons/thumb_down.svg';
@@ -55,7 +59,6 @@ class FilmPage {
                 total_dislikes: film.user_rating?.dislikes ?? 0,
                 thumb_up_icon: thumbUpIcon,
                 thumb_down_icon: thumbDownIcon,
-                
             });
 
             await this.#updateReactionState();
@@ -144,94 +147,94 @@ class FilmPage {
             });
         });
     }
-async #updateReactionState() {
-    try {
-        const response = await checkMediaReaction(this.#filmId);
+    async #updateReactionState() {
+        try {
+            const response = await checkMediaReaction(this.#filmId);
 
+            const likeBtn = this.#parent.querySelector('#btn-like');
+            const dislikeBtn = this.#parent.querySelector('#btn-dislike');
+
+            if (!likeBtn || !dislikeBtn) return;
+
+            if (response.liked && !response.is_dislike) {
+                likeBtn.classList.add('active');
+                ч;
+                dislikeBtn.classList.remove('active');
+            } else if (response.is_dislike) {
+                dislikeBtn.classList.add('active');
+                likeBtn.classList.remove('active');
+            } else {
+                likeBtn.classList.remove('active');
+                dislikeBtn.classList.remove('active');
+            }
+        } catch (err) {
+            console.error('Failed to check reaction:', err);
+        }
+    }
+
+    #setupReactionButtons() {
         const likeBtn = this.#parent.querySelector('#btn-like');
         const dislikeBtn = this.#parent.querySelector('#btn-dislike');
 
+        const likeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[0];
+        const dislikeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[1];
+
         if (!likeBtn || !dislikeBtn) return;
 
-        if (response.liked && !response.is_dislike) {
-            likeBtn.classList.add('active');ч
-            dislikeBtn.classList.remove('active');
-        } else if (response.is_dislike) {
-            dislikeBtn.classList.add('active');
-            likeBtn.classList.remove('active');
-        } else {
-            likeBtn.classList.remove('active');
-            dislikeBtn.classList.remove('active');
-        }
-    } catch (err) {
-        console.error('Failed to check reaction:', err);
+        const mediaId = this.#filmId;
+
+        const handleClick = async (targetType) => {
+            if (!this.#app.isAuthorized) {
+                this.#showToast('Log in to rate', 'auth');
+                return;
+            }
+
+            try {
+                const current = await checkMediaReaction(mediaId);
+                const isCurrentlyLike = current.liked;
+                const isCurrentlyDislike = current.is_dislike;
+
+                if (targetType === 'like') {
+                    if (isCurrentlyLike) {
+                        await removeMediaReaction(mediaId);
+                        this.#showToast('Removed from liked', 'success');
+                    } else {
+                        await setMediaReaction(mediaId, 'like');
+                        this.#showToast('Liked!', 'success');
+                    }
+                } else if (targetType === 'dislike') {
+                    if (isCurrentlyDislike) {
+                        await removeMediaReaction(mediaId);
+                        this.#showToast('Removed from disliked', 'success');
+                    } else {
+                        await setMediaReaction(mediaId, 'dislike');
+                        this.#showToast('Disliked', 'success');
+                    }
+                }
+
+                await this.#updateReactionState();
+
+                if (likeCountEl && dislikeCountEl) {
+                    try {
+                        const film = await fetchFilm(mediaId);
+                        const likes = film.user_rating?.likes ?? 0;
+                        const dislikes = film.user_rating?.dislikes ?? 0;
+
+                        likeCountEl.textContent = likes;
+                        dislikeCountEl.textContent = dislikes;
+                    } catch (fetchErr) {
+                        console.error('Failed to refresh like/dislike counters:', fetchErr);
+                    }
+                }
+            } catch (err) {
+                console.error('Reaction failed:', err);
+                this.#showToast('Something went wrong', 'error');
+            }
+        };
+
+        likeBtn.addEventListener('click', () => handleClick('like'));
+        dislikeBtn.addEventListener('click', () => handleClick('dislike'));
     }
-}
-
-#setupReactionButtons() {
-    const likeBtn = this.#parent.querySelector('#btn-like');
-    const dislikeBtn = this.#parent.querySelector('#btn-dislike');
-
-    const likeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[0];
-    const dislikeCountEl = this.#parent.querySelectorAll('.film-banner__reaction-count')[1];
-
-    if (!likeBtn || !dislikeBtn) return;
-
-    const mediaId = this.#filmId;
-
-    const handleClick = async (targetType) => {
-        if (!this.#app.isAuthorized) {
-            this.#showToast('Log in to rate', 'auth');
-            return;
-        }
-
-        try {
-            const current = await checkMediaReaction(mediaId);
-            const isCurrentlyLike = current.liked;
-            const isCurrentlyDislike = current.is_dislike;
-
-            if (targetType === 'like') {
-                if (isCurrentlyLike) {
-                    await removeMediaReaction(mediaId);
-                    this.#showToast('Removed from liked', 'success');
-                } else {
-                    await setMediaReaction(mediaId, 'like');
-                    this.#showToast('Liked!', 'success');
-                }
-            } else if (targetType === 'dislike') {
-                if (isCurrentlyDislike) {
-                    await removeMediaReaction(mediaId);
-                    this.#showToast('Removed from disliked', 'success');
-                } else {
-                    await setMediaReaction(mediaId, 'dislike');
-                    this.#showToast('Disliked', 'success');
-                }
-            }
-
-            await this.#updateReactionState();
-
-            if (likeCountEl && dislikeCountEl) {
-                try {
-                    const film = await fetchFilm(mediaId);
-                    const likes = film.user_rating?.likes ?? 0;
-                    const dislikes = film.user_rating?.dislikes ?? 0;
-
-                    likeCountEl.textContent = likes;
-                    dislikeCountEl.textContent = dislikes;
-                } catch (fetchErr) {
-                    console.error('Failed to refresh like/dislike counters:', fetchErr);
-                }
-            }
-
-        } catch (err) {
-            console.error('Reaction failed:', err);
-            this.#showToast('Something went wrong', 'error');
-        }
-    };
-
-    likeBtn.addEventListener('click', () => handleClick('like'));
-    dislikeBtn.addEventListener('click', () => handleClick('dislike'));
-}
 
     #setupPlayButton() {
         const playButton = this.#parent.querySelector('.film-banner__button-play');

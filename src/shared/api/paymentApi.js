@@ -11,16 +11,16 @@ export async function createNewPayment(data = {}) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
         credentials: 'include',
         redirect: 'manual',
     });
 
-    console.log("resp", response)
+    console.log('resp', response);
     const json = await response.json();
-    console.log("json", json)
+    console.log('json', json);
 
     if (response.status === 200) {
         try {
@@ -33,14 +33,14 @@ export async function createNewPayment(data = {}) {
             }
         } catch (e) {
             // ignore parse errors and continue to error handling below
-            console.error("Error parsing JSON response:", e);
+            console.error('Error parsing JSON response:', e);
         }
     }
 
     // const location = response.headers.get('Location') || response.headers.get('location');
-    
+
     // console.log("locations: ", location)
-    
+
     // if (location) {
     //     window.location.href = location;
     //     return;
@@ -52,8 +52,7 @@ export async function createNewPayment(data = {}) {
     try {
         errorData = await response.json();
         errorMessage = errorData.message || errorMessage;
-    } catch {
-    }
+    } catch {}
 
     throw new Error(errorMessage);
 }

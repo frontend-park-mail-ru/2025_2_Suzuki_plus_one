@@ -164,82 +164,82 @@
 // }
 
 .film-banner__button-reaction {
-    border-radius: 50%;
-    background-color: var(--color-dark-grey);
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  border-radius: 50%;
+  background-color: var(--color-dark-grey);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
 
-    .reaction-icon {
-        width: 28px;   
-        height: 28px;
-        object-fit: contain;
-        // filter: brightness(0) invert(1); 
-        transition: filter 0.3s ease;
+  .reaction-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    // filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+  }
+
+  &.active {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+
+    &#btn-like {
+      background-color: #22c55e !important;
     }
 
-    &.active {
-        transform: scale(1.08);
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-
-        &#btn-like {
-            background-color: #22c55e !important;
-        }
-
-        &#btn-dislike {
-            background-color: #ef4444 !important;
-        }
+    &#btn-dislike {
+      background-color: #ef4444 !important;
     }
+  }
 }
 
 .film-banner {
-    &__actions {
-        display: flex;
-        gap: var(--padding-medium);
-        flex-wrap: wrap;
-        align-items: center;
-    }
+  &__actions {
+    display: flex;
+    gap: var(--padding-medium);
+    flex-wrap: wrap;
+    align-items: center;
+  }
 
-    &__reaction-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px; 
-    }
+  &__reaction-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
 
-    &__reaction-count {
+  &__reaction-count {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0.9;
+    min-width: 24px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    .film-banner__button-reaction.active + & {
+      opacity: 1;
+      font-weight: 700;
+    }
+  }
+
+  &__button-reaction {
+    &.active {
+      + .film-banner__reaction-count {
         color: white;
-        font-size: 14px;
-        font-weight: 700;
-        opacity: 0.9;
-        min-width: 24px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 4px 10px;
-        border-radius: 12px;
-        backdrop-filter: blur(6px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-
-        .film-banner__button-reaction.active + & {
-            opacity: 1;
-            font-weight: 700;
-        }
+      }
     }
-
-    &__button-reaction {
-
-        &.active {
-
-            + .film-banner__reaction-count {
-                color: white;
-            }
-        }
-    }
+  }
 }
