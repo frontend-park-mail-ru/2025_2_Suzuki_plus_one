@@ -52,7 +52,7 @@ class Player {
                         '<p style="text-align:center; color:red;">Media is not available</p>';
                     return;
                 }
-                film_info = fetchEpisodesBySeriesId(this.#filmId);
+                film_info = await fetchEpisodesBySeriesId(this.#filmId);
                 console.log(film_info)
                 this.#isSeriesEpisode = false;   
                 
