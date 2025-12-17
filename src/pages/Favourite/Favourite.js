@@ -21,6 +21,7 @@ class Favourite {
 
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
+        const emptyState = this.#parent.querySelector('#favouriteEmpty');
         const response = await fetchMyFavourite();
         
         const medias = response.medias || [];
