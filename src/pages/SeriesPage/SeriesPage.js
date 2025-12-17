@@ -289,6 +289,7 @@ class SeriesPage {
                         await removeMediaReaction(mediaId);
                         this.#showToast('Removed from liked', 'success');
                     } else {
+                        await removeMediaReaction(mediaId);
                         await setMediaReaction(mediaId, 'like');
                         this.#showToast('Liked!', 'success');
                     }
