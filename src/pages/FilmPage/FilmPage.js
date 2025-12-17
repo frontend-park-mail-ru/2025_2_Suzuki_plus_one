@@ -158,7 +158,6 @@ class FilmPage {
 
             if (response.liked && !response.is_dislike) {
                 likeBtn.classList.add('active');
-                ч;
                 dislikeBtn.classList.remove('active');
             } else if (response.is_dislike) {
                 dislikeBtn.classList.add('active');
