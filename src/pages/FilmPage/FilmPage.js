@@ -195,9 +195,13 @@ class FilmPage {
                 const isCurrentlyDislike = current.is_dislike;
 
                 if (targetType === 'like') {
-                    if (isCurrentlyLike) {
+                    if (isCurrentlyLike && isCurrentlyDislike) {
                         await removeMediaReaction(mediaId);
-                        this.#showToast('Removed from liked', 'success');
+                        await setMediaReaction(mediaId, 'like');
+                        this.#showToast('Liked', 'success');
+                    } else if (isCurrentlyLike && !isCurrentlyDislike) {
+                        await removeMediaReaction(mediaId);
+                        this.#showToast('Removed from  Liked!', 'success');
                     } else {
                         await setMediaReaction(mediaId, 'like');
                         this.#showToast('Liked!', 'success');
