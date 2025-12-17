@@ -17,7 +17,6 @@ class Player {
     #episodesList = [];
     #currentEpisodeIndex = -1;
     #isSeriesEpisode = false;
-    #seriesIdFromUrl = null;
 
     constructor(parent, appInstance, params = {}) {
         console.log('Player params:', params);
@@ -25,9 +24,6 @@ class Player {
         this.#app = appInstance;
         this.type = params.type;
         this.#filmId = params.id;
-
-        const urlParams = new URLSearchParams(window.location.search);
-        this.#seriesIdFromUrl = urlParams.get('series');
     }
 
     async render() {
@@ -47,58 +43,63 @@ class Player {
                     '<p style="text-align:center; color:red;">Trailer is not available</p>';
                 return;
             }
-        } else { //todo todo 
+        } else {
             try {
+                film = await fetchMedia(this.#filmId);
+                videoUrl = film.url ? film.url : null;
+                if (!videoUrl) {
+                    this.#parent.innerHTML =
+                        '<p style="text-align:center; color:red;">Media is not available</p>';
+                    return;
+                }
+                film_info = fetchEpisodesBySeriesId(this.#filmId);
+                console.log(film_info)
+                this.#isSeriesEpisode = false;   
                 
-            [filmInfo, { url: videoUrl }] = await Promise.all([
-                fetchFilm(this.#filmId),
-                fetchMedia(this.#filmId).then(res => ({ url: res.url })).catch(() => ({ url: null }))
-            ]);
+                if (film_info.episodes != []) {
+                    this.#isSeriesEpisode = true;    
+                }
 
-            if (!videoUrl) {
-                this.#parent.innerHTML = '<p style="text-align:center; color:red;">Media is not available</p>';
+                if (this.#isSeriesEpisode) {
+                    try {
+                        this.#episodesList = film_info.episodes || [];
+
+                        this.#episodesList.sort((a, b) => {
+                            if (a.season_number !== b.season_number)
+                                return a.season_number - b.season_number;
+                            return a.episode_number - b.episode_number;
+                        });
+
+                        this.#currentEpisodeIndex = this.#episodesList.findIndex(
+                            (ep) => ep.media.media_id === this.#filmId,
+                        );
+                    } catch (err) {
+                        console.warn('Failed to load episodes list for navigation:', err);
+                        this.#isSeriesEpisode = false;
+                    }
+                }
+            } catch {
+                this.#parent.innerHTML =
+                    '<p style="text-align:center; color:red;">Media is not available</p>';
                 return;
             }
-
-            this.#isSeriesEpisode = filmInfo.media_type === 'episode';
-
-            if (this.#isSeriesEpisode && this.#seriesIdFromUrl) {
-                try {
-                    const episodesResponse = await fetchEpisodesBySeriesId(this.#seriesIdFromUrl);
-                    this.#episodesList = episodesResponse.episodes || [];
-
-                    this.#episodesList.sort((a, b) => {
-                        if (a.season_number !== b.season_number) return a.season_number - b.season_number;
-                        return a.episode_number - b.episode_number;
-                    });
-
-                    this.#currentEpisodeIndex = this.#episodesList.findIndex(
-                        ep => ep.media?.media_id === this.#filmId
-                    );
-                } catch (err) {
-                    console.warn('Failed to load episodes list:', err);
-                    this.#isSeriesEpisode = false;
-                }
-            }
-        } catch (err) {
-            console.error('Error loading media:', err);
-            this.#parent.innerHTML = '<p style="text-align:center; color:red;">Media is not available</p>';
-            return;
         }
-    }
 
-        const posterUrl = filmInfo.posters?.[0] || poster;
+        const posterUrl = film.posters && film.posters.length > 0 ? film.posters[0] : poster;
 
         this.#parent.innerHTML = template({
-                video: videoUrl,
-                poster: posterUrl,
-                rewindLeftIcon: RewindLeft,
-                rewindRightIcon: RewindRight,
-                episodePrevIcon: EpisodePrevIcon,
-                episodeNextIcon: EpisodeNextIcon,
-                showEpisodeNav: this.#isSeriesEpisode,
-                hasPrevEpisode: this.#isSeriesEpisode && this.#currentEpisodeIndex > 0,
-                hasNextEpisode: this.#isSeriesEpisode && this.#currentEpisodeIndex < this.#episodesList.length - 1 && this.#currentEpisodeIndex !== -1,
+            video: videoUrl,
+            poster: posterUrl,
+            rewindLeftIcon: RewindLeft,
+            rewindRightIcon: RewindRight,
+            episodePrevIcon: EpisodePrevIcon,
+            episodeNextIcon: EpisodeNextIcon,
+            showNavButtons: this.#isSeriesEpisode,
+            hasPrev: this.#isSeriesEpisode && this.#currentEpisodeIndex > 0,
+            hasNext:
+                this.#isSeriesEpisode &&
+                this.#currentEpisodeIndex < this.#episodesList.length - 1 &&
+                this.#currentEpisodeIndex !== -1,
         });
 
         // this.#parent.innerHTML = template({

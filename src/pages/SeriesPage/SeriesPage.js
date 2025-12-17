@@ -196,7 +196,6 @@ class SeriesPage {
                         : seriesPoster;
 
                 episodeCard.render({
-                    series_id: this.#seriesId,
                     episode_id: episode.media.media_id,
                     episode_number: episode.episode_number,
                     season_number: episode.season_number,
@@ -384,8 +383,7 @@ class SeriesPage {
                 const mediaUrl = media.url;
 
                 // history.pushState({}, '', `/player/media/${episodeId}`);
-                // this.#app.router.navigate(`/player/media/${episodeId}`); // todo todo
-                this.#app.router.navigate(`/player/media/${episodeId}?series=${this.#seriesId}`);
+                this.#app.router.navigate(`/player/media/${episodeId}`); 
             } catch (err) {
                 console.error('Failed to play first episode:', err);
                 this.#showToast('Something went wrong', 'error');
