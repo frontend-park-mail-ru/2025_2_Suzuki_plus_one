@@ -427,3 +427,15 @@
     }
   }
 }
+
+.header__subscribe {
+  margin-right: 12px;
+  background: var(--accent);
+  color: #fff;
+
+  &.subscribed {
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: default;
+  }
+}

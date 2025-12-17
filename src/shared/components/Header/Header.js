@@ -5,6 +5,8 @@ import dropdownTemplate from './ui/SearchDropdown.hbs';
 import logo from '@assets/images/logo.svg';
 import searchIcon from '@assets/images/icons/search.svg';
 import { search } from '@shared/api/search.js';
+import { createNewPayment } from '@shared/api/paymentApi.js';
+import { getUserInfo } from '@shared/api/userApi.js';
 
 class Header {
     #parent;
