@@ -7,6 +7,10 @@
   }
 }
 .favourite-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 80px 16px;
   color: var(--text-secondary);
