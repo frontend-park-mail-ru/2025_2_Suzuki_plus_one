@@ -288,10 +288,10 @@ class SeriesPage {
                     if (isCurrentlyLike && isCurrentlyDislike) {
                         await removeMediaReaction(mediaId);
                         await setMediaReaction(mediaId, 'like');
-                        this.#showToast('Removed from liked', 'success');
+                        this.#showToast('Removed from disliked and liked', 'success');
                     } else if (isCurrentlyLike && !isCurrentlyDislike) {
                         await removeMediaReaction(mediaId);
-                        this.#showToast('Removed from disliked and Liked!', 'success');
+                        this.#showToast('Removed from  Liked!', 'success');
                     } else {
                         await setMediaReaction(mediaId, 'like');
                         this.#showToast('Liked!', 'success');
