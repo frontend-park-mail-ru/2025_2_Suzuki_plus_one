@@ -1,7 +1,7 @@
 import './styles/player.scss';
 import template from './ui/Player.hbs';
 import { initPlayerControls } from './js/player-controls.js';
-import poster from '@assets/images/StrangerThings.png';
+import poster from '@assets/images/MediaPlaceHolder.png';
 import { fetchTrailer } from '@shared/api/trailerApi.js';
 import { fetchMedia } from '@shared/api/moviesApi.js';
 import RewindLeft from '@shared/assets/images/icons/circular-arrow-left.svg?raw';
