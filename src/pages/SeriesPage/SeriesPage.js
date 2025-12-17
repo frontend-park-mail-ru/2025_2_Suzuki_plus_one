@@ -285,9 +285,13 @@ class SeriesPage {
                 const isCurrentlyDislike = current.is_dislike;
 
                 if (targetType === 'like') {
-                    if (isCurrentlyLike) {
-                        await setMediaReaction(mediaId, 'like');
+                    if (isCurrentlyLike && isCurrentlyDislike) {
+                        await removeMediaReaction(mediaId);
                         this.#showToast('Removed from liked', 'success');
+                    } else if (isCurrentlyLike && !isCurrentlyDislike) {
+                        await setMediaReaction(mediaId, 'like');
+                        await removeMediaReaction(mediaId);
+                        this.#showToast('Liked!', 'success');
                     } else {
                         await setMediaReaction(mediaId, 'like');
                         this.#showToast('Liked!', 'success');
