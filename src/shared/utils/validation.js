@@ -113,7 +113,7 @@ export function validatePhone(phone) {
     }
 
     const phoneRegex =
-        /^(?:\+\d{1,4}[-.\s]?)?(?:\(\d{1,3}\)[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+        /^(8|\+7)(\s|\(|-)?(\d{3})(\s|\)|-)?(\d{3})(\s|-)?(\d{2})(\s|-)?(\d{2})$/;
 
     if (!phoneRegex.test(purePhone)) {
         return 'Incorrect phone number format';
