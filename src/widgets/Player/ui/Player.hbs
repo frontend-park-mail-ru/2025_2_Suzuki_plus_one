@@ -86,21 +86,19 @@
 
         <div class='video-hud__controls-right'>
   {{#if showNavButtons}}
-    <button
-      class='video-hud__episode-nav video-hud__episode-prev{{#unless hasPrev}} disabled{{/unless}}'
-      id='episode-prev'
-      title='Previous episode'
-    >
+    
+    {{#if hasPrev}}
+    <button class='video-hud__episode-nav video-hud__episode-prev' id='episode-prev' title='Previous episode'>
       {{{episodePrevIcon}}}
     </button>
+    {{/if}}
 
-    <button
-      class='video-hud__episode-nav video-hud__episode-next{{#unless hasNext}} disabled{{/unless}}'
-      id='episode-next'
-      title='Next episode'
-    >
+    {{#if hasNext}}
+    <button class='video-hud__episode-nav video-hud__episode-next' id='episode-next' title='Next episode' >
       {{{episodeNextIcon}}}
     </button>
+    {{/if}}
+
   {{/if}}
           <div class='video-hud__mute video-hud__mute-false' id='video-hud__mute'>
             <svg

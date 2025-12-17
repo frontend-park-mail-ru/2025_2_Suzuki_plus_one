@@ -99,24 +99,35 @@ export function validateUsername(username) {
 
 /**
  * @function validatePhone
- * @description Validates phone number (E.164 format: +[country code][number])
+ * @description Validates phone number (flexible international format)
  * @param {string} phone - The phone input
  * @returns {string|null} Error message or null if valid
  */
 export function validatePhone(phone) {
     if (!phone) return 'Phone number is required';
+
     const purePhone = purifyInputString(phone).trim();
 
-    if (purePhone !== phone) return 'Phone contains invalid characters (< > ; \' " `)';
+    if (purePhone !== phone) {
+        return 'Phone contains invalid characters (< > ; \' " `)';
+    }
 
-    if (!/^\+[0-9]{1,15}$/.test(purePhone))
-        return 'Phone must be in format: +1234567890 (up to 15 digits)';
+    const phoneRegex =
+        /^(?:\+\d{1,4}[-.\s]?)?(?:\(\d{1,3}\)[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
-    if (purePhone.length < 4 || purePhone.length > 16)
-        return 'Phone number must be between 4 and 16 characters';
+    if (!phoneRegex.test(purePhone)) {
+        return 'Incorrect phone number format';
+    }
+
+    const digitsOnly = purePhone.replace(/\D/g, '');
+
+    if (digitsOnly.length < 6 || digitsOnly.length > 15) {
+        return 'Phone number must contain between 6 and 15 digits';
+    }
 
     return null;
 }
+
 
 export function validateBirthdate(birthdate) {
     if (!birthdate) return null;
