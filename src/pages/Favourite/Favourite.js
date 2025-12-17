@@ -22,7 +22,17 @@ class Favourite {
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         const response = await fetchMyFavourite();
-        const films = response.medias.map((film) => ({
+        
+        const medias = response.medias || [];
+        
+        if (medias.length === 0) {
+            emptyState.hidden = false;
+            return;
+        }
+        
+        emptyState.hidden = true;
+
+        const films = medias.map((film) => ({
             id: film.media_id,
             title: film.title,
             genres: film.genres

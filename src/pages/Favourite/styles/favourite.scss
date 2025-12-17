@@ -6,3 +6,34 @@
     margin: 0px;
   }
 }
+.favourite-empty {
+  text-align: center;
+  padding: 80px 16px;
+  color: var(--text-secondary);
+
+  &__icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--accent);
+  }
+
+  &__title {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    margin-bottom: 24px;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+  }
+}
