@@ -68,50 +68,6 @@
 
     &-item {
       display: flex;
-      column-gap: var(--padding-small);
-      background-color: var(--color-dark-grey);
-
-      @include media.hover {
-        background-color: var(--color-grey-hover);
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background-color: var(--color-grey-hover);
-        color: var(--color-grey-text);
-      }
-    }
-
-    &-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: rgba(30, 30, 40, 0.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--border-radius);
-      margin-top: 8px;
-      max-height: 70vh;
-      overflow-y: auto;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.2s ease;
-
-      &.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-    }
-  }
-
-  &__button {
-    &-item {
-      display: flex;
       align-items: center;
       column-gap: var(--padding-small);
       background-color: var(--color-dark-grey);
@@ -132,7 +88,7 @@
       }
 
       &.has-selection {
-        background-color: rgba(0, 123, 255, 0.2);
+        background-color: rgba(0, 123, 255, 0.25);
         color: #007bff;
         font-weight: 600;
       }
@@ -181,20 +137,29 @@
         }
 
         &.selected {
-          background: #007bff;
+          background: #007bff;           
           color: white;
           font-weight: 600;
 
           &:hover {
-            background: #0056b3; // темнее при наведении
+            background: #0056b3;         
           }
         }
 
         .section__genre-title {
-          pointer-events: none; // чтобы клик проходил только на item
+          pointer-events: none;          
         }
       }
     }
   }
 }
 
+#genre_choose {
+  transition: all 0.2s ease;
+
+  &.has-selection {
+    background-color: rgba(0, 123, 255, 0.3) !important;
+    color: #007bff !important;
+    border: 1px solid rgba(0, 123, 255, 0.5);
+  }
+}
