@@ -1,0 +1,11 @@
+<div class='section__year-section'>
+  <div class='section__year-item' data-year='none'>
+    <div class='section__year-title'>None</div>
+  </div>
+
+  {{#each years}}
+    <div class='section__year-item' data-year='{{this}}'>
+      <div class='section__year-title'>{{this}}</div>
+    </div>
+  {{/each}}
+</div>
