@@ -300,7 +300,7 @@ class Home {
             id: film.media_id,
             title: film.title,
             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-            release_date: film.release_date,
+            release_date: film.getFullYear(),
             poster: film.posters[0],
             type: 'film',
             user_rating: film.user_rating || { likes: 0 }
