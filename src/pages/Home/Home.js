@@ -161,10 +161,14 @@ async setupSubscribeButton() {
 
         dropdown.innerHTML = dropdownTemplate({ genres: this.#allGenres });
 
-        dropdown.querySelectorAll('.section__genre-item').forEach(item => {
-            item.classList.toggle('selected',
-                item.dataset.genreId && this.#selectedGenreIds.has(item.dataset.genreId)
-            );
+        const noneItem = dropdown.querySelector('.section__genre-item[data-navigate="/films"]');
+        if (noneItem) {
+            noneItem.classList.toggle('selected', this.#selectedGenreIds.size === 0);
+        }
+
+        this.#selectedGenreIds.forEach(id => {
+            const item = dropdown.querySelector(`.section__genre-item[data-genre-id="${id}"]`);
+            if (item) item.classList.add('selected');
         });
     }
 
@@ -184,18 +188,24 @@ async setupSubscribeButton() {
             if (!item) return;
             e.stopPropagation();
 
+            const noneItem = dropdown.querySelector('.section__genre-item[data-navigate="/films"]');
+
             if (item.dataset.navigate === '/films') {
                 this.#selectedGenreIds.clear();
+                dropdown.querySelectorAll('.section__genre-item.selected').forEach(el => el.classList.remove('selected'));
+                if (noneItem) noneItem.classList.add('selected');
             } else {
                 const id = item.dataset.genreId;
-                if (this.#selectedGenreIds.has(id)) {
-                    this.#selectedGenreIds.delete(id);
-                } else {
+                item.classList.toggle('selected');
+                if (item.classList.contains('selected')) {
                     this.#selectedGenreIds.add(id);
+                } else {
+                    this.#selectedGenreIds.delete(id);
                 }
+                if (noneItem) noneItem.classList.remove('selected');
             }
 
-            await this.#updateFilmsByGenres(); 
+            await this.#updateFilmsByGenres();
             dropdown.classList.remove('active');
         });
     }
