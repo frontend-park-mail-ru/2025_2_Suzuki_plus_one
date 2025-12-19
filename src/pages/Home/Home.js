@@ -114,26 +114,21 @@ async setupSubscribeButton() {
     }
 
     #showToast(message, type = 'auth') {
-            const existingToast = document.querySelector('.action-toast');
-            if (existingToast) {
-                existingToast.remove();
-            }
+        const existingToast = document.querySelector('.action-toast');
+        if (existingToast) existingToast.remove();
 
-            const toast = document.createElement('div');
-            toast.className = `action-toast action-toast--${type}`;
-            toast.textContent = message;
+        const toast = document.createElement('div');
+        toast.className = `action-toast action-toast--${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        toast.offsetHeight;
+        toast.classList.add('show');
 
-            document.body.appendChild(toast);
-
-            toast.offsetHeight;
-
-            toast.classList.add('show');
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-            }, 3500);
-        }
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }, 3500);
+    }
 
     #setupGlobalDropdownClose() {
         document.addEventListener('click', (e) => {
@@ -193,7 +188,7 @@ async setupSubscribeButton() {
             if (item.dataset.navigate === '/films') {
                 this.#selectedGenreIds.clear();
                 dropdown.querySelectorAll('.section__genre-item.selected').forEach(el => el.classList.remove('selected'));
-                if (noneItem) noneItem.classList.add('selected');
+                if (noneItem) noneItem.classList.add('selected');  
             } else {
                 const id = item.dataset.genreId;
                 item.classList.toggle('selected');
@@ -202,7 +197,7 @@ async setupSubscribeButton() {
                 } else {
                     this.#selectedGenreIds.delete(id);
                 }
-                if (noneItem) noneItem.classList.remove('selected');
+                if (noneItem) noneItem.classList.remove('selected'); 
             }
 
             await this.#updateFilmsByGenres();
@@ -272,7 +267,7 @@ async setupSubscribeButton() {
 
         dropdown.querySelectorAll('.section__sort-item').forEach(item => {
             item.classList.toggle('selected',
-                (item.dataset.sort === 'none' && this.#currentSort === 'popularity') ||
+                (item.dataset.sort === 'popularity' && this.#currentSort === 'popularity') ||
                 item.dataset.sort === this.#currentSort
             );
         });
@@ -294,7 +289,7 @@ async setupSubscribeButton() {
             if (!item) return;
             e.stopPropagation();
 
-            this.#currentSort = item.dataset.sort === 'none' ? 'popularity' : item.dataset.sort;
+            this.#currentSort = item.dataset.sort === 'popularity' ? 'popularity' : item.dataset.sort;
 
             this.renderCurrentFilms();
             dropdown.classList.remove('active');
