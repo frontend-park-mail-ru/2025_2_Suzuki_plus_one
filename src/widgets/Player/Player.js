@@ -79,11 +79,16 @@ class Player {
             this.#episodesList = response.episodes || [];
 
             this.#currentEpisodeIndex = this.#episodesList.findIndex(
-                ep => ep.media.media_id === this.#filmId
+                ep => ep.media.media_id == this.#filmId 
             );
 
             if (this.#currentEpisodeIndex === -1) {
-                this.#currentEpisodeIndex = 0;
+                this.#showToast('Current episode not found in series');
+                this.#currentEpisodeIndex = -1;
+                const prevBtn = this.#parent.querySelector('#episode-prev');
+                const nextBtn = this.#parent.querySelector('#episode-next');
+                if (prevBtn) prevBtn.style.display = 'none';
+                if (nextBtn) nextBtn.style.display = 'none';
             }
         } catch (error) {
             console.error('Ошибка загрузки списка серий:', error);
