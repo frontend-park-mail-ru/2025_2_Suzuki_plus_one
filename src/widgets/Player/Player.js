@@ -153,15 +153,6 @@ class Player {
         }
     }
 
-    #setupBackButton() {
-        const backBtn = this.#parent.querySelector('#video-hud__back');
-        if (backBtn) {
-            backBtn.addEventListener('click', () => {
-                history.back();
-            });
-        }
-    }
-
     #showToast(message = 'Something went wrong', type = 'error') {
         const existingToast = document.querySelector('.action-toast');
         if (existingToast) existingToast.remove();
