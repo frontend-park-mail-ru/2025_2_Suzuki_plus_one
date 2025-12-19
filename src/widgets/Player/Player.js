@@ -70,7 +70,6 @@ class Player {
         requestAnimationFrame(() => {
             initPlayerControls();
             this.#setupEpisodeNavigation();
-            this.#setupBackButton();
         });
     }
 
