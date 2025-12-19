@@ -5,25 +5,22 @@ import template from './ui/Home.hbs';
 import { fetchMovies } from '@shared/api/moviesApi';
 import { fetchGenres, fetchMoviesByGenreId } from '@shared/api/genresApi';
 import dropdownTemplate from './ui/GenreDropdown.hbs';
-import preview from '@assets/images/film_card.png';
+import yearDropdownTemplate from './ui/YearDropdown.hbs';
+import sortDropdownTemplate from './ui/SortDropdown.hbs';
 import { createNewPayment } from '@shared/api/paymentApi.js';
 import { getUserInfo } from '@shared/api/userApi.js';
 
 /** Class representing the Home page, displays a list of movies. */
 class Home {
-    /** @type {HTMLElement} The parent element where the home page content will be rendered */
     #parent;
     #app;
     #genreId;
     #allGenres;
-    #params;
-    #selectedGenreIds = new Set();  // Используем Set для удобства
+    #selectedGenreIds = new Set();   // выбранные жанры
+    #currentFilms = [];              // текущий базовый список фильмов (после жанров)
+    #selectedYear = null;            // выбранный год
+    #currentSort = 'popularity';     // текущая сортировка
 
-    /**
-     * Creates an instance of Home.
-     * @param {HTMLElement} parent - The parent element to render the home page into.
-     * @param {Object} appInstance - The main application instance.
-     */
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
         this.#app = appInstance;
@@ -33,15 +30,8 @@ class Home {
         }
     }
 
-    /**
-     * Renders the home page content inside the parent element.
-     * Fetches the list of movies from the API and renders each movie using FilmCard.
-     * Appends each movie card to the container element with ID "filmsContainer".
-     * @async
-     */
     async render() {
         this.#parent.innerHTML = template({});
-        //     await this.loadGenres();
         await this.renderMovies();
     }
 
@@ -58,10 +48,7 @@ class Home {
             name: genre.name,
         }));
     }
-    /**
-     * Sets up the play button event listener for smooth scrolling.
-     * @private
-     */
+
     setupPlayButton() {
         const playButton = this.#parent.querySelector('.hero__button.button');
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
@@ -117,18 +104,13 @@ class Home {
 
     #showToast(message, type = 'auth') {
         const existingToast = document.querySelector('.action-toast');
-        if (existingToast) {
-            existingToast.remove();
-        }
+        if (existingToast) existingToast.remove();
 
         const toast = document.createElement('div');
         toast.className = `action-toast action-toast--${type}`;
         toast.textContent = message;
-
         document.body.appendChild(toast);
-
         toast.offsetHeight;
-
         toast.classList.add('show');
 
         setTimeout(() => {
@@ -142,32 +124,24 @@ class Home {
         const dropdown = this.#parent.querySelector('#genreDropdown');
         if (!dropdown) return;
 
-        if (!this.#allGenres) {
-            await this.loadGenres();
-        }
+        if (!this.#allGenres) await this.loadGenres();
 
-        dropdown.innerHTML = dropdownTemplate({
-            genres: this.#allGenres,
+        dropdown.innerHTML = dropdownTemplate({ genres: this.#allGenres });
+
+        this.#selectedGenreIds.forEach(id => {
+            const item = dropdown.querySelector(`.section__genre-item[data-genre-id="${id}"]`);
+            if (item) item.classList.add('selected');
         });
-
-        if (this.#genreId) {
-            const initialItem = dropdown.querySelector(`.section__genre-item[data-genre-id="${this.#genreId}"]`);
-            if (initialItem) {
-                initialItem.classList.add('selected');
-            }
-        }
 
         dropdown.querySelectorAll('.section__genre-item').forEach(item => {
             item.addEventListener('click', async (e) => {
                 e.stopPropagation();
 
-                const genreId = item.dataset.genreId;
-
                 if (item.dataset.navigate === '/films') {
                     this.#selectedGenreIds.clear();
-                    dropdown.querySelectorAll('.section__genre-item.selected')
-                        .forEach(el => el.classList.remove('selected'));
+                    dropdown.querySelectorAll('.section__genre-item.selected').forEach(el => el.classList.remove('selected'));
                 } else {
+                    const genreId = item.dataset.genreId;
                     if (item.classList.contains('selected')) {
                         item.classList.remove('selected');
                         this.#selectedGenreIds.delete(genreId);
@@ -181,18 +155,123 @@ class Home {
             });
         });
 
-        genreButton.addEventListener('click', (e) => {
+        genreButton.addEventListener('click', e => {
             e.stopPropagation();
             dropdown.classList.toggle('active');
         });
 
-        document.addEventListener('click', (e) => {
-            if (!dropdown.contains(e.target) && e.target !== genreButton) {
+        this.#setupDropdownClose(dropdown, genreButton);
+    }
+
+    async setupYearDropdown() {
+        const yearButton = this.#parent.querySelector('#year_choose');
+        const dropdown = this.#parent.querySelector('#yearDropdown');
+        if (!dropdown) return;
+
+        const years = [...new Set(
+            this.#currentFilms.map(f => new Date(f.release_date).getFullYear())
+        )].sort((a, b) => b - a);
+
+        dropdown.innerHTML = yearDropdownTemplate({ years });
+
+        if (this.#selectedYear) {
+            const item = dropdown.querySelector(`.section__year-item[data-year="${this.#selectedYear}"]`);
+            if (item) item.classList.add('selected');
+        }
+
+        dropdown.querySelectorAll('.section__year-item').forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const year = parseInt(item.dataset.year, 10);
+
+                if (this.#selectedYear === year) {
+                    this.#selectedYear = null;
+                    item.classList.remove('selected');
+                } else {
+                    dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    this.#selectedYear = year;
+                }
+
+                this.renderCurrentFilms();
+                dropdown.classList.remove('active');
+                this.updateYearButtonText();
+            });
+        });
+
+        yearButton.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+
+        this.#setupDropdownClose(dropdown, yearButton);
+        this.updateYearButtonText();
+    }
+
+    updateYearButtonText() {
+        const button = this.#parent.querySelector('#year_choose');
+        if (!button) return;
+        button.textContent = this.#selectedYear ? this.#selectedYear : 'Year';
+        button.classList.toggle('has-selection', this.#selectedYear !== null);
+    }
+
+    async setupSortDropdown() {
+        const sortButton = this.#parent.querySelector('#sort_choose');
+        const dropdown = this.#parent.querySelector('#sortDropdown');
+        if (!dropdown) return;
+
+        dropdown.innerHTML = sortDropdownTemplate({});
+
+        const currentItem = dropdown.querySelector(`.section__sort-item[data-sort="${this.#currentSort}"]`);
+        if (currentItem) currentItem.classList.add('selected');
+
+        dropdown.querySelectorAll('.section__sort-item').forEach(item => {
+            item.addEventListener('click', e => {
+                e.stopPropagation();
+                const sortType = item.dataset.sort;
+
+                dropdown.querySelectorAll('.section__sort-item.selected').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+
+                this.#currentSort = sortType;
+                this.renderCurrentFilms();
+                dropdown.classList.remove('active');
+                this.updateSortButtonText();
+            });
+        });
+
+        sortButton.addEventListener('click', e => {
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+
+        this.#setupDropdownClose(dropdown, sortButton);
+        this.updateSortButtonText();
+    }
+
+    updateSortButtonText() {
+        const button = this.#parent.querySelector('#sort_choose');
+        if (!button) return;
+
+        const texts = {
+            popularity: 'Sort',
+            rating: 'Rating',
+            title: 'Title A-Z',
+            'year-desc': 'Year (newest)',
+            'year-asc': 'Year (oldest)'
+        };
+        button.textContent = texts[this.#currentSort] || 'Sort';
+        button.classList.toggle('has-selection', this.#currentSort !== 'popularity');
+    }
+
+    #setupDropdownClose(dropdown, button) {
+        document.addEventListener('click', e => {
+            if (!dropdown.contains(e.target) && e.target !== button) {
                 dropdown.classList.remove('active');
             }
         });
 
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 dropdown.classList.remove('active');
             }
@@ -204,81 +283,111 @@ class Home {
         const sectionTitle = this.#parent.querySelector('#sectionTitle');
 
         filmsContainer.innerHTML = '';
+        sectionTitle.textContent = 'Popular films';
 
         await this.setupGenreButton();
 
-        const selectedIds = Array.from(this.#selectedGenreIds);
-
         let films = [];
 
-        if (!this.#allGenres) {
-            await this.loadGenres();
-        }
+        if (!this.#allGenres) await this.loadGenres();
+
+        const selectedIds = Array.from(this.#selectedGenreIds);
 
         if (selectedIds.length === 0) {
-            sectionTitle.textContent = 'Popular films';
             const response = await fetchMovies();
-            films = response.movies.map((film) => ({
-                id: film.media_id,
-                title: film.title,
-                genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-                release_date: film.release_date.substr(0, 4),
-                poster: film.posters[0],
-                type: 'film',
-            }));
+            films = response.movies.map(film => this.#mapFilm(film));
         } else if (selectedIds.length === 1) {
             const genreId = selectedIds[0];
             const genre = this.#allGenres.find(g => g.id == genreId);
             sectionTitle.textContent = genre ? genre.name : 'Unknown genre';
 
             const response = await fetchMoviesByGenreId(genreId);
-            films = response.movies.map((film) => ({
-                id: film.media_id,
-                title: film.title,
-                release_date: film.release_date.substr(0, 4),
-                poster: film.posters[0],
-            }));
+            films = response.movies.map(film => this.#mapFilm(film));
         } else {
-            const responses = await Promise.all(
-                selectedIds.map(id => fetchMoviesByGenreId(id))
-            );
+            const responses = await Promise.all(selectedIds.map(id => fetchMoviesByGenreId(id)));
 
             const movieSets = responses.map(resp => new Set(resp.movies.map(f => f.media_id)));
-
-            let commonIds = movieSets.reduce((acc, set) =>
-                new Set([...acc].filter(id => set.has(id))), movieSets[0] || new Set());
+            let commonIds = movieSets.reduce((acc, set) => new Set([...acc].filter(id => set.has(id))), movieSets[0] || new Set());
 
             const movieMap = new Map();
             responses.forEach(resp => {
                 resp.movies.forEach(film => {
                     if (!movieMap.has(film.media_id)) {
-                        movieMap.set(film.media_id, {
-                            id: film.media_id,
-                            title: film.title,
-                            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-                            release_date: film.release_date.substr(0, 4),
-                            poster: film.posters[0],
-                            type: 'film',
-                        });
+                        movieMap.set(film.media_id, this.#mapFilm(film));
                     }
                 });
             });
 
             films = [...commonIds].map(id => movieMap.get(id));
 
-            const selectedNames = selectedIds.map(id => {
+            const names = selectedIds.map(id => {
                 const g = this.#allGenres.find(genre => genre.id == id);
                 return g ? g.name : 'Unknown';
             });
-            sectionTitle.textContent = selectedNames.join(' & ');
+            sectionTitle.textContent = names.join(' & ');
         }
 
-        films.forEach((film) => {
+        this.#currentFilms = films;
+        this.#selectedYear = null;
+        this.#currentSort = 'popularity';
+
+        await this.setupYearDropdown();
+        await this.setupSortDropdown();
+
+        this.renderCurrentFilms();
+    }
+
+    #mapFilm(film) {
+        return {
+            id: film.media_id,
+            title: film.title,
+            genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
+            release_date: film.release_date,
+            poster: film.posters[0],
+            type: 'film',
+            user_rating: film.user_rating || { likes: 0, dislikes: 0 }
+        };
+    }
+
+    renderCurrentFilms() {
+        const filmsContainer = this.#parent.querySelector('#filmsContainer');
+        filmsContainer.innerHTML = '';
+
+        let displayed = this.#applyFiltersAndSort([...this.#currentFilms]);
+
+        displayed.forEach(film => {
             const filmElement = document.createElement('div');
             filmsContainer.appendChild(filmElement);
             const filmCard = new FilmCard(filmElement, this.#app);
             filmCard.render(film);
         });
+    }
+
+    #applyFiltersAndSort(films) {
+        let result = films;
+
+        if (this.#selectedYear !== null) {
+            result = result.filter(film => new Date(film.release_date).getFullYear() === this.#selectedYear);
+        }
+
+        switch (this.#currentSort) {
+            case 'popularity':
+                break;
+            case 'rating':
+                result = [...result].sort((a, b) => (b.user_rating?.likes || 0) - (a.user_rating?.likes || 0));
+                break;
+            case 'title':
+                result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+                break;
+            case 'year-desc':
+                result = [...result].sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+                break;
+            case 'year-asc':
+                result = [...result].sort((a, b) => new Date(a.release_date) - new Date(a.release_date));
+                break;
+        }
+
+        return result;
     }
 }
 
