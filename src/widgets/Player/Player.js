@@ -13,9 +13,9 @@ import EpisodeNextIcon from '@shared/assets/images/icons/next.svg?raw';
 class Player {
     #parent;
     #app;
-    #filmId;           
-    #seriesId;         
-    #episodesList = []; 
+    #filmId;
+    #seriesId;
+    #episodesList = [];
     #currentEpisodeIndex = -1;
 
     constructor(parent, appInstance, params = {}) {
@@ -51,7 +51,7 @@ class Player {
 
             if (this.#seriesId) {
                 isSeriesEpisode = true;
-                await this.#loadEpisodesAndFindCurrent(currentMedia);
+                await this.#loadEpisodesAndFindCurrent();
             }
         }
 
@@ -74,7 +74,7 @@ class Player {
         });
     }
 
-    async #loadEpisodesAndFindCurrent(currentMedia) {
+    async #loadEpisodesAndFindCurrent() {
         try {
             const response = await fetchEpisodesBySeriesId(this.#seriesId);
             this.#episodesList = response.episodes || [];
@@ -84,13 +84,13 @@ class Player {
             );
 
             if (this.#currentEpisodeIndex === -1) {
-                console.warn('Current episode not found in episodes list');
                 this.#currentEpisodeIndex = 0;
             }
         } catch (error) {
-            console.error('Failed to load episodes:', error);
+            console.error('Ошибка загрузки списка серий:', error);
             this.#episodesList = [];
             this.#currentEpisodeIndex = -1;
+            this.#showToast('Something went wrong');
         }
     }
 
@@ -123,7 +123,7 @@ class Player {
             const newPosterUrl = mediaData.posters?.[0] || poster;
 
             if (!videoUrl) {
-                alert('Видео для этой серии недоступно');
+                this.#showToast('Something went wrong');
                 return;
             }
 
@@ -148,8 +148,8 @@ class Player {
             });
 
         } catch (error) {
-            console.error('Failed to load next episode media:', error);
-            alert('Не удалось загрузить следующую серию');
+            console.error('Failed to load episode:', error);
+            this.#showToast('Something went wrong');
         }
     }
 
@@ -160,6 +160,24 @@ class Player {
                 history.back();
             });
         }
+    }
+
+    #showToast(message = 'Something went wrong', type = 'error') {
+        const existingToast = document.querySelector('.action-toast');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `action-toast action-toast--${type}`;
+        toast.textContent = message;
+
+        document.body.appendChild(toast);
+        toast.offsetHeight; 
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+        }, 3500);
     }
 }
 
