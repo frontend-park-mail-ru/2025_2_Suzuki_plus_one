@@ -32,9 +32,9 @@ class Home {
     async render() {
         this.#parent.innerHTML = template({});
         await this.loadGenres();
-        await this.#initialSetup();           // Один раз настраиваем всё
-        await this.#updateFilmsByGenres();    // Загружаем фильмы по жанрам
-        this.#setupGlobalDropdownClose();     // Глобальное закрытие
+        await this.#initialSetup();           
+        await this.#updateFilmsByGenres();    
+        this.#setupGlobalDropdownClose();    
     }
 
     async afterRender() {
@@ -48,25 +48,93 @@ class Home {
         this.#allGenres = response.genres.map(g => ({ id: g.id, name: g.name }));
     }
 
-    // === ОДИН РАЗ НАСТРАИВАЕМ ВСЕ ДРОПДАУНЫ ===
     async #initialSetup() {
-        await this.#setupGenreDropdownContent();  // только содержимое
-        this.#setupGenreButtonClick();            // открытие — один раз
+        await this.#setupGenreDropdownContent();  
+        this.#setupGenreButtonClick();           
 
-        await this.#setupYearDropdownContent();    // содержимое
-        this.#setupYearButtonClick();             // открытие — один раз
+        await this.#setupYearDropdownContent();   
+        this.#setupYearButtonClick();             
 
-        this.#setupSortDropdownContent();         // содержимое
-        this.#setupSortButtonClick();             // открытие — один раз
+        this.#setupSortDropdownContent();        
+        this.#setupSortButtonClick();             
     }
 
-    setupPlayButton() { /* без изменений */ }
 
-    async setupSubscribeButton() { /* без изменений */ }
+    setupPlayButton() {
+        const playButton = this.#parent.querySelector('.hero__button.button');
+        const filmsContainer = this.#parent.querySelector('#filmsContainer');
 
-    #showToast(message, type = 'auth') { /* без изменений */ }
+        if (playButton && filmsContainer) {
+            playButton.addEventListener('click', () => {
+                filmsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            });
+        }
+    }
 
-    // Глобальное закрытие
+async setupSubscribeButton() {
+        const subscribeButton = this.#parent.querySelector('.hero__subscribe');
+        if (!subscribeButton) return;
+
+        if (this.#app.isAuthorized) {
+            try {
+                const userInfo = await getUserInfo();
+                if (userInfo.subscription_status === 'active') {
+                    subscribeButton.textContent = 'Subscribed';
+                    subscribeButton.disabled = true;
+                    subscribeButton.classList.add('subscribed');
+                    return;
+                }
+            } catch (error) {
+                console.error('Failed to check subscription:', error);
+                this.#showToast('Failed to check subscription status', 'error');
+            }
+        }
+
+        subscribeButton.addEventListener('click', async () => {
+            if (!this.#app.isAuthorized) {
+                this.#showToast('Log in to subscribe', 'auth');
+                return;
+            }
+
+            subscribeButton.disabled = true;
+            subscribeButton.textContent = 'Redirecting...';
+
+            try {
+                await createNewPayment();
+            } catch (error) {
+                console.error('Payment failed:', error);
+                this.#showToast('Failed to start subscription. Try again later.', 'error');
+                subscribeButton.disabled = false;
+                subscribeButton.textContent = 'Get subscription';
+            }
+        });
+    }
+
+    #showToast(message, type = 'auth') {
+            const existingToast = document.querySelector('.action-toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `action-toast action-toast--${type}`;
+            toast.textContent = message;
+
+            document.body.appendChild(toast);
+
+            toast.offsetHeight;
+
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+            }, 3500);
+        }
+
     #setupGlobalDropdownClose() {
         document.addEventListener('click', (e) => {
             const buttons = ['#genre_choose', '#year_choose', '#sort_choose'];
@@ -87,14 +155,12 @@ class Home {
         });
     }
 
-    // === ЖАНРЫ ===
     async #setupGenreDropdownContent() {
         const dropdown = this.#parent.querySelector('#genreDropdown');
         if (!dropdown) return;
 
         dropdown.innerHTML = dropdownTemplate({ genres: this.#allGenres });
 
-        // Подсвечиваем выбранные
         dropdown.querySelectorAll('.section__genre-item').forEach(item => {
             item.classList.toggle('selected',
                 item.dataset.genreId && this.#selectedGenreIds.has(item.dataset.genreId)
@@ -113,14 +179,12 @@ class Home {
             dropdown.classList.toggle('active');
         });
 
-        // Обработчик выбора жанра
         dropdown.addEventListener('click', async (e) => {
             const item = e.target.closest('.section__genre-item');
             if (!item) return;
             e.stopPropagation();
 
             if (item.dataset.navigate === '/films') {
-                // None
                 this.#selectedGenreIds.clear();
             } else {
                 const id = item.dataset.genreId;
@@ -131,12 +195,11 @@ class Home {
                 }
             }
 
-            await this.#updateFilmsByGenres();  // обновляем только фильмы и содержимое дропдауна
+            await this.#updateFilmsByGenres(); 
             dropdown.classList.remove('active');
         });
     }
 
-    // === ГОД ===
     async #setupYearDropdownContent() {
         const dropdown = this.#parent.querySelector('#yearDropdown');
         if (!dropdown) return;
@@ -146,7 +209,6 @@ class Home {
 
         dropdown.innerHTML = yearDropdownTemplate({ years });
 
-        // Подсветка
         dropdown.querySelectorAll('.section__year-item').forEach(item => {
             const isSelected = (item.dataset.year === 'none' && !this.#selectedYear) ||
                                (item.dataset.year && parseInt(item.dataset.year) === this.#selectedYear);
@@ -192,7 +254,6 @@ class Home {
         }
     }
 
-    // === СОРТИРОВКА ===
     #setupSortDropdownContent() {
         const dropdown = this.#parent.querySelector('#sortDropdown');
         if (!dropdown) return;
@@ -253,7 +314,6 @@ class Home {
         });
     }
 
-    // === ОБНОВЛЕНИЕ ФИЛЬМОВ ПО ЖАНРАМ ===
     async #updateFilmsByGenres() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         const sectionTitle = this.#parent.querySelector('#sectionTitle');
@@ -285,13 +345,15 @@ class Home {
         }
 
         this.#currentFilms = films;
-        this.#selectedYear = null;     // сбрасываем фильтры при смене жанров
+        this.#selectedYear = null;    
         this.#currentSort = 'popularity';
 
         await this.#setupYearDropdownContent();
         await this.#setupSortDropdownContent();
         await this.#setupGenreDropdownContent();
 
+        this.updateYearButtonText();
+        this.updateSortButtonText();
         this.renderCurrentFilms();
     }
 
