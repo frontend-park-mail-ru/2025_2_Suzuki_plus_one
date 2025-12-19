@@ -16,8 +16,22 @@ class SeriesTab {
         this.#parent.innerHTML = template({});
         this.renderSeries();
         this.setupSubscribeButton();
+        this.setupPlayButton();
     }
 
+    setupPlayButton() {
+        const playButton = this.#parent.querySelector('.hero__button.button');
+        const filmsContainer = this.#parent.querySelector('#seriesContainer');
+
+        if (playButton && filmsContainer) {
+            playButton.addEventListener('click', () => {
+                filmsContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            });
+        }
+    }
 
 
     async setupSubscribeButton() {

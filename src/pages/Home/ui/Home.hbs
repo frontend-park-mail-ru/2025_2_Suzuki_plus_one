@@ -1,3 +1,4 @@
+{{! Home.hbs }}
 <main class='content'>
   <div class='hero'>
     <div class='hero__content'>
@@ -16,10 +17,8 @@
     <header class='section__header'>
       <h3 class='section__title' id='sectionTitle'>Popular films</h3>
       <div class='section__filters'>
-        <!-- Кнопка Sort -->
         <div class='section__button-wrapper'>
-          <button class='section__button-item button' type='button' id='sort_choose'>
-            Sort
+          <button class='section__button-item button' type='button' id='sort_choose'>Sort
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='20'
@@ -28,7 +27,7 @@
               fill='none'
             >
               <path
-                d='M2.5 10H17.5M2.5 5H17.5M2.5 15H17.5'
+                d='M5 7.5L10 12.5L15 7.5'
                 stroke='white'
                 stroke-width='2'
                 stroke-linecap='round'
@@ -36,12 +35,13 @@
               />
             </svg>
           </button>
+
           <div class='section__button-dropdown' id='sortDropdown'></div>
         </div>
 
+        <!-- Кнопка Genre -->
         <div class='section__button-wrapper'>
-          <button class='section__button-item button' type='button' id='genre_choose'>
-            Genre
+          <button class='section__button-item button' type='button' id='genre_choose'>Genre
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='20'
@@ -58,12 +58,13 @@
               />
             </svg>
           </button>
+
           <div class='section__button-dropdown' id='genreDropdown'></div>
         </div>
 
+        <!-- Кнопка Year -->
         <div class='section__button-wrapper'>
-          <button class='section__button-item button' type='button' id='year_choose'>
-            Year
+          <button class='section__button-item button' type='button' id='year_choose'>Year
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='20'
@@ -80,6 +81,7 @@
               />
             </svg>
           </button>
+
           <div class='section__button-dropdown' id='yearDropdown'></div>
         </div>
       </div>
