@@ -182,15 +182,20 @@ class Home {
         dropdown.querySelectorAll('.section__year-item').forEach(item => {
             item.addEventListener('click', e => {
                 e.stopPropagation();
-                const year = parseInt(item.dataset.year, 10);
 
-                if (this.#selectedYear === year) {
+                if (item.dataset.year === 'none') {
                     this.#selectedYear = null;
-                    item.classList.remove('selected');
-                } else {
                     dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
-                    item.classList.add('selected');
-                    this.#selectedYear = year;
+                } else {
+                    const year = parseInt(item.dataset.year, 10);
+                    if (this.#selectedYear === year) {
+                        this.#selectedYear = null;
+                        item.classList.remove('selected');
+                    } else {
+                        dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
+                        item.classList.add('selected');
+                        this.#selectedYear = year;
+                    }
                 }
 
                 this.renderCurrentFilms();
@@ -228,12 +233,17 @@ class Home {
         dropdown.querySelectorAll('.section__sort-item').forEach(item => {
             item.addEventListener('click', e => {
                 e.stopPropagation();
-                const sortType = item.dataset.sort;
 
-                dropdown.querySelectorAll('.section__sort-item.selected').forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
+                if (item.dataset.sort === 'none') {
+                    this.#currentSort = 'popularity';
+                    dropdown.querySelectorAll('.section__sort-item.selected').forEach(i => i.classList.remove('selected'));
+                } else {
+                    const sortType = item.dataset.sort;
+                    dropdown.querySelectorAll('.section__sort-item.selected').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    this.#currentSort = sortType;
+                }
 
-                this.#currentSort = sortType;
                 this.renderCurrentFilms();
                 dropdown.classList.remove('active');
                 this.updateSortButtonText();
