@@ -188,7 +188,7 @@ class SeriesPage {
                 const episodeElement = document.createElement('div');
                 episodesContainer.appendChild(episodeElement);
 
-                const episodeCard = new EpisodeCard(episodeElement, this.#app);
+                const episodeCard = new EpisodeCard(episodeElement, this.#app, this.#seriesId);
 
                 const poster =
                     episode.media.posters && episode.media.posters.length > 0
@@ -387,7 +387,7 @@ class SeriesPage {
                 const mediaUrl = media.url;
 
                 // history.pushState({}, '', `/player/media/${episodeId}`);
-                this.#app.router.navigate(`/player/media/${episodeId}`); 
+                this.#app.router.navigate(`/player/media/${episodeId}/${this.#seriesId}`); 
             } catch (err) {
                 console.error('Failed to play first episode:', err);
                 this.#showToast('Something went wrong', 'error');

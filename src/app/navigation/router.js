@@ -26,6 +26,7 @@ const routes = {
     '/series': SeriesTab,
     '/actor/:id': StarPage,
     '/player/:type/:id': Player,
+    '/player/:type/:id/:series_id': Player,
 
     '/films': '/',
     '/films/genre/:id': Home,

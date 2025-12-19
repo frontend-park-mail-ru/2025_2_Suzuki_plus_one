@@ -6,10 +6,12 @@ class EpisodeCard {
     #parent;
     #app;
     #episodeId;
+    #seriesId;
 
-    constructor(parent, appInstance) {
+    constructor(parent, appInstance, seriesId) {
         this.#parent = parent;
         this.#app = appInstance;
+        this.#seriesId = seriesId;
     }
 
     render(data) {
@@ -41,7 +43,7 @@ class EpisodeCard {
                     this.#showToast('Please subscribe to watch content', 'error');
                     return;
                 }
-                this.#app.router.navigate(`/player/media/${this.#episodeId}`);
+                this.#app.router.navigate(`/player/media/${this.#episodeId}/${this.#seriesId}`);
             } catch (err) {
                 console.error('Failed to check subscription for episode:', err);
                 this.#showToast('Something went wrong', 'error');
