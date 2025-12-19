@@ -296,11 +296,13 @@ class Home {
     }
 
     #mapFilm(film) {
+        const releaseDate = new Date(film.release_date);
+        const year = releaseDate.getFullYear();
         return {
             id: film.media_id,
             title: film.title,
             genres: film.genres ? film.genres.map(g => g.name).join(', ').toLowerCase() : '',
-            release_date: film.getFullYear(),
+            release_date: year,
             poster: film.posters[0],
             type: 'film',
             user_rating: film.user_rating || { likes: 0 }
