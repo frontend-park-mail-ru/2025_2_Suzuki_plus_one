@@ -20,6 +20,8 @@ class Home {
     #currentFilms = [];              // текущий базовый список фильмов (после жанров)
     #selectedYear = null;            // выбранный год
     #currentSort = 'popularity';     // текущая сортировка
+    #globalClickHandler = null;
+    #globalKeyHandler = null;
 
     constructor(parent, appInstance, params = {}) {
         this.#parent = parent;
@@ -33,6 +35,7 @@ class Home {
     async render() {
         this.#parent.innerHTML = template({});
         await this.renderMovies();
+        this.#setupGlobalDropdownClose();
     }
 
     async afterRender() {
@@ -119,10 +122,50 @@ class Home {
         }, 3500);
     }
 
+    // === ГЛОБАЛЬНОЕ ЗАКРЫТИЕ ДРОПДАУНОВ ===
+    #setupGlobalDropdownClose() {
+        // Удаляем предыдущие слушатели
+        if (this.#globalClickHandler) {
+            document.removeEventListener('click', this.#globalClickHandler);
+        }
+        if (this.#globalKeyHandler) {
+            document.removeEventListener('keydown', this.#globalKeyHandler);
+        }
+
+        this.#globalClickHandler = (e) => {
+            const dropdowns = this.#parent.querySelectorAll('.section__button-dropdown.active');
+            const buttons = this.#parent.querySelectorAll('#genre_choose, #year_choose, #sort_choose');
+
+            let clickedInside = false;
+            buttons.forEach(btn => {
+                if (btn.contains(e.target)) clickedInside = true;
+            });
+            dropdowns.forEach(dropdown => {
+                if (dropdown.contains(e.target)) clickedInside = true;
+            });
+
+            if (!clickedInside) {
+                dropdowns.forEach(dropdown => dropdown.classList.remove('active'));
+            }
+        };
+
+        this.#globalKeyHandler = (e) => {
+            if (e.key === 'Escape') {
+                this.#parent.querySelectorAll('.section__button-dropdown.active').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        };
+
+        document.addEventListener('click', this.#globalClickHandler);
+        document.addEventListener('keydown', this.#globalKeyHandler);
+    }
+
+    // === ЖАНРЫ ===
     async setupGenreButton() {
         const genreButton = this.#parent.querySelector('#genre_choose');
         const dropdown = this.#parent.querySelector('#genreDropdown');
-        if (!dropdown) return;
+        if (!dropdown || !genreButton) return;
 
         if (!this.#allGenres) await this.loadGenres();
 
@@ -152,21 +195,22 @@ class Home {
                 }
 
                 await this.renderMovies();
+                dropdown.classList.remove('active'); // Закрываем сразу после клика
             });
         });
 
         genreButton.addEventListener('click', e => {
             e.stopPropagation();
+            this.#closeOtherDropdowns('genreDropdown');
             dropdown.classList.toggle('active');
         });
-
-        this.#setupDropdownClose(dropdown, genreButton);
     }
 
+    // === ГОД ===
     async setupYearDropdown() {
         const yearButton = this.#parent.querySelector('#year_choose');
         const dropdown = this.#parent.querySelector('#yearDropdown');
-        if (!dropdown) return;
+        if (!dropdown || !yearButton) return;
 
         const years = [...new Set(
             this.#currentFilms.map(f => new Date(f.release_date).getFullYear())
@@ -188,14 +232,9 @@ class Home {
                     dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
                 } else {
                     const year = parseInt(item.dataset.year, 10);
-                    if (this.#selectedYear === year) {
-                        this.#selectedYear = null;
-                        item.classList.remove('selected');
-                    } else {
-                        dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
-                        item.classList.add('selected');
-                        this.#selectedYear = year;
-                    }
+                    dropdown.querySelectorAll('.section__year-item.selected').forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                    this.#selectedYear = year;
                 }
 
                 this.renderCurrentFilms();
@@ -206,24 +245,25 @@ class Home {
 
         yearButton.addEventListener('click', e => {
             e.stopPropagation();
+            this.#closeOtherDropdowns('yearDropdown');
             dropdown.classList.toggle('active');
         });
 
-        this.#setupDropdownClose(dropdown, yearButton);
         this.updateYearButtonText();
     }
 
     updateYearButtonText() {
         const button = this.#parent.querySelector('#year_choose');
         if (!button) return;
-        button.textContent = this.#selectedYear ? this.#selectedYear : 'Year';
-        button.classList.toggle('has-selection', this.#selectedYear !== null);
+        button.textContent = this.#selectedYear ? this.#selectedYear.toString() : 'Year';
+        button.classList.toggle('has-selection', !!this.#selectedYear);
     }
 
+    // === СОРТИРОВКА ===
     async setupSortDropdown() {
         const sortButton = this.#parent.querySelector('#sort_choose');
         const dropdown = this.#parent.querySelector('#sortDropdown');
-        if (!dropdown) return;
+        if (!dropdown || !sortButton) return;
 
         dropdown.innerHTML = sortDropdownTemplate({});
 
@@ -252,10 +292,10 @@ class Home {
 
         sortButton.addEventListener('click', e => {
             e.stopPropagation();
+            this.#closeOtherDropdowns('sortDropdown');
             dropdown.classList.toggle('active');
         });
 
-        this.#setupDropdownClose(dropdown, sortButton);
         this.updateSortButtonText();
     }
 
@@ -274,20 +314,16 @@ class Home {
         button.classList.toggle('has-selection', this.#currentSort !== 'popularity');
     }
 
-    #setupDropdownClose(dropdown, button) {
-        document.addEventListener('click', e => {
-            if (!dropdown.contains(e.target) && e.target !== button) {
-                dropdown.classList.remove('active');
-            }
-        });
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
+    // Закрытие других дропдаунов при открытии нового
+    #closeOtherDropdowns(currentId) {
+        this.#parent.querySelectorAll('.section__button-dropdown').forEach(dropdown => {
+            if (dropdown.id !== currentId) {
                 dropdown.classList.remove('active');
             }
         });
     }
 
+    // === ОСНОВНОЙ РЕНДЕР ФИЛЬМОВ ===
     async renderMovies() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         const sectionTitle = this.#parent.querySelector('#sectionTitle');
@@ -330,10 +366,7 @@ class Home {
 
             films = [...commonIds].map(id => movieMap.get(id));
 
-            const names = selectedIds.map(id => {
-                const g = this.#allGenres.find(genre => genre.id == id);
-                return g ? g.name : 'Unknown';
-            });
+            const names = selectedIds.map(id => this.#allGenres.find(g => g.id == id)?.name || 'Unknown');
             sectionTitle.textContent = names.join(' & ');
         }
 
@@ -359,6 +392,7 @@ class Home {
         };
     }
 
+    // === ПЕРЕРЕНДЕР С УЧЁТОМ ФИЛЬТРОВ ===
     renderCurrentFilms() {
         const filmsContainer = this.#parent.querySelector('#filmsContainer');
         filmsContainer.innerHTML = '';
@@ -384,16 +418,16 @@ class Home {
             case 'popularity':
                 break;
             case 'rating':
-                result = [...result].sort((a, b) => (b.user_rating?.likes || 0) - (a.user_rating?.likes || 0));
+                result.sort((a, b) => (b.user_rating.likes || 0) - (a.user_rating.likes || 0));
                 break;
             case 'title':
-                result = [...result].sort((a, b) => a.title.localeCompare(b.title));
+                result.sort((a, b) => a.title.localeCompare(b.title));
                 break;
             case 'year-desc':
-                result = [...result].sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+                result.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
                 break;
             case 'year-asc':
-                result = [...result].sort((a, b) => new Date(a.release_date) - new Date(a.release_date));
+                result.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
                 break;
         }
 
